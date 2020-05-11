@@ -1,0 +1,86 @@
+<%- include("../partials/header")%>
+<div class="container">
+	<div class="row">
+		<div class="col-2">
+			<div class="row">
+				<div class="col-12 rounded-left text-dark bg-danger">
+					<h4>
+						Strength
+					</h4>
+				</div>
+				<div class="col-12 text-center">
+					<h1><%=helper.stat()%><h1>
+				</div>
+				<div class= "col-12 text-center">
+				<button class="btn btn-lg btn-success">		
+					<a href="/game/statistics">Roll Again</a>
+				</button>
+				</div>			
+			</div>
+		</div>
+		<div class="col-2">
+			<div class="row">
+				<div class="col-12 text-dark bg-success">
+					<h4>
+						Dexterity
+					</h4>
+				</div>
+				<div class="col-12 text-center">
+					<h1><%=helper.stat()%><h1>
+				</div>
+			</div>
+		</div>
+		<div class="col-2">
+			<div class="row">
+				<div class="col-12 text-dark bg-secondary">
+					<h4>
+						Constitution
+					</h4>
+				</div>
+				<div class="col-12 text-center">
+					<h1><%=helper.stat()%><h1>
+				</div>
+			</div>
+		</div>
+		<div class="col-2">
+			<div class="row">
+				<div class="col-12 text-dark bg-light">
+					<h4>
+						Intelligence
+					</h4>
+				</div>
+				<div class="col-12 text-center">
+					<h1><%=helper.stat()%><h1>
+				</div>
+			</div>
+		</div>
+		<div class="col-2">
+			<div class="row">
+				<div class="col-12 text-dark bg-warning">
+					<h4>
+						Wisdom
+					</h4>
+				</div>
+				<div class="col-12 text-center">
+					<h1><%=helper.stat()%><h1>
+				</div>
+			</div>
+		</div>
+		<div class="col-2 ">
+			<div class="row">
+				<div class="col-12 rounded-right text-dark bg-info">
+					<h4>
+						Charisma
+					</h4>
+				</div>
+				<div class="col-12 text-center">
+					<h1><%=helper.stat()%><h1>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+	
+</h1>
+<%- include("../partials/footer")%>

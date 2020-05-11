@@ -1,0 +1,16 @@
+<%- include("partials/header")%>
+<div class="container-fluid Char">	
+	<div id="charCards" class="row">
+		<%characters.forEach(function(character){%>
+			<div class="col charCard m-0 p-0">
+				<div class="text-center bg-dark p-0 m-0">
+					<h4 class="m-0"><a href="/characters/<%=character.id%>"><%=character.name%></a></h4>
+				</div> 
+				<img class="img-fluid charImg" src=<%=character.image%>>
+			</div>
+		<%})%>
+	</div>
+</div>
+
+
+<%- include("partials/footer")%>
