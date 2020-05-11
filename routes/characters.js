@@ -12,5 +12,15 @@ router.get("/", function(req, res){
 		}
 	})
 });
+// Show Character by ID
+router.get("/:id" function(req, res){
+	Character.findById(req.params.id, function(err, foundCharacter){
+		if(err){
+			console.log(err);
+		} else{
+			res.render("characters/show", {character:foundCharacter})
+		}
+	});
+});
 
 module.exports = router;
