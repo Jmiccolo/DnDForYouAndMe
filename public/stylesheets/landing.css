@@ -1,0 +1,36 @@
+*:focus {
+	outline:none;
+}
+body {
+	background: black;
+	color: white;
+	font-family: "Press Start 2P", cursive;
+}
+
+
+input{
+	background:black;
+	color:white;
+	width: 200px;
+	text-align: center;
+	border-radius: 25px;
+	transition: none;
+}
+
+#header {
+	text-align:center;
+	z-index: 1;
+	position: relative;
+	font-size: 40px;
+	color: #de144a;
+	text-shadow: 3px 4px #991135;
+	font-family: 'Press Start 2P', cursive;
+	animation: groundBreak 3s ease-out;
+	padding-top: 40vh;
+}
+
+@Keyframes groundBreak {
+	50%{transform:scale(1.5, 1.5) rotate(5deg);}
+	100%{transform:scale(1, 1) rotate(0deg);}
+	
+}
