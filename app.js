@@ -33,6 +33,10 @@ app.use("/", indexRoutes);
 app.use("/game", gameRoutes);
 app.use("/characters", characterRoutes);
 
+app.get("/landing", function(req, res){
+	res.render("landing");
+});
+
 app.listen(3000, function(){
 	console.log("Server Started");
 });
