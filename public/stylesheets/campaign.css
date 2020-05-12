@@ -1,0 +1,29 @@
+body {
+	background: black;
+	color: white;
+	text-shadow: 3px 4px #85761c;
+	text-size: 40px;
+	font-family: "Press Start 2P", cursive;
+}
+
+h1{
+	color: #b09d25;
+	padding: 0;
+	margin: 0;
+}
+
+h1 a {
+	text-decoration:inherit;
+	color:inherit;
+}
+h1 a:hover {
+	text-decoration:inherit;
+	color:inherit;
+}
+
+div {
+	margin-top:300px;
+	margin-left:80px;
+	text-align: center;
+	padding: 0;
+}
