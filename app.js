@@ -9,7 +9,8 @@ var express = require("express"),
 	User = require("./models/user"),
 	Character = require("./models/character"),
 	SeedDB = require("./seed"),
-	helper = require("./public/helper")
+	helper = require("./public/helper"),
+	middleware = require("./middleware")
 	
 // 	require routes
 // var indexRoutes = require("./routes/index"),
@@ -24,11 +25,13 @@ mongoose.connect("mongodb://localhost/DnDForYouAndMe", {
 	useUnifiedTopology: true
 });
 
+// middleware use
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 
+// session use
 app.use(require("express-session")({
     secret: "This is a Secret!",
     resave: false,
@@ -82,8 +85,8 @@ app.post("/register", function(req, res){
 
 // CAMPAIGN ROUTES
 // Index
-app.get("/:UserId/campaigns", function(req, res){
-		User.findById(req.params.UserId, function(err, user){
+app.get("/:UserId/campaigns", middleware.isLoggedIn, function(req, res){
+		User.findById(req.params.UserId).populate("campaigns").exec(function(err, user){
 			if(err){
 				res.redirect("/");
 			} else {
@@ -93,7 +96,7 @@ app.get("/:UserId/campaigns", function(req, res){
 });
 
 // New Campaign Route
-app.get("/:UserId/campaigns/new", function(req, res){
+app.get("/:UserId/campaigns/new", middleware.isLoggedIn, function(req, res){
 	User.findById(req.params.UserId, function(err, user){
 		if (err){
 			res.redirect("/:UserId/campaigns");
@@ -103,8 +106,8 @@ app.get("/:UserId/campaigns/new", function(req, res){
 	});
 });
 
-// New Campaign Post Route
-app.post("/:UserId/campaigns", function(req, res){
+// Create Campaign Post Route
+app.post("/:UserId/campaigns", middleware.isLoggedIn, function(req, res){
 	User.findById(req.params.UserId, function(err, user){
 		if (err){
 			console.log(err);
@@ -114,8 +117,8 @@ app.post("/:UserId/campaigns", function(req, res){
 			if(err){
 				console.log(err);
 				res.redirect("/" + user._id +"/campaigns/new")
-			} else {campaign.user.id = req.user._id;
-				campaign.user.username = req.user.username;
+			} else {campaign.creator.id = req.user._id;
+				campaign.creator.username = req.user.username;
 				//save comment
 				campaign.save();
 				user.campaigns.push(campaign);
@@ -128,7 +131,31 @@ app.post("/:UserId/campaigns", function(req, res){
 	});
 });
 
-app.get("/campaigns/:CampaignId", function(req, res){
+// Join Campaign Put route
+app.put("/:UserId/campaigns", middleware.isLoggedIn, function(req, res){
+	User.findById(req.params.UserId, function(err, user){
+		if(err){
+			console.log(err);
+			res.redirect("back")
+		}
+		else {
+			Campaign.findById(req.body.id, function(err, campaign){
+				if(err || req.body.id !== campaign.password){
+					res.redirect("back");
+				}else {
+					user.campaigns.push(campaign);
+					campaign.save();
+					campaign.users.push(user);
+					user.save();
+					res.redirect("/"+ user._id + "/campaigns")
+				}
+			})
+		}
+	});
+});
+
+
+app.get("/campaigns/:CampaignId", middleware.checkCampaignOwnership, function(req, res){
 	Campaign.findById(req.params.CampaignId).populate("characters").exec (function(err, campaign){
 		if (err){
 			console.log(err);
@@ -138,16 +165,58 @@ app.get("/campaigns/:CampaignId", function(req, res){
 });
 
 // Character index by campaign
-app.get("/campaigns/:campaignId/characters", function(req, res){
+app.get("/campaigns/:CampaignId/characters", middleware.isLoggedIn,  function(req, res){
 	Campaign.findById(req.params.CampaignId).populate("characters").exec (function(err, campaign){
 		if (err){
 			console.log(err);
 		}else{
 			res.render("characters/index", {campaign:campaign})}
 		});
+});
+
+app.get("/campaigns/:CampaignId/characters/new", function (req, res){
+	Campaign.findById(req.params.CampaignId, function(err, campaign){
+		if (err){
+			console.log(err);
+		}else{
+			res.render("characters/new", {campaign:campaign})}
+		});
+});
+
+app.post("/campaigns/:CampaignId/characters", function(req, res){
+	User.findById(req.user.id, function(err,user){
+		if (err){
+			console.log(err);
+			res.redirect("back")
+		} else {
+			Campaign.findById(req.params.CampaignId, function(err, campaign){
+				if(err){
+					console.log(err);
+					res.redirect("back")
+				} else {Character.create(req.body.character, function(err, character){
+					if(err){
+						console.log(err);
+						res.redirect("back");
+					} else {
+						character.creator.id = req.user._id;
+						character.creator.username = req.user.username;
+						character.save();
+						campaign.characters.push(character);
+						campaign.save();
+						user.characters.push(character);
+						user.save();
+						console.log(character);
+						res.redirect("/campaigns/"+ req.params.CampaignId)	
+				}
+			})
+			
+				}
+			})
+		}
+	})
 })
 
-app.get()
+
 app.listen(3000, function(){
 	console.log("Server Started");
 });

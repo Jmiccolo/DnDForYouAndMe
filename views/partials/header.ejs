@@ -32,15 +32,15 @@
         	<a class="nav-link" href="#">Story</a>
       	</li>
 		<li class="nav-item">
-        	<a class="nav-link" href="campaigns/<%=campaign._id%>/characters">Characters</a>
+        	<a class="nav-link" href="/campaigns/<%=campaign._id%>/characters">Characters</a>
       	</li>
 	  	<li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
         	<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 				<%campaign.characters.forEach(function(character){%>
-					<a class="dropdown-item" href="/campaigns/<%=campaign._id%>/characters/<%=campaign.character._id%>"><%=character.name%> The <%=character.class%></a>/li>
+					<a class="dropdown-item" href="/campaigns/<%=campaign.id%>/characters/<%=campaign.characters._id%>"><%=character.name%> The <%=character.class%></a>/li>
 				<%})%>
-				<a class="dropdown-item" href="campaigns/<%=campaign._id%>/characters/new">New Character</a>
+				<a class="dropdown-item" href="/campaigns/<%=campaign._id%>/characters/new">New Character</a>
         	</div>
       	</li>
 		<li class="nav-item dropdown">

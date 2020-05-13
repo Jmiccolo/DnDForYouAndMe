@@ -1,0 +1,20 @@
+<%- include("../partials/header")%>
+<h1>Create New Character</h1>
+<form action="/campaigns/<%=campaign._id%>/characters" method="POST">
+    <div class="form-group">
+        <input type="text" name="character[name]" placeholder="name" require>
+    </div>
+    <div class="form-group">
+        <input type="text" name="character[class]" placeholder="class" require>
+    </div>
+    <div class="form-group">
+        <input type="text" name="character[race]" placeholder="race" require>
+    </div>
+    <div class="form-group">
+        <input type="text" name="character[image]" placeholder="image url" require>
+    </div>
+    <button class="btn btn-lg btn-success">Finish Character</button>
+
+  
+</form>
+<%- include("../partials/footer")%>
