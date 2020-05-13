@@ -57,12 +57,11 @@ app.get("/", function(req, res){
 });
 
 
-app.post("/login", passport.authenticate("local", 
-    {
-        successRedirect: "/campaigns",
-        failureRedirect: "/"
-    }), function(req, res){
-});
+app.post("/login", passport.authenticate("local",{failureRedirect:"/"}),
+function(req, res){
+	res.redirect("/"+ req.user.id +"/campaigns")
+}
+);
 
 app.get("/register", function(req, res){
 	res.render("register");
@@ -83,12 +82,72 @@ app.post("/register", function(req, res){
 
 // CAMPAIGN ROUTES
 // Index
-app.get("/campaigns", function(req, res){
-	res.render("campaign/index")	
+app.get("/:UserId/campaigns", function(req, res){
+		User.findById(req.params.UserId, function(err, user){
+			if(err){
+				res.redirect("/");
+			} else {
+			res.render("campaign/index", {user:user});
+			}
+	});
+});
+
+// New Campaign Route
+app.get("/:UserId/campaigns/new", function(req, res){
+	User.findById(req.params.UserId, function(err, user){
+		if (err){
+			res.redirect("/:UserId/campaigns");
+		} else{
+			res.render("campaign/new", {user:user});
+		}
+	});
+});
+
+// New Campaign Post Route
+app.post("/:UserId/campaigns", function(req, res){
+	User.findById(req.params.UserId, function(err, user){
+		if (err){
+			console.log(err);
+			res.redirect("back");
+		} else {	
+			Campaign.create(req.body.campaign, function (err, campaign){
+			if(err){
+				console.log(err);
+				res.redirect("/" + user._id +"/campaigns/new")
+			} else {campaign.user.id = req.user._id;
+				campaign.user.username = req.user.username;
+				//save comment
+				campaign.save();
+				user.campaigns.push(campaign);
+				user.save();
+				console.log(campaign);
+				res.redirect("/campaigns/" + campaign._id)
+			}
+		});
+	}
+	});
+});
+
+app.get("/campaigns/:CampaignId", function(req, res){
+	Campaign.findById(req.params.CampaignId).populate("characters").exec (function(err, campaign){
+		if (err){
+			console.log(err);
+		}else{
+			res.render("campaign/show", {campaign:campaign})}
+		});
+});
+
+// Character index by campaign
+app.get("/campaigns/:campaignId/characters", function(req, res){
+	Campaign.findById(req.params.CampaignId).populate("characters").exec (function(err, campaign){
+		if (err){
+			console.log(err);
+		}else{
+			res.render("characters/index", {campaign:campaign})}
+		});
 })
 
-// New
-
+app.get()
 app.listen(3000, function(){
 	console.log("Server Started");
 });

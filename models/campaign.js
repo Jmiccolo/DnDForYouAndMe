@@ -2,13 +2,13 @@ var mongoose = require("mongoose");
 
 var CampaignSchema = new mongoose.Schema({
 	title:String,
-    users: [{
+    user: {
 		id: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "User"
 		},
 		username:String,
-	}],
+	},
 	password:String,
 	characters: [{type: mongoose.Schema.Types.ObjectId, ref:"Character"}],
 });
