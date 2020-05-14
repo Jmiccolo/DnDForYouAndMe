@@ -157,7 +157,7 @@ app.put("/:UserId/campaigns", middleware.isLoggedIn, function(req, res){
 });
 
 
-app.get("/campaigns/:CampaignId", function(req, res){
+app.get("/campaigns/:CampaignId", middleware.checkCampaignUsers, function(req, res){
 	Campaign.findById(req.params.CampaignId).populate("characters").exec (function(err, campaign){
 		if (err){
 			console.log(err);
