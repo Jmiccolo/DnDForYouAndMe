@@ -9,7 +9,7 @@ var CampaignSchema = new mongoose.Schema({
 		},
 		username:String,
 	},
-	users:  [{
+	users: [{
 		id: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "User"

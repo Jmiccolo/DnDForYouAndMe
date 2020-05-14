@@ -47,7 +47,7 @@ body {
 
 .charCard {
 	font-family: 'Press Start 2P', cursive;
-	
+	width:12.5%;
 }
 .charCard h4 {
 	color: #de144a;

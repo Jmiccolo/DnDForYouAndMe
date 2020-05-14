@@ -140,14 +140,16 @@ app.put("/:UserId/campaigns", middleware.isLoggedIn, function(req, res){
 		}
 		else {
 			Campaign.findById(req.body.id, function(err, campaign){
-				if(err || req.body.id !== campaign.password){
+				if(err || req.body.password !== campaign.password){
+					console.log(err)
 					res.redirect("back");
 				}else {
 					user.campaigns.push(campaign);
-					campaign.save();
-					campaign.users.push(user);
 					user.save();
-					res.redirect("/"+ user._id + "/campaigns")
+					campaign.users.push(user);
+					campaign.save();
+					console.log("/campaigns/" + campaign.id)
+					res.redirect("/campaigns/" + campaign.id)
 				}
 			})
 		}
@@ -155,7 +157,7 @@ app.put("/:UserId/campaigns", middleware.isLoggedIn, function(req, res){
 });
 
 
-app.get("/campaigns/:CampaignId", middleware.checkCampaignOwnership, function(req, res){
+app.get("/campaigns/:CampaignId", function(req, res){
 	Campaign.findById(req.params.CampaignId).populate("characters").exec (function(err, campaign){
 		if (err){
 			console.log(err);
@@ -174,7 +176,7 @@ app.get("/campaigns/:CampaignId/characters", middleware.isLoggedIn,  function(re
 		});
 });
 
-app.get("/campaigns/:CampaignId/characters/new", function (req, res){
+app.get("/campaigns/:CampaignId/characters/new",middleware.isLoggedIn, function (req, res){
 	Campaign.findById(req.params.CampaignId, function(err, campaign){
 		if (err){
 			console.log(err);
