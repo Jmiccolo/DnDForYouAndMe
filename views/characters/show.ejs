@@ -8,7 +8,18 @@
 			<img class="img-thumbnail" src="<%=character.image%>">
 		</div>
 		<div class="col-8">
-			
+		<h1>Character Bio</h1>
+		<a href="/<%=campaign.id%>/characters/<%=character.id%>/edit" class="btn btn-sm btn-success rounded">Edit</a>
+			<h3>Description</h3>
+			<p><%=character.description%></p>
+			<h3>Deity:<%=character.deity%></h3>
+			<h3>Alignment:<%=character.alignment%></h3>
+			<h3>age:<%=character.age%></h3>
+			<h3>Background:<%=character.background%></h3>
+			<h3>level: <%=character.level%></h3>
+			<h3>Equipment</h3>
+			<p><%=character.equipment%></p>
+
 		</div>
 	</div>
 </div>

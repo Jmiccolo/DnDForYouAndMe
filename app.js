@@ -82,7 +82,21 @@ app.post("/register", function(req, res){
     });
 });
 
-
+app.get("/logout", function(req, res){
+	req.logout();
+	res.redirect("/");
+ });
+ 
+// User Profile Page 
+app.get("/:UserId", function(req, res){
+	User.findById(req.params.UserId).populate("campaigns").populate("characters").exec(function(err, user){
+		if(err){
+			res.redirect("/")
+		}else{
+			res.render("user/index",{user:user})
+		}
+	})
+})
 // CAMPAIGN ROUTES
 // Index
 app.get("/:UserId/campaigns", middleware.isLoggedIn, function(req, res){
@@ -185,6 +199,7 @@ app.get("/campaigns/:CampaignId/characters/new",middleware.isLoggedIn, function 
 		});
 });
 
+// Create character post
 app.post("/campaigns/:CampaignId/characters", function(req, res){
 	User.findById(req.user.id, function(err,user){
 		if (err){
@@ -217,6 +232,54 @@ app.post("/campaigns/:CampaignId/characters", function(req, res){
 		}
 	})
 })
+// character show route
+app.get("/:CampaignId/characters/:CharacterId", function(req, res){
+	Campaign.findById(req.params.CampaignId, function(err, campaign){
+		if(err){
+			console.log(err);
+			res.redirect("back");
+		} else {
+			Character.findById(req.params.CharacterId, function(err, character){
+				if(err){
+					console.log(err);
+					res.redirect("back");
+				}else{
+					res.render("characters/show", {campaign:campaign, character:character})
+				}
+			});
+		}
+	});
+})
+// character edit route
+app.get("/:CampaignId/characters/:CharacterId/edit", function(req, res){
+	Campaign.findById(req.params.CampaignId, function(err, campaign){
+		if(err){
+			console.log(err);
+			res.redirect("back");
+		} else {
+			Character.findById(req.params.CharacterId, function(err, character){
+				if(err){
+					console.log(err);
+					res.redirect("back");
+				}else{
+					res.render("characters/edit", {campaign:campaign, character:character})
+				}
+			});
+		}
+	});
+})
+
+// Put route character Edit
+app.put("/:CampaignId/characters/:CharacterId", function(req, res){
+	Character.findByIdAndUpdate(req.params.CharacterId, req.body.character, function(err, updatedCharacter){
+		if(err){
+			console.log(err);
+			res.redirect("back");
+		}else{
+			res.redirect("/"+req.params.CampaignId +"/characters/" +req.params.CharacterId)
+		}
+			});
+		});
 
 
 app.listen(3000, function(){

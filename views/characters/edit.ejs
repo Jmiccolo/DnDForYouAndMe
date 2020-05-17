@@ -1,0 +1,44 @@
+<%- include("../partials/header")%>
+<div class="container">
+	<div class="row">
+        <form action="/<%=campaign.id%>/characters/<%=character.id%>?_method=PUT" method="POST">
+        <label for="name">Name</label>
+        <input class="rounded " type="text" name="character[name]" id="name" value="<%=character.name%>" placeholder="name">
+        <label for="class">Class</label>
+        <input class="rounded" type="text" name="character[class]" id="class" value="<%=character.class%>" placeholder="class">
+        <label for="race">Race</label>
+        <input class="rounded" type="text" name="character[race]" id="race" value="<%=character.race%>" placeholder="class">
+        </div>
+        <div>
+            <label for="description">Description</label>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <textarea class="rounded" name="character[description]" id="description" placeholder="description" cols="30" rows="10"><%=character.description%></textarea>>
+            </div>
+            <div class="col-md-4">
+                <div>
+                    <label for="alignment">Alignment</label>
+                <input class="rounded" type="text" id="alignment" name="character[alignment]" value="<%=character.alignment%>"  placeholder="alignment">
+                </div>
+                <div>
+                    <label for="deity">Deity</label>
+                    <input class="rounded" type="text" id="deity" name="character[deity]" value="<%=character.deity%>" placeholder="deity">
+                </div>
+                <div>
+                    <label for="image">Image</label>
+                    <input class="rounded" type="text" id="image" name="character[image]" value="<%=character.image%>" placeholder="image">
+   
+                </div>
+                <div>
+                    <label for="Age">Age</label>
+                    <input class="rounded" type="text" id="age" name="character[age]" value="<%=character.age%>" placeholder="age">
+                </div>            
+            </div>    
+        
+        </div>
+        <button class="btn btn-lg btn-success rounded">Submit</button>
+        </form>	
+	</div>
+</div>
+<%- include("../partials/footer")%>
