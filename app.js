@@ -153,7 +153,7 @@ app.put("/:UserId/campaigns", middleware.isLoggedIn, function(req, res){
 		}
 		else {
 			Campaign.findOne({"title":req.body.title}, function(err, campaign){
-				if(err || req.body.password !== campaign.password){
+				if(err ||campaign===null|| req.body.password !== campaign.password){
 					console.log(err)
 					res.redirect("back");
 				}else {
