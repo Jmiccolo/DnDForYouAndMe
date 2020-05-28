@@ -137,7 +137,6 @@ app.post("/:UserId/campaigns", middleware.isLoggedIn, function(req, res){
 				campaign.save();
 				user.campaigns.push(campaign);
 				user.save();
-				console.log(campaign);
 				res.redirect("/campaigns/" + campaign._id)
 			}
 		});
@@ -150,7 +149,7 @@ app.put("/:UserId/campaigns", middleware.isLoggedIn, function(req, res){
 	User.findById(req.params.UserId, function(err, user){
 		if(err){
 			console.log(err);
-			res.redirect("back")
+			res.redirect("/"+ req.params.UserId +"/campaigns")
 		}
 		else {
 			Campaign.findOne({"title":req.body.title}, function(err, campaign){
@@ -162,7 +161,6 @@ app.put("/:UserId/campaigns", middleware.isLoggedIn, function(req, res){
 					user.save();
 					campaign.users.push(user);
 					campaign.save();
-					console.log("/campaigns/" + campaign.id)
 					res.redirect("/campaigns/" + campaign.id)
 				}
 			})
