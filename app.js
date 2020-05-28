@@ -153,7 +153,7 @@ app.put("/:UserId/campaigns", middleware.isLoggedIn, function(req, res){
 			res.redirect("back")
 		}
 		else {
-			Campaign.findById(req.body.id, function(err, campaign){
+			Campaign.findOne({"title":req.body.title}, function(err, campaign){
 				if(err || req.body.password !== campaign.password){
 					console.log(err)
 					res.redirect("back");
@@ -304,6 +304,6 @@ app.delete("/:CampaignId/characters/:CharacterId", middleware.checkCharacterOwne
 
 
 		app.listen(process.env.PORT||3000, process.env.IP, function(){
-			console.log("The YelpCamp Server Has Started!");
+			console.log("Server Has Started!");
 		 });
 
