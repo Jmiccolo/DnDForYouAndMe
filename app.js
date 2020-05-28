@@ -20,7 +20,8 @@ var express = require("express"),
 
 
 // connect app
-mongoose.connect("mongodb://localhost/DnDForYouAndMe", {
+var url = process.env.DATABASEURL || "mongodb://localhost/DnDForYouAndMe";
+mongoose.connect(url, {
 	useNewUrlParser: true,
 	useFindAndModify: false,
 	useUnifiedTopology: true
