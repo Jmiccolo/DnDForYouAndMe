@@ -62,11 +62,9 @@ app.get("/", function(req, res){
 });
 
 
-app.post("/login", passport.authenticate("local",{failureRedirect:"/"}),
-function(req, res){
-	res.redirect("/"+ req.user.id +"/campaigns")
-}
-);
+app.post("/login", passport.authenticate("local", {failureRedirect: "/"}), function(req, res){
+	res.redirect("/" + req.user._id +"/campaigns");
+});
 
 app.get("/register", function(req, res){
 	res.render("register");
