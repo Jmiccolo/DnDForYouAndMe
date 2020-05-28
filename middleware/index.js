@@ -28,7 +28,7 @@ middlewareObj.checkCampaignUsers = function(req, res, next) {
 
 middlewareObj.checkCharacterOwnership = function(req, res, next) {
  if(req.isAuthenticated()){
-        Character.findById(req.params.characterId, function(err, foundCharacter){
+        Character.findById(req.params.CharacterId, function(err, foundCharacter){
            if(err){
                res.redirect("back");
            }  else {

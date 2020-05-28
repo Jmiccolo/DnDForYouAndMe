@@ -15,7 +15,7 @@ var express = require("express"),
 	
 // 	require routes
 // var indexRoutes = require("./routes/index"),
-	// gameRoutes = require("./routes/game"),
+	var gameRoutes = require("./routes/game");
 	// characterRoutes = require("./routes/characters")
 
 
@@ -51,7 +51,7 @@ app.use(function(req, res, next){
 
 // Run Routes
 // app.use("/", indexRoutes);
-// app.use("/game", gameRoutes);
+app.use("/", gameRoutes);
 // app.use("/characters", characterRoutes);
 
 // Index Routes
@@ -182,7 +182,7 @@ app.get("/campaigns/:CampaignId", middleware.checkCampaignUsers, function(req, r
 });
 
 // Character index by campaign
-app.get("/campaigns/:CampaignId/characters", middleware.isLoggedIn,  function(req, res){
+app.get("/campaigns/:CampaignId/characters", middleware.checkCampaignUsers,  function(req, res){
 	Campaign.findById(req.params.CampaignId).populate("characters").exec (function(err, campaign){
 		if (err){
 			console.log(err);
@@ -191,7 +191,7 @@ app.get("/campaigns/:CampaignId/characters", middleware.isLoggedIn,  function(re
 		});
 });
 
-app.get("/campaigns/:CampaignId/characters/new",middleware.isLoggedIn, function (req, res){
+app.get("/campaigns/:CampaignId/characters/new", middleware.checkCampaignUsers, function (req, res){
 	var CharItems = Character.schema.paths;
 
 	Campaign.findById(req.params.CampaignId, function(err, campaign){
@@ -203,7 +203,7 @@ app.get("/campaigns/:CampaignId/characters/new",middleware.isLoggedIn, function 
 });
 
 // Create character post
-app.post("/campaigns/:CampaignId/characters", function(req, res){
+app.post("/campaigns/:CampaignId/characters", middleware.checkCampaignUsers, function(req, res){
 	User.findById(req.user.id, function(err,user){
 		if (err){
 			console.log(err);
@@ -239,7 +239,7 @@ app.post("/campaigns/:CampaignId/characters", function(req, res){
 	})
 })
 // character show route
-app.get("/:CampaignId/characters/:CharacterId", function(req, res){
+app.get("/:CampaignId/characters/:CharacterId", middleware.checkCampaignUsers, function(req, res){
 	Campaign.findById(req.params.CampaignId, function(err, campaign){
 		if(err){
 			console.log(err);
@@ -257,7 +257,7 @@ app.get("/:CampaignId/characters/:CharacterId", function(req, res){
 	});
 })
 // character edit route
-app.get("/:CampaignId/characters/:CharacterId/edit", function(req, res){
+app.get("/:CampaignId/characters/:CharacterId/edit", middleware.checkCharacterOwnership, function(req, res){
 	Campaign.findById(req.params.CampaignId, function(err, campaign){
 		if(err){
 			console.log(err);
@@ -276,7 +276,7 @@ app.get("/:CampaignId/characters/:CharacterId/edit", function(req, res){
 })
 
 // Put route character Edit
-app.put("/:CampaignId/characters/:CharacterId", function(req, res){
+app.put("/:CampaignId/characters/:CharacterId", middleware.checkCharacterOwnership, function(req, res){
 	Character.findByIdAndUpdate(req.params.CharacterId, req.body.character, function(err, updatedCharacter){
 		if(err){
 			console.log(err);
@@ -289,6 +289,19 @@ app.put("/:CampaignId/characters/:CharacterId", function(req, res){
 		}
 			});
 		});
+
+app.delete("/:CampaignId/characters/:CharacterId", middleware.checkCharacterOwnership, function(req, res){
+	Character.findByIdAndRemove(req.params.CharacterId, function(err){
+		if(err){
+			console.log(err);
+			res.redirect("back");
+		}else{
+			res.redirect("/campaigns/"+req.params.CampaignId +"/characters/")
+		}
+			});
+		});
+
+
 
 
 app.listen(3000, function(){
