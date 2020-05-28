@@ -11,6 +11,7 @@ var express = require("express"),
 	SeedDB = require("./seed"),
 	helper = require("./public/helper"),
 	middleware = require("./middleware")
+
 	
 // 	require routes
 // var indexRoutes = require("./routes/index"),
@@ -77,7 +78,7 @@ app.post("/register", function(req, res){
             return res.render("register");
         }
         passport.authenticate("local")(req, res, function(){
-           res.redirect("/"); 
+           res.redirect("/" +req.user._id+"/campaigns"); 
         });
     });
 });
@@ -191,11 +192,13 @@ app.get("/campaigns/:CampaignId/characters", middleware.isLoggedIn,  function(re
 });
 
 app.get("/campaigns/:CampaignId/characters/new",middleware.isLoggedIn, function (req, res){
+	var CharItems = Character.schema.paths;
+
 	Campaign.findById(req.params.CampaignId, function(err, campaign){
 		if (err){
 			console.log(err);
 		}else{
-			res.render("characters/new", {campaign:campaign})}
+			res.render("characters/new", {campaign:campaign, CharItems:CharItems})}
 		});
 });
 
@@ -210,11 +213,14 @@ app.post("/campaigns/:CampaignId/characters", function(req, res){
 				if(err){
 					console.log(err);
 					res.redirect("back")
-				} else {Character.create(req.body.character, function(err, character){
+				} else {
+						console.log(req.body.Attributes)
+					Character.create(req.body.character, function(err, character){
 					if(err){
 						console.log(err);
 						res.redirect("back");
 					} else {
+						character.Attributes = req.body.Attributes;
 						character.creator.id = req.user._id;
 						character.creator.username = req.user.username;
 						character.save();
@@ -276,6 +282,9 @@ app.put("/:CampaignId/characters/:CharacterId", function(req, res){
 			console.log(err);
 			res.redirect("back");
 		}else{
+			updatedCharacter.Attributes=req.body.Attributes;
+			updatedCharacter.markModified("updateCharacter.Attributes");
+			updatedCharacter.save();
 			res.redirect("/"+req.params.CampaignId +"/characters/" +req.params.CharacterId)
 		}
 			});

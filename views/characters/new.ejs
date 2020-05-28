@@ -1,20 +1,34 @@
 <%- include("../partials/header")%>
 <h1>Create New Character</h1>
+<div class="container-fluid">
 <form action="/campaigns/<%=campaign._id%>/characters" method="POST">
-    <div class="form-group">
-        <input type="text" name="character[name]" placeholder="name" require>
-    </div>
-    <div class="form-group">
-        <input type="text" name="character[class]" placeholder="class" require>
-    </div>
-    <div class="form-group">
-        <input type="text" name="character[race]" placeholder="race" require>
-    </div>
-    <div class="form-group">
-        <input type="text" name="character[image]" placeholder="image url" require>
-    </div>
-    <button class="btn btn-lg btn-success">Finish Character</button>
+   <div class="form-row">
+    <%Object.keys(CharItems.Attributes.schema.obj).forEach(function(attr){%>
+        <div id="<%=attr%>" class="col-2 attr text-center">
+            <label class="display-5 mt-4" for="Attribute[<%=attr%>]"><%=attr%></label>
+            <input class="w-100 bg-transparent display-2" type="number" name="Attributes[<%=attr%>]" step="1" min="0" length="2" >
+        </div>
+<%})%>
+   </div>
+   <div class="form-row">
+    <%    var CharPathNames = Object.keys(CharItems)
+        
+    for (var i=2; i < (CharPathNames.length - 3); i++){
+        var item = CharPathNames[i];
+        
+        %>
+            <div class="form-group col-4">
+            <label for="character[<%=item%>]"><%=item%></label>
+            <input type="text" name="character[<%=item%>]" placeholder="<%=item%>" require>
+        </div>
+    <%}%>
+   </div>
+    
+    
+    
+   
 
-  
+    <button class="btn btn-lg btn-success">Finish Character</button>
 </form>
+</div>
 <%- include("../partials/footer")%>

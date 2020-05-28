@@ -10,9 +10,6 @@ middlewareObj.checkCampaignUsers = function(req, res, next) {
            if(err){
                res.redirect("back");
            }  else {
-            console.log(foundCampaign.users.some(function(user){
-                return user._id = req.user._id
-               }));
                // does user own or use campaign?
             if((foundCampaign.creator.id).equals(req.user.id)){
                 next();

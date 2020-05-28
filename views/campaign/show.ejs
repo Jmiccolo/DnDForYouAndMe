@@ -4,9 +4,9 @@
 		<%campaign.characters.forEach(function(character){%>
 			<div class="charCard m-0 p-0">
 				<div class="text-center bg-dark p-0 m-0">
-					<h4 class="m-0"><a href="/<%=campaign._id%>/characters/<%=character._id%>"><%=character.name%></a></h4>
+					<h4 class="m-0"><a href="/<%=campaign._id%>/characters/<%=character._id%>"><%=character.Name%></a></h4>
 				</div> 
-				<img class="img-fluid charImg" src="<%=character.image%>">
+				<img class="img-fluid charImg" src="<%=character.Image%>">
 			</div>
 		<%})%>
 	</div>

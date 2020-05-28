@@ -1,5 +1,14 @@
 var mongoose = require("mongoose");
 
+var AttributeSchema = new mongoose.Schema ({
+    Strength: Number,
+    Dexterity: Number,
+    Constitution: Number,
+    Intelligence: Number,
+    Wisdom: Number,
+    Charisma: Number, 
+}, {_id:false});
+
 var CharacterSchema = new mongoose.Schema({
     creator: {
 		id: {
@@ -8,18 +17,18 @@ var CharacterSchema = new mongoose.Schema({
 		},
 		username:String
 	},
-	name:String,
-    race:String,
-	class:String,
-	deity:String,
-	image:String,
-	age:Number,
-	background:String,
-	level:Number,
-	alignment:String,
-	description:String,
-	equipment:String,
-	
+	Name:String,
+    Race:String,
+	Class:String,
+	Deity:String,
+	Image:String,
+	Age:Number,
+	Background:String,
+	Level:Number,
+	Alignment:String,
+	Description:String,
+	Equipment:String,
+	Attributes: AttributeSchema
 });
 
 module.exports = mongoose.model("Character", CharacterSchema);

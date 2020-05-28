@@ -1,10 +1,65 @@
 body {
 	background: black;
 	color: white;
+	font-family: 'Press Start 2P', cursive;
 }
 
 *:focus {
 	outline:none;
+}
+div .attr {
+	height:200px;
+	color: white;
+	background-position: center;
+}
+
+div .attr h5 {
+	margin-top:15px;
+	font-size: 15px;
+	letter-spacing: 0em;
+	text-align: center;
+}
+div .attr h4 {
+	font-size: 30px;
+	padding-top: 30%;
+	color:white;
+}
+
+#Strength {
+	background-image: url("/images/Strength.png");
+	background-size: contain;
+	background-repeat: no-repeat;
+	color: red;
+}
+#Dexterity {
+	background-image: url("/images/Dexterity.png");
+	background-size: contain;
+	background-repeat: no-repeat;
+	color:green;
+}
+#Constitution {
+	background-image: url("/images/Constitution.png");
+	background-size: contain;
+	background-repeat: no-repeat;
+	color:orange;
+}
+#Intelligence {
+	background-image: url("/images/Intelligence.png");
+	background-size: contain;
+	background-repeat: no-repeat;
+	color:blue;
+}
+#Wisdom {
+	background-image: url("/images/Wisdom.png");
+	background-size: contain;
+	background-repeat: no-repeat;
+	color:gold;
+}
+#Charisma {
+	background-image: url("/images/Charisma.png");
+	background-size: contain;
+	background-repeat: no-repeat;
+	color: magenta;
 }
 
 .Char {
@@ -133,6 +188,10 @@ textarea{
 	background:black;
 	color: white;
 }
+
+.attrCard h3{
+	font-size: 20px;
+}
 @Keyframes swipeUp {
 	0%{transform: translate(0, 500px)}
 	60%{transform:	translate(-50px, -100px)}
@@ -143,4 +202,10 @@ textarea{
 	50%{transform:scale(1.5, 1.5) rotate(5deg);}
 	100%{transform:scale(1, 1) rotate(0deg);}
 	
+}
+
+.Ranger {
+	background:lightgreen;
+	color: forestgreen;
+	border: 2px solid forestgreen;
 }

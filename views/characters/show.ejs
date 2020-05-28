@@ -1,26 +1,43 @@
 <%- include("../partials/header")%>
-<div class="container">
+<div class="container-fluid">
 	<div class="row">
-		<div class="col-4">
-			<h1>
-				<%=character.name%> The <%=character.race%> <%=character.class%>
-			</h1>
-			<img class="img-thumbnail" src="<%=character.image%>">
-		</div>
-		<div class="col-8">
-		<h1>Character Bio</h1>
-		<a href="/<%=campaign.id%>/characters/<%=character.id%>/edit" class="btn btn-sm btn-success rounded">Edit</a>
-			<h3>Description</h3>
-			<p><%=character.description%></p>
-			<h3>Deity:<%=character.deity%></h3>
-			<h3>Alignment:<%=character.alignment%></h3>
-			<h3>age:<%=character.age%></h3>
-			<h3>Background:<%=character.background%></h3>
-			<h3>level: <%=character.level%></h3>
-			<h3>Equipment</h3>
-			<p><%=character.equipment%></p>
-
-		</div>
+		<h2 class="text-center w-100">
+			<%=character.Name%> The <%=character.Race%> <%=character.Class%>
+		</h2>
+		<%if(character.creator.id.equals(currentUser._id)) {%>
+			<a href="/<%=campaign._id%>/characters/<%=character._id%>/edit"><button class="btn btn-success btn-large rounded">Edit</button></a>
+			<form action="/<%=campaign._id%>/characters/<%=character._id%>?_method=DELETE" method="POST"><button class="btn btn-danger btn-large rounded">Delete</button></form>
+			<%}%>
 	</div>
+	<div class="row text-center">
+				<%for(var i = 0; i < 6; i++){
+					var attr = Object.keys(character.Attributes.toObject())[i]
+					var val = Object.values(character.Attributes.toObject())[i]%>
+					<div id="<%=attr%>" class="attr m-0 col-4 col-md-2 w-100">
+						<h5><%=attr%></h5>
+						<h4><%=val%></h4>
+					</div><%}%>
+	</div>
+</div>
+<div class="container">
+		<div class="row">
+			<div class="col-4">
+				<img class="img-thumbnail" src="<%=character.Image%>">
+			</div>
+			<div class="col-8 rounded <%=character.Class%>">
+				<div class="row">
+					<% for(var i = 2; i < 6; i++){
+						var def = Object.keys(character._doc)[i];
+						var arg = Object.values(character._doc)[i];%>
+					<div id="def" class="col-6 py-3 attrCard"><h3><%=def%>:<%=arg%></h3></div>
+					<%}%>
+					<% for(var i = 7; i < 13; i++){
+						var def = Object.keys(character._doc)[i];
+						var arg = Object.values(character._doc)[i];%>
+					<div id="def" class="col-6 attrCard"><h3><%=def%>:<%=arg%></h3></div>
+					<%}%>
+				</div>	
+			</div>
+		</div>
 </div>
 <%- include("../partials/footer")%>
