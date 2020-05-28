@@ -38,7 +38,7 @@
 			<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
         	<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 				<%campaign.characters.forEach(function(character){%>
-					<a class="dropdown-item" href="/campaigns/<%=campaign.id%>/characters/<%=character._id%>"><%=character.Name%> The <%=character.Class%></a>
+					<a class="dropdown-item" href="/<%=campaign.id%>/characters/<%=character._id%>"><%=character.Name%> The <%=character.Class%></a>
 				<%})%>
 				<a class="dropdown-item" href="/campaigns/<%=campaign._id%>/characters/new">New Character</a>
         	</div>
