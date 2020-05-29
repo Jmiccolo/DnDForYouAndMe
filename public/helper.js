@@ -83,5 +83,6 @@ function clrHis() {
 	document.getElementById("dicehis").appendChild(createDiv);
 }
 
+
 module.exports = {diceRoll:diceRoll,
 				  stat:stat}
