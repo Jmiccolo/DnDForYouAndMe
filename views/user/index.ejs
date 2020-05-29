@@ -1,0 +1,24 @@
+<%- include("../partials/userheader")%>
+<div class="container-fluid">
+	<div class="row">
+		<h2 class="text-center w-100">
+			<%=currentUser.username%>
+		</h2>
+		<%if(currentUser) {%>
+			<a href="/<%=currentUser._id%>/edit"><button class="btn btn-success btn-large rounded">Edit</button></a>
+			<%}%>
+	</div>
+</div>
+<div class="container">
+		<div class="row">
+			<div class="col-4">
+				<img class="img-thumbnail" src="<%=currentUser.image%>">
+            </div>
+            <div class="col-8">
+                <div class="col-6">
+                </div>
+            </div>
+            
+		</div>
+</div>
+<%- include("../partials/footer")%>

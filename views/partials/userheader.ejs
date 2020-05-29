@@ -13,15 +13,8 @@
 </head>
 <body>
 	<div class="container-fluid p-0 m-0">
-	<div id="header" class="jumbotron text-center background-warning rounded-0 m-0">
-		<div>
-			<h1>
-				<%=campaign.title%>
-			</h1>
-		</div>
-	</div>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="/campaigns/<%=campaign._id%>">Home</a>
+  <a class="navbar-brand" href="/<%=currentUser._id%>/campaigns">Home</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -29,25 +22,25 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto align-item-center">
      	<li class="nav-item">
-        	<a class="nav-link" href="#">Story</a>
+        	<a class="nav-link" href="/users/<%=currentUser._id%>/campaigns">Campaigns</a>
       	</li>
 		<li class="nav-item">
-        	<a class="nav-link" href="/campaigns/<%=campaign._id%>/characters">Characters</a>
+        	<a class="nav-link" href="/user/<%=currentUser._id%>/characters">Characters</a>
       	</li>
 	  	<li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
         	<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-				<%campaign.characters.forEach(function(character){%>
-					<a class="dropdown-item" href="/<%=campaign.id%>/characters/<%=character._id%>"><%=character.Name%> The <%=character.Class%></a>
+				<%user.characters.forEach(function(character){%>
+					<a class="dropdown-item" href="/<%=currentUser._id%>/characters/<%=character._id%>"><%=character.Name%> The <%=character.Class%></a>
 				<%})%>
-				<a class="dropdown-item" href="/campaigns/<%=campaign._id%>/characters/new">New Character</a>
+				<a class="dropdown-item" href="/users/<%=currentUser._id%>/characters/new">New Character</a>
         	</div>
       	</li>
 		<li class="nav-item dropdown">
         	<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Games</a>
         	<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-      	  		<a class="dropdown-item" href="/campaigns/<%=campaign._id%>/statistics">Statistics</a>
-      	  		<a class="dropdown-item" href="/campaigns/<%=campaign._id%>/dice">Dice</a>
+      	  		<a class="dropdown-item" href="/users/<%=currentUser._id%>/statistics">Statistics</a>
+      	  		<a class="dropdown-item" href="/users/<%=currentUser._id%>/dice">Dice</a>
         	</div>
       	</li>	
 		<li class="nav-item">
@@ -55,7 +48,7 @@
 		</li>
 	</ul>
 	<%if(currentUser){%>
-        	<a class="nav-link" href="#">Profile</a>
+        	<a class="nav-link" href="/<%=currentUser._id%>">Profile</a>
 		<%}%>	
 	<a class="btn btn-sm btn-outline-success my-2 my-sm-0 float-right" href="/logout">Logout</a></button>
   </div>
