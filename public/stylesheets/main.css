@@ -31,17 +31,17 @@ div .attr h4 {
 	background-repeat: no-repeat;
 	color: red;
 }
-#Constitution {
+#Dexterity {
 	background-image: url("/images/Dexterity.png");
 	background-size: contain;
 	background-repeat: no-repeat;
-	color:green;
+	color:orange;
 }
-#Dexterity {
+#Constitution {
 	background-image: url("/images/Constitution.png");
 	background-size: contain;
 	background-repeat: no-repeat;
-	color:orange;
+	color:green;
 }
 #Intelligence {
 	background-image: url("/images/Intelligence.png");
