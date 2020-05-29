@@ -1,0 +1,20 @@
+<%- include("../partials/userheader")%>
+
+<div class="container-fluid">
+    <h1><%=currentUser.username%></h1>
+    <form action="/<%=currentUser._id%>?_method=PUT" method="POST" enctype="multipart/form-data">
+        <div class="form-row">
+            <div class="col-4">
+                <h3>Upload a picture</h3>
+                <input type="file" class="w-25 display-" id="file-input" name="userAvatar">
+                <p class="display-5" id="status">Please select a file</p>
+                <img id="preview" class="w-100" src="/images/default.png" alt="">
+            </div>
+            <div class="col-8">
+                <input type="hidden" id="avatar-url" name="avatar-url" value="/images/default.png">
+                <input type="text" name="user[name]" placeholder="name">
+            </div>
+        </div>
+    </form>
+</div>
+<%- include("../partials/footer")%>
