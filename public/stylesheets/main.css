@@ -31,13 +31,13 @@ div .attr h4 {
 	background-repeat: no-repeat;
 	color: red;
 }
-#Dexterity {
+#Constitution {
 	background-image: url("/images/Dexterity.png");
 	background-size: contain;
 	background-repeat: no-repeat;
 	color:green;
 }
-#Constitution {
+#Dexterity {
 	background-image: url("/images/Constitution.png");
 	background-size: contain;
 	background-repeat: no-repeat;
@@ -53,7 +53,7 @@ div .attr h4 {
 	background-image: url("/images/Wisdom.png");
 	background-size: contain;
 	background-repeat: no-repeat;
-	color:gold;
+	color:purple;
 }
 #Charisma {
 	background-image: url("/images/Charisma.png");
