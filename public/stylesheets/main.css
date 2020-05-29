@@ -210,17 +210,32 @@ textarea{
 	border: 2px solid forestgreen;
 }
 .Paladin {
-	background: plum;
+	background: #b84b49;
+	color: brown;
+	border: 2px solid brown;
+}
+.Rogue {
+	background:lightcoral;
+	color: red;
+	border: 2px solid red;
+}
+.Bard {
+	background:lightpink;
+	color: magenta;
+	border: 2px solid magenta;
+}
+.Cleric {
+	background:lightblue;
+	color: blue;
+	border: 2px solid blue;
+}
+.Druid {
+	background:lawngreen;
+	color: greenyellow;
+	border: 2px solid greenyellow;
+}
+.Warlock {
+	background:plum;
 	color: purple;
 	border: 2px solid purple;
-}
-.Ranger {
-	background:lightgreen;
-	color: forestgreen;
-	border: 2px solid forestgreen;
-}
-.Ranger {
-	background:lightgreen;
-	color: forestgreen;
-	border: 2px solid forestgreen;
 }

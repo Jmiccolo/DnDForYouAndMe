@@ -237,7 +237,7 @@ app.post("/campaigns/:CampaignId/characters", middleware.checkCampaignUsers, fun
 })
 // character show route
 app.get("/:CampaignId/characters/:CharacterId", middleware.checkCampaignUsers, function(req, res){
-	Campaign.findById(req.params.CampaignId, function(err, campaign){
+	Campaign.findById(req.params.CampaignId).populate("characters").exec (function(err, campaign){
 		if(err){
 			console.log(err);
 			res.redirect("back");
