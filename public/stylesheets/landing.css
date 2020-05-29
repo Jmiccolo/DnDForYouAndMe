@@ -29,6 +29,11 @@ input{
 	padding-top: 40vh;
 }
 
+#footer	{
+	color:white;
+	margin-top: 200px;
+}
+
 @Keyframes groundBreak {
 	50%{transform:scale(1.5, 1.5) rotate(5deg);}
 	100%{transform:scale(1, 1) rotate(0deg);}
