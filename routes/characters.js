@@ -185,6 +185,23 @@ router.post("/:CharacterId", middleware.checkCharacterOwnership, upload.single("
 
 // DELETE Character Route
 router.delete("/:CharacterId", middleware.checkCharacterOwnership, function(req, res){
+	Campaign.findById(req.params.CampaignId, function(err, campaign){
+		if(err){
+			console.log(err);
+			res.redirect("back");
+		}else{}
+			campaign.characters.pull(req.params.CharacterId);
+			campaign.save();
+	})
+	User.findById(req.user._id, function(err, user){
+		if(err){
+			console.log(err);
+			res.redirect("back");
+		}else{
+			user.characters.pull(req.params.CharacterId);
+			user.save();
+		}
+	});
 	Character.findByIdAndRemove(req.params.CharacterId, function(err){
 		if(err){
 			console.log(err);
