@@ -5,8 +5,11 @@
 			<%=character.Name%> The <%=character.Race%> <%=character.Class%>
 		</h2>
 		<%if(character.creator.id.equals(currentUser._id)) {%>
-			<a href="/<%=campaign._id%>/characters/<%=character._id%>/edit"><button class="btn btn-success btn-large rounded">Edit</button></a>
-			<form action="/<%=campaign._id%>/characters/<%=character._id%>?_method=DELETE" method="POST"><button class="btn btn-danger btn-large rounded">Delete</button></form>
+			<%if(playName === false){%>
+			<a href="/campaigns/<%=campaign._id%>/characters/<%=character._id%>/edit"><button class="btn btn-success btn-large rounded">Edit</button></a>
+			<form action="/campaigns/<%=campaign._id%>/characters/<%=character._id%>?_method=DELETE" method="POST"><button class="btn btn-danger btn-large rounded">Delete</button></form>
+			<form action="/campaigns/<%=campaign._id%>/characters/<%=character._id%>/play" method="POST"><button class="btn btn-primary btn-large rounded">Play as <%=character.Name%></button></form> 
+			<%}%>
 			<%}%>
 	</div>
 	<div class="row text-center">
@@ -25,17 +28,54 @@
 				<img class="img-thumbnail" src="<%=character.Image%>">
 			</div>
 			<div class="col-8 rounded <%=character.Class%>">
-				<div class="row">
-					<% for(var i = 2; i < 6; i++){
+				<ul class="nav nav-tabs">
+					<li class="nav-item">
+					  <a id="BioBtn" class="Charshow nav-link active" href="javascript:void(0)">Bio</a>
+					</li>
+					<li class="nav-item">
+					  <a id="WeapBtn" class="Charshow nav-link"href="javascript:void(0)">Weapons</a>
+					</li>
+					<li class="nav-item">
+					  <a id="SpBtn" class="Charshow nav-link"href="javascript:void(0)">Spells</a>
+					</li>
+					<li class="nav-item">
+					  <a id="MiscBtn" class="Charshow nav-link"href="javascript:void(0)">Misc</a>
+					</li>
+				  </ul>
+				<div id="Bio" class="row">
+					<% for(var i =3; i < 8; i++){
 						var def = Object.keys(character._doc)[i];
 						var arg = Object.values(character._doc)[i];%>
-					<div id="def" class="col-6 py-3 attrCard"><h3><%=def%>:<%=arg%></h3></div>
+					<div class="col-6 py-3 attrCard"><h3><%=def%>:<%=arg%></h3></div>
 					<%}%>
-					<% for(var i = 7; i < 13; i++){
+					<% for(var i = 9; i < 13; i++){
 						var def = Object.keys(character._doc)[i];
 						var arg = Object.values(character._doc)[i];%>
-					<div id="def" class="col-6 attrCard"><h3><%=def%>:<%=arg%></h3></div>
-					<%}%>
+					<div  class="col-6 attrCard"><h3><%=def%>:<%=arg%></h3></div>
+					<%}%> 
+				</div>
+				<div id="WepCard" class="pt-3 col-12">
+					<h3>Weapons:</h3>
+						<table class="table table-dark">
+							<tr>
+								<th>Name</th>
+								<th>Damage</th>
+								<th>Properties</th>
+							</tr>
+							<%character.Weapons.forEach(function(weapon){%>
+								<tr>
+									<td><button class="btn btn-sm <%=character.Class%>"><%=weapon.Name%></button></td>
+									<td><%=weapon.Damage.Die%>: <%=weapon.Damage.Type%></td>
+									<td><%Object.keys(weapon.Properties.toObject()).forEach(function(key){
+										if(key === "Range"){%>
+										  <%=key + ":" + weapon.Properties.Range%>
+										  <%} else if(key === "TwoHanded"){%>
+											   <%="Two-Handed"%>
+										  <%} else {%>
+											  <%=key%>
+										  <%}})%></td>
+								</tr> <%})%>
+						</table>
 				</div>	
 			</div>
 		</div>

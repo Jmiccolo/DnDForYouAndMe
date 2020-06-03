@@ -1,33 +1,87 @@
 <%- include("../partials/header")%>
 <h1>Edit Character</h1>
 <div class="container-fluid">
-<form action="/<%=campaign._id%>/characters/<%=character._id%>?_method=PUT" method="POST">
-   <div class="form-row">
-        <%for(var i = 0; i < 6; i++){
-            var attr = Object.keys(character.Attributes.toObject())[i]
-            var val = Object.values(character.Attributes.toObject())[i]%>
-        <div id="<%=attr%>" class="col-2 attr text-center">
-            <label class="display-5 mt-4" for="Attribute[<%=attr%>]"><%=attr%></label>
-            <input class="w-100 bg-transparent display-2" type="number" name="Attributes[<%=attr%>]" step="1" min="0" length="2" value="<%=val%>">
+    <form action="/campaigns/<%=campaign._id%>/characters/<%=character._id%>?_method=PUT" method="POST">
+        <div class="form-row">
+         <%Object.keys(CharItems.Attributes.schema.obj).forEach(function(attr){%>
+             <div id="<%=attr%>" class="col-2 attr text-center">
+                 <label class="display-5 mt-4" for="Attribute[<%=attr%>]"><%=attr%></label>
+                 <input class="w-100 bg-transparent display-2" type="number" name="Attributes[<%=attr%>]" step="1" min="0" length="2" value="<%=character.Attributes[attr]%>"require>
+             </div>
+     <%})%>
         </div>
-<%}%>
-   </div>
-   <div class="form-row">
-    <% for(var i = 2; i < 13; i++){
-        var def = Object.keys(character._doc)[i];
-        var arg = Object.values(character._doc)[i];%>
+        <div class="form-row">
             <div class="form-group col-4">
-            <label for="character[<%=def%>]"><%=def%></label>
-            <input type="text" name="character[<%=def%>]" placeholder="<%=def%>" value="<%=arg%>" require>
-        </div>
-    <%}%>
-   </div>
-    
-    
-    
-   
-
-    <button class="btn btn-lg btn-success">Finish Character</button>
-</form>
+            <a id="imageBtn" class="btn btn-lg btn-success">Edit Image</a>
+            <input type="text" name="character[Image]" value="<%=character.Image%>" hidden>
+             <img class="img-thumbnail " src="<%=character.Image%>" alt="Character Avatar" id="preview">
+            </div>
+            <div class="form-group col-8">
+                <div class="form-row">
+                 <%var CharPathNames = Object.keys(CharItems)
+                        CharPathNames.forEach(function(item){
+                            if(typeof character[item] === "number" && item !== "__v"){%>
+                             <div class="col-6">
+                             <label for="character[<%=item%>]"><%=item%></label>
+                             <input type="number" min="0" name="character[<%=item%>]" placeholder="<%=item%>"value="<%=character[item]%>" step="<%if(item === 'Money'){%>0.01<%}else{%>1<%}%>" require>
+                         </div>
+                         <%}else if(typeof character[item] === "string" && item !== "Image"){%>
+                            <div class="col-6">
+                            <label for="character[<%=item%>]"><%=item%></label>
+                            <input type="text" name="character[<%=item%>]" placeholder="<%=item%>" value="<%=character[item]%>" require>
+                        </div>
+                     <%}})%>
+                     <div class=" form-group col-md-6">
+                        <label for="weapons">Weapons</label>
+                        <%if(!character.Weapons[0]){%>
+                            <div id="weaponForm" class="form-group">
+                                <div class="form-row weaponRow">
+                                    <div class="col-10">
+                                        <select id="weapons" name="weapons" class="form-control">
+                                            <option id="first" placeholder="Choose..." selected></option>
+                                            <%campaign.weapons.forEach(function(weapon){%>
+                                              <option value="<%=weapon._id%>"><%=weapon.Name%>, <%=weapon.Damage.Die%> </option>
+                                            <%})%>
+                                          </select>
+                                    </div>
+                                    <div class="plus col-1"><i class="fas fa-plus"></i></div>
+                                    <div class="minus col-1" style="display:none;"><i class="fas fa-minus"></i></div>
+                                </div>
+                            </div><%}else{%>
+                            <div id="weaponForm" class="form-group">
+                                    <%character.Weapons.forEach(function(weapon){%>
+                                <div class="weaponRow form-row">
+                                    <div class="form-group col-10">
+                                        <select id="weapons" name="weapons" class="form-control" required>
+                                            <option value="<%=weapon._id%>"selected><%=weapon.Name%>, <%=weapon.Damage.Die%></option>
+                                            <%campaign.weapons.forEach(function(Cweapon){%>
+                                              <option value="<%=Cweapon._id%>"><%=Cweapon.Name%>, <%=Cweapon.Damage.Die%> </option>
+                                            <%})%>
+                                          </select>
+                                        </div>
+                                        <%if(character.Weapons[0]._id === weapon._id){%>
+                                        <div class="plus col-1"><i class="fas fa-plus"></i></div>
+                                        <div class="col-1 minus" style="display:none;"><i class="fas fa-minus"></i></div><%}else{%>
+                                    <div class="col-1 minus"><i class="fas fa-minus"></i></div><%}%>
+                                </div> 
+                                    <%})}%>
+                            </div>                            
+                    </div>
+                    </div>
+                </div>
+         </div>
+         <button class="btn btn-lg btn-success">Edit Character</button>
+     </form>
+</div>
+<div id="imageForm" class="<%=character.Class%>">
+    <h3>Edit Image</h3>
+    <form class="p-3" action="/campaigns/<%=campaign._id%>/characters/<%=character._id%>" method="POST" enctype="multipart/form-data">
+       <div class="form-group">
+           <input type="file" class="w-100" onchange="document.getElementById('editprev').src = window.URL.createObjectURL(this.files[0])" id="file-input" name ="charAv">
+           <img class="img-thumbnail" src="<%=character.Image%>" alt="Character Avatar" id="editprev">
+       </div>
+    <button class="btn btn-sm btn-success">Save</button>
+   </form>
+   <button class="closeBtn btn btn-sm btn-primary">Close</button>
 </div>
 <%- include("../partials/footer")%>

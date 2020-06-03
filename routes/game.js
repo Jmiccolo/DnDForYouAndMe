@@ -1,9 +1,8 @@
 var express = require("express");
 var router = express.Router();
-var helper = require("../public/helper");
 var Character = require("../models/character")
 var Campaign = require("../models/campaign")
-var middleware = require("../middleware");
+var middleware = require("../middleware")
 
 	
 router.get("/campaigns/:CampaignId/statistics", middleware.checkCampaignUsers, function(req, res){
@@ -12,7 +11,7 @@ router.get("/campaigns/:CampaignId/statistics", middleware.checkCampaignUsers, f
 			res.redirect("back")
 		} else {
 			var CharItems = Character.schema.paths;
-			res.render("games/statistics", {helper:helper, campaign:campaign, CharItems:CharItems})
+			res.render("games/statistics", {campaign:campaign, CharItems:CharItems})
 		}
 	})
 
@@ -23,7 +22,7 @@ router.get("/campaigns/:CampaignId/dice", middleware.checkCampaignUsers, functio
 		if(err){
 			res.redirect("back")
 		} else {
-			res.render("games/dice", {helper:helper, campaign:campaign})
+			res.render("games/dice", {campaign:campaign})
 		}
 	})
 

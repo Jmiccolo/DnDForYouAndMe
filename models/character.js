@@ -27,7 +27,8 @@ var CharacterSchema = new mongoose.Schema({
 	Level:Number,
 	Alignment:String,
 	Description:String,
-	Equipment:String,
+	Weapons: [{type: mongoose.Schema.Types.ObjectId, ref:"Weapon"}],
+	Money: Number,
 	Attributes: AttributeSchema
 });
 

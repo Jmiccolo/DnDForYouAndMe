@@ -5,11 +5,10 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 	<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="/stylesheets/main.css">
-	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-	<script src="https://use.fontawesome.com/eb1b28fec7.js"></script>
-	<script src="/helper.js"></script>
 </head>
 <body>
 	<div class="container-fluid p-0 m-0">
@@ -38,7 +37,7 @@
 			<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
         	<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 				<%campaign.characters.forEach(function(Character){%>
-					<a class="dropdown-item" href="/<%=campaign.id%>/characters/<%=Character._id%>"><%=Character.Name%> The <%=Character.Class%></a>
+					<a class="dropdown-item" href="/campaigns/<%=campaign.id%>/characters/<%=Character._id%>"><%=Character.Name%> The <%=Character.Class%></a>
 				<%})%>
 				<a class="dropdown-item" href="/campaigns/<%=campaign._id%>/characters/new">New Character</a>
         	</div>
@@ -46,7 +45,7 @@
 		<li class="nav-item dropdown">
         	<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Games</a>
         	<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-      	  		<a class="dropdown-item" href="/campaigns/<%=campaign._id%>/statistics">Statistics</a>
+      	  		<a class="dropdown-item" href="#">Statistics</a>
       	  		<a class="dropdown-item" href="/campaigns/<%=campaign._id%>/dice">Dice</a>
         	</div>
       	</li>	
@@ -55,8 +54,10 @@
 		</li>
 	</ul>
 	<%if(currentUser){%>
-        	<a class="nav-link" href="#">Profile</a>
-		<%}%>	
+			<a class="nav-link" href="#">Profile</a>
+		<%if(playName !== false){%>
+			<form action="/campaigns/<%=campaign._id%>/characters/<%=playId%>/play" method="POST"><button class="btn btn-sm btn-outline-danger">Stop Playing as <%=playName%></button></form>
+		<%}}%>	
 	<a class="btn btn-sm btn-outline-success my-2 my-sm-0 float-right" href="/logout">Logout</a></button>
   </div>
 </nav>

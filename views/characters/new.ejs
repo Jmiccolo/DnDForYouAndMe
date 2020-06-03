@@ -1,34 +1,56 @@
 <%- include("../partials/header")%>
 <h1>Create New Character</h1>
 <div class="container-fluid">
-<form action="/campaigns/<%=campaign._id%>/characters" method="POST">
+<form action="/campaigns/<%=campaign._id%>/characters" method="POST" enctype="multipart/form-data">
    <div class="form-row">
     <%Object.keys(CharItems.Attributes.schema.obj).forEach(function(attr){%>
         <div id="<%=attr%>" class="col-2 attr text-center">
             <label class="display-5 mt-4" for="Attribute[<%=attr%>]"><%=attr%></label>
-            <input class="w-100 bg-transparent display-2" type="number" name="Attributes[<%=attr%>]" step="1" min="0" length="2" >
+            <input class="w-100 bg-transparent display-2" type="number" name="Attributes[<%=attr%>]" step="1" min="0" length="2" required>
         </div>
 <%})%>
    </div>
    <div class="form-row">
-    <%    var CharPathNames = Object.keys(CharItems)
-        
-    for (var i=2; i < (CharPathNames.length - 3); i++){
-        var item = CharPathNames[i];
-        
-        %>
-            <div class="form-group col-4">
-            <label for="character[<%=item%>]"><%=item%></label>
-            <input type="text" name="character[<%=item%>]" placeholder="<%=item%>" require>
-        </div>
-    <%}%>
-   </div>
-    
-    
-    
-   
-
-    <button class="btn btn-lg btn-success">Finish Character</button>
+       <div class="form-group col-4">
+        <input type="file" class="w-100" onchange="document.getElementById('preview').src = window.URL.createObjectURL(this.files[0])" id="file-input" name ="charAv" required>
+        <img class="img-thumbnail " src="/images/default.png" alt="Character Avatar" id="preview">
+       </div>
+       <div class="form-group col-8">
+        <div class="form-row">
+         <%for(let [key, value] of Entries){
+                console.log(value)
+                    if(value.instance === "Number" && key !== "__v"){%>
+                     <div class="col-6">
+                     <label for="character[<%=key%>]"><%=key%></label>
+                     <input type="number" min="0" name="character[<%=key%>]" placeholder="<%=key%>" step="<%if(key === 'Money'){%>0.01<%}else{%>1<%}%>" required>
+                 </div>
+                 <%}else if(value.instance === "String" && key !== "Image" & key !== "creator.username"){%>
+                    <div class="col-6">
+                    <label for="character[<%=key%>]"><%=key%></label>
+                    <input type="text" name="character[<%=key%>]" placeholder="<%=key%>"  required>
+                </div>
+             <%}}%>
+             <div class=" form-group col-md-6">
+                <label for="weapons">Weapons</label>
+                    <div id="weaponForm" class="form-group">
+                        <div class="form-row weaponRow">
+                            <div class="col-10">
+                                <select id="weapons" name="weapons" class="form-control"required>
+                                    <option id="first" placeholder="Choose..." selected></option>
+                                    <%campaign.weapons.forEach(function(weapon){%>
+                                      <option value="<%=weapon._id%>"><%=weapon.Name%>, <%=weapon.Damage.Die%> </option>
+                                    <%})%>
+                                  </select>
+                            </div>
+                            <div class="plus col-1"><i class="fas fa-plus"></i></div>
+                            <div class="minus col-1" style="display:none;"><i class="fas fa-minus"></i></div>
+                        </div>
+                    </div>
+                </div>
+                </div>                            
+            </div>
+            </div>
+ <button class="btn btn-lg btn-success">Finish Character</button>
 </form>
 </div>
 <%- include("../partials/footer")%>

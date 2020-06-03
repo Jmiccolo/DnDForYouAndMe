@@ -215,8 +215,8 @@ textarea{
 	border: 2px solid brown;
 }
 .Rogue {
-	background:lightcoral;
-	color: red;
+	background:black;
+	color:red;
 	border: 2px solid red;
 }
 .Bard {
@@ -243,4 +243,39 @@ textarea{
 #footer	{
 	color:white;
 	margin-top: 200px;
+}
+
+.table {
+	color:white;
+}
+td {
+	padding: 5px;
+}
+th {
+	padding: 15px;
+}
+tr:nth-of-type(even){
+	background-color:grey;
+}
+
+#imageForm {
+	display: none;
+	width: 300px;
+	height: auto;
+	position: fixed;
+	top: 50px;
+	left: 50px;
+	z-index: 2;
+}
+
+#editprev{
+	height: 300px;
+	width: auto;
+}
+
+#Bio {
+}
+
+#WepCard {
+	display:none
 }

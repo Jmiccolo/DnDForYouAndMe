@@ -18,6 +18,7 @@ var CampaignSchema = new mongoose.Schema({
 	}],
 	password:String,
 	characters: [{type: mongoose.Schema.Types.ObjectId, ref:"Character"}],
+	weapons: [{type: mongoose.Schema.Types.ObjectId, ref:"Weapon"}]
 });
 
 module.exports = mongoose.model("Campaign", CampaignSchema);

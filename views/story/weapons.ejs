@@ -1,0 +1,277 @@
+<%-include("../partials/header")%>
+    <h1 class="display-3 text-center">Weapons</h1>
+    <div class="container-fluid text-center">
+        <form action="/campaigns/<%=campaign._id%>/story/weapons?_method=PUT" method="POST">
+        <table class="w-100 table table-bordered">
+            <tr>
+                <th class="display-4 mt-4" colspan="5">Simple Weapons</th>
+             </tr>
+            <tr>
+                <th>
+                    Weapon
+                </th>
+                <th>
+                    Cost
+                </th>
+                <th>
+                    Damage
+                </th>
+                <th>
+                    Weight
+                </th>
+                <th>
+                    Properties
+                </th>
+                <%if(playName !== false){%>
+                <th>
+                    Buy
+                </th>
+                <%}%>
+                <%if(currentUser.id === String(campaign.creator.id)){%>
+                    <th><div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="checkAll">
+                        <label class="form-check-label" for="checkAll">
+                          Select All
+                        </label>
+                      </div></th>
+                <%}%>
+            </tr>
+            <%weapons.forEach(function(weapon){
+                if(weapon.Type === "Simple"){%>
+                <tr>
+                    <td>
+                        <%=weapon.Name%>
+                    </td>
+                    <td>
+                       <%=weapon.Cost%> gp
+                    </td>
+                    <td>
+                        <%=weapon.Damage.Die%> <%=weapon.Damage.Type%>
+                    </td>
+                    <td>
+                        <%if(weapon.Weight <= 1){%>
+                            <%=weapon.Weight%>lb
+                        <%}else{%>
+                            <%=weapon.Weight%>lbs
+                        <%}%>
+                    </td>
+                    <td>
+                        <%Object.keys(weapon.Properties.toObject()).forEach(function(key){
+                            if(key === "Range"){%>
+                              <%=key + ":" + weapon.Properties.Range%>
+                              <%} else if(key === "TwoHanded"){%>
+                                   <%="Two-Handed"%>
+                              <%} else {%>
+                                  <%=key%>
+                              <%}})%>
+                    </td>
+                    <%if(playName !== false){%>
+                        <td><button name="weaponsInput" value="<%=weapon._id%>">Buy Weapon</button></td>
+                    <%}%>
+                <%if(currentUser.id === String(campaign.creator.id)){%>
+                    <td><div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="weapons" value="<%=weapon._id%>" id="weaponCheck">
+                        <label class="form-check-label" for="defaultCheck1">
+                         Select Weapon
+                        </label>
+                      </div></td>
+                <%}%>
+                </tr>
+                <%}})%>
+                <tr>
+                   <th class="display-4"colspan="5">Simple Ranged Weapons</th>
+                </tr>
+                <tr>
+                    <th>
+                        Weapon
+                    </th>
+                    <th>
+                        Cost
+                    </th>
+                    <th>
+                        Damage
+                    </th>
+                    <th>
+                        Weight
+                    </th>
+                    <th>
+                        Properties
+                    </th>
+                </tr>
+                <%weapons.forEach(function(weapon){
+                    if(weapon.Type === "Simple-Ranged"){%>
+                    <tr>
+                        <td>
+                            <%=weapon.Name%>
+                        </td>
+                        <td>
+                           <%=weapon.Cost%> gp
+                        </td>
+                        <td>
+                            <%=weapon.Damage.Die%> <%=weapon.Damage.Type%>
+                        </td>
+                        <td>
+                            <%if(weapon.Weight <= 1){%>
+                                <%=weapon.Weight%>lb
+                            <%}else{%>
+                                <%=weapon.Weight%>lbs
+                            <%}%>
+                        </td>
+                        <td>
+                            <%Object.keys(weapon.Properties.toObject()).forEach(function(key){
+                                if(key === "Range"){%>
+                                  <%=key + ":" + weapon.Properties.Range%>
+                                  <%} else if(key === "TwoHanded"){%>
+                                       <%="Two-Handed"%>
+                                  <%} else {%>
+                                      <%=key%>
+                                  <%}})%>
+                        </td>
+                        <%if(playName !== false){%>
+                            <td><button name="weaponsInput" value="<%=weapon._id%>">Buy Weapon</button></td>
+                        <%}%>
+                    <%if(currentUser.id === String(campaign.creator.id)){%>
+                        <td><div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="weapons" value="<%=weapon._id%>" id="weaponCheck">
+                            <label class="form-check-label" for="defaultCheck1">
+                             Select Weapon
+                            </label>
+                          </div></td>
+                    <%}%>
+                    </tr>
+                    <%}})%>
+                <tr>
+                   <th class="display-4"colspan="5">Martial Weapons</th>
+                </tr>
+                <tr>
+                    <th>
+                        Weapon
+                    </th>
+                    <th>
+                        Cost
+                    </th>
+                    <th>
+                        Damage
+                    </th>
+                    <th>
+                        Weight
+                    </th>
+                    <th>
+                        Properties
+                    </th>
+                </tr>
+                <%weapons.forEach(function(weapon){
+                    if(weapon.Type === "Martial"){%>
+                    <tr>
+                        <td>
+                            <%=weapon.Name%>
+                        </td>
+                        <td>
+                           <%=weapon.Cost%> gp
+                        </td>
+                        <td>
+                            <%=weapon.Damage.Die%> <%=weapon.Damage.Type%>
+                        </td>
+                        <td>
+                            <%if(weapon.Weight <= 1){%>
+                                <%=weapon.Weight%>lb
+                            <%}else{%>
+                                <%=weapon.Weight%>lbs
+                            <%}%>
+                        </td>
+                        <td>
+                            <%Object.keys(weapon.Properties.toObject()).forEach(function(key){
+                                if(key === "Range"){%>
+                                  <%=key + ":" + weapon.Properties.Range%>
+                                  <%} else if(key === "TwoHanded"){%>
+                                       <%="Two-Handed"%>
+                                  <%} else {%>
+                                      <%=key%>
+                                  <%}})%>
+                        </td>
+                        <%if(playName !== false){%>
+                            <td><button name="weaponsInput" value="<%=weapon._id%>">Buy Weapon</button></td>
+                        <%}%>
+                    <%if(currentUser.id === String(campaign.creator.id)){%>
+                        <td><div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="weapons" value="<%=weapon._id%>" id="weaponCheck">
+                            <label class="form-check-label" for="defaultCheck1">
+                             Select Weapon
+                            </label>
+                          </div></td>
+                    <%}%>
+                    </tr>
+                    <%}})%>
+                <tr>
+                   <th class="display-4"colspan="5">Martial Ranged Weapons</th>
+                </tr>
+                <tr>
+                    <th>
+                        Weapon
+                    </th>
+                    <th>
+                        Cost
+                    </th>
+                    <th>
+                        Damage
+                    </th>
+                    <th>
+                        Weight
+                    </th>
+                    <th>
+                        Properties
+                    </th>
+                </tr>
+                <%weapons.forEach(function(weapon){
+                    if(weapon.Type === "Martial-Ranged"){%>
+                    <tr>
+                        <td>
+                            <%=weapon.Name%>
+                        </td>
+                        <td>
+                           <%=weapon.Cost%> gp
+                        </td>
+                        <td>
+                            <%=weapon.Damage.Die%> <%=weapon.Damage.Type%>
+                        </td>
+                        <td>
+                            <%if(weapon.Weight <= 1){%>
+                                <%=weapon.Weight%>lb
+                            <%}else{%>
+                                <%=weapon.Weight%>lbs
+                            <%}%>
+                        </td>
+                        <td>
+                            <%Object.keys(weapon.Properties.toObject()).forEach(function(key){
+                                if(key === "Range"){%>
+                                  <%=key + ":" + weapon.Properties.Range%>
+                                  <%}else{%>
+                                      <%=key%>
+                                  <%}})%>
+                        </td>
+                        <%if(playName !== false){%>
+                            <td><button name="weaponsInput" value="<%=weapon._id%>">Buy Weapon</button></td>
+                        <%}%>
+                    <%if(currentUser.id === String(campaign.creator.id)){%>
+                        <td><div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="weapons" value="<%=weapon._id%>" id="weaponCheck">
+                            <label class="form-check-label" for="defaultCheck1">
+                             Select Weapon
+                            </label>
+                          </div></td>
+                    <%}%>
+                    </tr>
+                    <%}})%>
+        </table>
+        <%if(currentUser.id === String(campaign.creator.id)){%>
+            <button name="weaponsInput" value="save">Save to Campaign</button>
+        <%}%>
+        <%if(playName !== false){%>
+            <button name="weaponsInput" value="buy">Buy Weapons</button>
+        <%}%>
+        
+        </form>
+    </div>
+
+<%-include("../partials/footer")%>
+

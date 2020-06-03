@@ -1,19 +1,20 @@
 var Campaign = require("../models/campaign");
 var Character = require("../models/character");
+var User = require("../models/user")
 
 // all the middleare goes here
 var middlewareObj = {};
 
 middlewareObj.checkCampaignUsers = function(req, res, next) {
  if(req.isAuthenticated()){
-        Campaign.findById(req.params.CampaignId, function(err, foundCampaign){
+        Campaign.findById(req.params.CampaignId, function(err, campaign){
            if(err){
                res.redirect("back");
-           }  else {
+           } else {
                // does user own or use campaign?
-            if((foundCampaign.creator.id).equals(req.user.id)){
+            if(campaign.creator.id.equals(req.user.id)){
                 next();
-            }else if (foundCampaign.users.some(function(user){
+            }else if (campaign.users.some(function(user){
                 return user._id = req.user._id
                })){
                    next();

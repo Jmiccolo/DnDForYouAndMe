@@ -2,20 +2,30 @@ var express = require("express"),
 	app = express(),
 	bodyParser = require("body-parser"),
 	mongoose = require("mongoose"),
+	aws = require("aws-sdk"),
+    multer = require("multer"),
+    multerS3 = require("multer-s3"),
+    fs = require("fs"),
 	passport = require("passport"),
 	LocalStrategy = require("passport-local"),
 	methodOverride = require("method-override"),
+	session = require("express-session"),
+	MongoStore = require("connect-mongo")(session),
 	Campaign = require("./models/campaign"),
 	User = require("./models/user"),
 	Character = require("./models/character"),
+	Weapon = require("./models/weapon"),
 	SeedDB = require("./seed"),
-	helper = require("./public/helper"),
-	middleware = require("./middleware")
+	middleware = require("./middleware"),
+	seedWeapons = require("./models/WeaponsSeed")
 
 // 	require routes
-// var indexRoutes = require("./routes/index"),
+	var indexRoutes = require("./routes/index");
 	var gameRoutes = require("./routes/game");
-	// characterRoutes = require("./routes/characters")
+	var campaignRoutes = require("./routes/campaigns");
+	var characterRoutes = require("./routes/characters");
+	var userRoutes = require("./routes/user")
+	var storyRoutes = require("./routes/story");
 
 
 // connect app
@@ -32,10 +42,11 @@ app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 
 // session use
-app.use(require("express-session")({
+app.use(session({
     secret: "This is a Secret!",
     resave: false,
-    saveUninitialized: false
+	saveUninitialized: false,
+	store: new MongoStore({url:"mongodb://localhost/DnDForYouAndMe"})
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -45,259 +56,98 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use(function(req, res, next){
    res.locals.currentUser = req.user;
+   res.locals.playName = req.session.playName;
+   res.locals.playId = req.session.playId;
 	next();
 });
 
-// Run Routes
-// app.use("/", indexRoutes);
+
+var s3 = new aws.S3({aws_access_key_id:process.env.AWS_ACCESS_KEY_ID, aws_secret_access_key:process.env.AWS_SECRET_ACCESS_KEY});
+
+var upload = multer({
+  storage: multerS3({
+	s3:s3,
+	bucket:"dndforyouandme",
+	acl:"public-read-write",
+	metadata: function (req, file, cb) {
+	  cb(null, {fieldName: file.fieldname});
+	},
+	key: function (req, file, cb) {
+	  cb(null, (Date.now()+file.fieldname+file.originalname)) 
+	}
+  })
+})
+
+// define Routes
+app.use("/", indexRoutes);
 app.use("/", gameRoutes);
-// app.use("/characters", characterRoutes);
+app.use("/campaigns/:CampaignId", campaignRoutes)
+app.use("/campaigns/:CampaignId/characters", characterRoutes);
+app.use("/:UserId", userRoutes);
+app.use("/campaigns/:CampaignId/story", storyRoutes);
+
+// Seed weapons
+// seedWeapons();
 
 // Index Routes
 // landing page route
-app.get("/", function(req, res){
-	res.render("landing");
-});
-
-
-app.post("/login", passport.authenticate("local", {failureRedirect: "/"}), function(req, res){
-	res.redirect("/" + req.user._id +"/campaigns");
-});
-
-app.get("/register", function(req, res){
-	res.render("register");
-})
-
-app.post("/register", function(req, res){
-    var newUser = new User({username: req.body.username});
-    User.register(newUser, req.body.password, function(err, user){
-        if(err){
-            return res.render("register");
-        }
-        passport.authenticate("local")(req, res, function(){
-           res.redirect("/"+req.user._id+"/campaigns"); 
-        });
-    });
-});
-
-app.get("/logout", function(req, res){
-	req.logout();
-	res.redirect("/");
- });
- 
-// User Profile Page 
-app.get("/:UserId", function(req, res){
-	User.findById(req.params.UserId).populate("campaigns").populate("characters").exec(function(err, user){
+app.get("/campaigns/:CampaignId/story/weapons", function(req, res){
+	Campaign.findById(req.params.CampaignId, function(err, campaign){
 		if(err){
-			res.redirect("/")
-		}else{
-			res.render("user/index",{user:user})
-		}
-	})
-})
-
-// CAMPAIGN ROUTES
-// Index
-app.get("/:UserId/campaigns", middleware.isLoggedIn, function(req, res){
-		User.findById(req.params.UserId).populate("campaigns").exec(function(err, user){
-			if(err){
-				res.redirect("/");
-			} else {
-			res.render("campaign/index", {user:user});
-			}
-	});
-});
-
-// New Campaign Route
-app.get("/:UserId/campaigns/new", middleware.isLoggedIn, function(req, res){
-	User.findById(req.params.UserId, function(err, user){
-		if (err){
-			res.redirect("/:UserId/campaigns");
+			console.log(err)
 		} else{
-			res.render("campaign/new", {user:user});
-		}
-	});
-});
-
-// Create Campaign Post Route
-app.post("/:UserId/campaigns", middleware.isLoggedIn, function(req, res){
-	User.findById(req.params.UserId, function(err, user){
-		if (err){
-			console.log(err);
-			res.redirect("back");
-		} else {	
-			Campaign.create(req.body.campaign, function (err, campaign){
-			if(err){
-				console.log(err);
-				res.redirect("/" + user._id +"/campaigns/new")
-			} else {campaign.creator.id = req.user._id;
-				campaign.creator.username = req.user.username;
-				//save comment
-				campaign.save();
-				user.campaigns.push(campaign);
-				user.save();
-				res.redirect("/campaigns/" + campaign._id)
-			}
-		});
-	}
-	});
-});
-
-// Join Campaign Put route
-app.put("/:UserId/campaigns", middleware.isLoggedIn, function(req, res){
-	User.findById(req.params.UserId, function(err, user){
-		if(err){
-			console.log(err);
-			res.redirect("/"+ req.params.UserId +"/campaigns")
-		}
-		else {
-			Campaign.findOne({"title":req.body.title}, function(err, campaign){
-				if(err ||campaign===null|| req.body.password !== campaign.password){
-					console.log(err)
+			Weapon.find(function(err, weapons){
+				if(err){
+					console.log(err);
 					res.redirect("back");
-				}else {
-					user.campaigns.push(campaign);
-					user.save();
-					campaign.users.push(user);
-					campaign.save();
-					res.redirect("/campaigns/" + campaign.id)
+				}else{
+					res.render("story/weapons", {campaign:campaign, weapons:weapons});
 				}
 			})
 		}
-	});
-});
-
-
-app.get("/campaigns/:CampaignId", middleware.checkCampaignUsers, function(req, res){
-	Campaign.findById(req.params.CampaignId).populate("characters").exec (function(err, campaign){
-		if (err){
-			console.log(err);
-		}else{
-			res.render("campaign/show", {campaign:campaign})}
-		});
-});
-
-// Character index by campaign
-app.get("/campaigns/:CampaignId/characters", middleware.checkCampaignUsers,  function(req, res){
-	Campaign.findById(req.params.CampaignId).populate("characters").exec (function(err, campaign){
-		if (err){
-			console.log(err);
-		}else{
-			res.render("characters/index", {campaign:campaign})}
-		});
-});
-
-app.get("/campaigns/:CampaignId/characters/new", middleware.checkCampaignUsers, function (req, res){
-	var CharItems = Character.schema.paths;
-
-	Campaign.findById(req.params.CampaignId, function(err, campaign){
-		if (err){
-			console.log(err);
-		}else{
-			res.render("characters/new", {campaign:campaign, CharItems:CharItems})}
-		});
-});
-
-// Create character post
-app.post("/campaigns/:CampaignId/characters", middleware.checkCampaignUsers, function(req, res){
-	User.findById(req.user.id, function(err,user){
-		if (err){
-			console.log(err);
-			res.redirect("back")
+	})
+})
+app.put("/campaigns/:CampaignId/story/weapons", function(req, res){
+	if(req.body.weaponsInput === "save"){
+		req.body.weapons.forEach(function(weapon){
+			Weapon.findById(weapon, function(err, foundWeapon){
+				if(err){
+					console.log(err)
+				}else{
+					Campaign.findById(req.params.CampaignId, function(err, campaign){
+						if (err){
+							console.log(err)
+						}else{
+						campaign.weapons.push(foundWeapon);
+						campaign.save();
+						console.log(campaign);
+						}
+					})
+				}
+			});
+		})
+		res.redirect("back")		
 		} else {
-			Campaign.findById(req.params.CampaignId, function(err, campaign){
+			Weapon.findById(req.body.weaponsInput, function(err, weapon){
 				if(err){
 					console.log(err);
 					res.redirect("back")
-				} else {
-						console.log(req.body.Attributes)
-					Character.create(req.body.character, function(err, character){
-					if(err){
-						console.log(err);
-						res.redirect("back");
-					} else {
-						character.Attributes = req.body.Attributes;
-						character.creator.id = req.user._id;
-						character.creator.username = req.user.username;
-						character.save();
-						campaign.characters.push(character);
-						campaign.save();
-						user.characters.push(character);
-						user.save();
-						console.log(character);
-						res.redirect("/campaigns/"+ req.params.CampaignId)	
-				}
-			})
-			
+				}else{
+					Character.findById(req.session.playId, function(err, character){
+						if(err){
+							console.log(err)
+							res.redirect("back")
+						}else{
+							character.Weapons.push(weapon);
+							character.Money -= weapon.Cost;
+							character.save();
+							res.redirect("/campaigns/"+req.params.CampaignId+"/characters/"+req.session.playId)
+						}
+					})
 				}
 			})
 		}
 	})
-})
-// character show route
-app.get("/:CampaignId/characters/:CharacterId", middleware.checkCampaignUsers, function(req, res){
-	Campaign.findById(req.params.CampaignId).populate("characters").exec (function(err, campaign){
-		if(err){
-			console.log(err);
-			res.redirect("back");
-		} else {
-			Character.findById(req.params.CharacterId, function(err, character){
-				if(err){
-					console.log(err);
-					res.redirect("back");
-				}else{
-					res.render("characters/show", {campaign:campaign, character:character})
-				}
-			});
-		}
-	});
-})
-// character edit route
-app.get("/:CampaignId/characters/:CharacterId/edit", middleware.checkCharacterOwnership, function(req, res){
-	Campaign.findById(req.params.CampaignId, function(err, campaign){
-		if(err){
-			console.log(err);
-			res.redirect("back");
-		} else {
-			Character.findById(req.params.CharacterId, function(err, character){
-				if(err){
-					console.log(err);
-					res.redirect("back");
-				}else{
-					res.render("characters/edit", {campaign:campaign, character:character})
-				}
-			});
-		}
-	});
-})
-
-// Put route character Edit
-app.put("/:CampaignId/characters/:CharacterId", middleware.checkCharacterOwnership, function(req, res){
-	Character.findByIdAndUpdate(req.params.CharacterId, req.body.character, function(err, updatedCharacter){
-		if(err){
-			console.log(err);
-			res.redirect("back");
-		}else{
-			updatedCharacter.Attributes=req.body.Attributes;
-			updatedCharacter.markModified("updateCharacter.Attributes");
-			updatedCharacter.save();
-			res.redirect("/"+req.params.CampaignId +"/characters/" +req.params.CharacterId)
-		}
-			});
-		});
-
-app.delete("/:CampaignId/characters/:CharacterId", middleware.checkCharacterOwnership, function(req, res){
-	Character.findByIdAndRemove(req.params.CharacterId, function(err){
-		if(err){
-			console.log(err);
-			res.redirect("back");
-		}else{
-			res.redirect("/campaigns/"+req.params.CampaignId +"/characters/")
-		}
-			});
-		});
-
-
 
 
 		app.listen(process.env.PORT||3000, process.env.IP, function(){

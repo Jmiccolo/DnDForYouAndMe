@@ -1,4 +1,3 @@
-
 function diceRoll(x) {
 	return 1+Math.floor(Math.random()*x);
 }
@@ -14,51 +13,52 @@ return a + b;
 	return stat + " +" + modifier
 }
 
-function dHundred(){
+function D100(){
 	document.getElementById("dHundred").innerHTML = diceRoll(100);
 	addRoll("dHundred");
 	document.getElementById("btnHundred").innerHTML = ("Roll Again");
 }
-function dTwenty(){
+function D20(){
 	document.getElementById("dTwenty").innerHTML = diceRoll(20);
 	addRoll("dTwenty");
 	document.getElementById("btnTwenty").innerHTML = ("Roll Again")
 }
-function dTwelve(){
+function D12(){
 	document.getElementById("dTwelve").innerHTML = diceRoll(12);
 	addRoll("dTwelve");
 	document.getElementById("btnTwelve").innerHTML = ("Roll Again")
 }
-function dTen(){
+function D10(){
 	document.getElementById("dTen").innerHTML = diceRoll(10);
 	addRoll("dTen");
 	document.getElementById("btnTen").innerHTML = ("Roll Again")
 }
-function dEight(){
+function D8(){
 	document.getElementById("dEight").innerHTML = diceRoll(8);
 	addRoll("dEight");
 	document.getElementById("btnEight").innerHTML = ("Roll Again")
 }
-function dSix(){
+function D6(){
 	document.getElementById("dSix").innerHTML = diceRoll(6);
 	addRoll("dSix");
 	document.getElementById("btnSix").innerHTML = ("Roll Again")
 }
-function dFour(){
+function D4(){
 	document.getElementById("dFour").innerHTML = diceRoll(4);
 	addRoll("dFour");
 	document.getElementById("btnFour").innerHTML = ("Roll Again")
 }
-function dThree(){
+function D3(){
 	document.getElementById("dThree").innerHTML = diceRoll(3);
 	addRoll("dThree");
 	document.getElementById("btnThree").innerHTML = ("Roll Again")
 }
-function dTwo(){
+function D2(){
 	document.getElementById("dTwo").innerHTML = diceRoll(2);
 	addRoll("dTwo");
 	document.getElementById("btnTwo").innerHTML = ("Roll Again")
 }
+
 
 function addRoll(x){
 // 	insert diceroll into new row div
@@ -83,6 +83,51 @@ function clrHis() {
 	document.getElementById("dicehis").appendChild(createDiv);
 }
 
+$(document).ready(function(){
+	$("#checkAll").click(function(event) {   
+	if(this.checked) {
+		// Iterate each checkbox
+		$(':checkbox').each(function() {
+			this.checked = true;                        
+		});
+	} else {
+		$(':checkbox').each(function() {
+			this.checked = false;                       
+		});
+	}
+})
 
-module.exports = {diceRoll:diceRoll,
-				  stat:stat}
+		$(document).on("click", '.fa-plus', (function(e) {
+		  //we select the box clone it and insert it after the box
+		  var $e = $(e.currentTarget);
+		  var _elm = $e.closest(".weaponRow").clone();
+		  _elm.find("option[id='first']").val("Choose...");
+		  _elm.find('.minus').show();
+		  _elm.find('.plus').hide();
+		  _elm.appendTo('#weaponForm');
+		}))
+	$(document).on("click", ".fa-minus", function(e) {
+		var $e = $(e.currentTarget);
+		$e.closest('.weaponRow').remove();
+	  });
+	$("#imageBtn").click(function(event){
+		$("#imageForm").show();
+	});
+	$(".closeBtn").click(function(event){
+		$("#imageForm").hide();
+	})
+	$("#WeapBtn").click(function(event){
+		$("a .Charshow").removeClass(".active");
+		$("#WeapBtn").addClass(".active")
+		$("#Bio").hide();
+		$("#WepCard").show();
+	})
+	$("#BioBtn").click(function(event){
+		$("a .Charshow").removeClass(".active");
+		$("#BioBtn").addClass(".active")
+		$("#Bio").show();
+		$("#WepCard").hide();
+	})
+});
+
+
