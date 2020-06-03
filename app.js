@@ -87,7 +87,7 @@ app.use("/:UserId", userRoutes);
 app.use("/campaigns/:CampaignId/story", storyRoutes);
 
 // Seed weapons
-seedWeapons();
+// seedWeapons();
 
 // Index Routes
 // landing page route
