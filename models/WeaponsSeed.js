@@ -277,7 +277,7 @@ data.forEach(function(seed){
         if(err){
             console.log(err)
         }else{
-            Campaign.findOne({title:"Never Say Die"}, function(err, campaign){
+            Campaign.findOne({title:"Neversaydie"}, function(err, campaign){
                 if (err){
                     console.log(err)
                 }else{
