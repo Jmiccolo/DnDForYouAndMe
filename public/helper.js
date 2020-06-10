@@ -84,12 +84,18 @@ function addRoll(x){
 var rollval = 0
 
 function rollAttr(x){
-	rollval = diceRoll(20) + Math.floor((x-10)/2);
-	alert("YOU ROLLED: "+ rollval)
+	var roll = diceRoll(20);
+	var mod = "+" + Math.floor((x-10)/2);
+	rollval = roll + Math.floor((x-10)/2);
+	alert("YOU ROLLED: "+ roll + mod + "=" + rollval)
 }
 
 function rollWeap(x,y){
-	rollval = diceRoll(y)*x
+	rollval = 0
+	for(var i=0; i<x; i++){
+		var roll = diceRoll(y)
+		rollval += roll
+	}
 	alert("You did "+ rollval +" Damage!")
 }
 
