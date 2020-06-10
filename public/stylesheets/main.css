@@ -1,3 +1,40 @@
+@media (max-width: 1200px) {
+	legend {
+	  font-size: calc(1.275rem + 0.3vw);
+	}
+	h1,
+	.h1 {
+	  font-size: calc(1.375rem + 1.5vw);
+	}
+	h2,
+	.h2 {
+	  font-size: calc(1.325rem + 0.9vw);
+	}
+	h3,
+	.h3 {
+	  font-size: calc(1.3rem + 0.6vw);
+	}
+	h4,
+	.h4 {
+	  font-size: calc(1.275rem + 0.3vw);
+	}
+	.display-1 {
+	  font-size: calc(1.725rem + 5.7vw);
+	}
+	.display-2 {
+	  font-size: calc(1.675rem + 5.1vw);
+	}
+	.display-3 {
+	  font-size: calc(1.575rem + 3.9vw);
+	}
+	.display-4 {
+	  font-size: calc(1.475rem + 2.7vw);
+	}
+	.close {
+	  font-size: calc(1.275rem + 0.3vw);
+	}
+  }
+
 body {
 	background: black;
 	color: white;
@@ -8,8 +45,7 @@ body {
 	outline:none;
 }
 div .attr {
-	height:200px;
-	color: white;
+	height:200px;  
 	background-position: center;
 }
 
@@ -25,40 +61,65 @@ div .attr h4 {
 	color:white;
 }
 
-#Strength {
+.Strength {
 	background-image: url("/images/Strength.png");
 	background-size: contain;
 	background-repeat: no-repeat;
 	color: red;
+	
 }
-#Dexterity {
+.Dexterity {
 	background-image: url("/images/Dexterity.png");
 	background-size: contain;
 	background-repeat: no-repeat;
 	color:orange;
 }
-#Constitution {
+.Constitution {
 	background-image: url("/images/Constitution.png");
 	background-size: contain;
 	background-repeat: no-repeat;
 	color:green;
 }
-#Intelligence {
+.Intelligence {
 	background-image: url("/images/Intelligence.png");
 	background-size: contain;
 	background-repeat: no-repeat;
 	color:blue;
 }
-#Wisdom {
+.Wisdom {
 	background-image: url("/images/Wisdom.png");
 	background-size: contain;
 	background-repeat: no-repeat;
 	color:purple;
 }
-#Charisma {
+.Charisma {
 	background-image: url("/images/Charisma.png");
 	background-size: contain;
 	background-repeat: no-repeat;
+	color: magenta;
+}
+.Strengthbtn {
+	background-color: black;
+	color: red;
+}
+.Dexteritybtn {
+	background-color: black;
+	color:orange;
+}
+.Constitutionbtn {
+	background-color: black;
+	color:green;
+}
+.Intelligencebtn {
+	background-color: black;
+	color:blue;
+}
+.Wisdombtn {
+	background-color: black;
+	color:purple;
+}
+.Charismabtn {
+	background-color: black;
 	color: magenta;
 }
 
@@ -107,6 +168,7 @@ div .attr h4 {
 .charCard h4 {
 	color: #de144a;
 	text-shadow: 2px 2px #991135;
+	font-size: 1.25vw;
 }
 
 .charCard a {
@@ -146,26 +208,28 @@ div .attr h4 {
 }
 
 
-#charCards img:nth-of-type(1) {
-	animation: swipeUp 4s linear -3.5s;
+#charCards .charCard:nth-of-type(1) img {
+	animation: swipeUp 4s linear;
+	animation-delay: -2.5s;
 }
-#charCards img:nth-of-type(2) {
-	animation: swipeUp 4s linear -3s;
+#charCards .charCard:nth-of-type(2) img {
+	animation: swipeUp 4s linear;
+	animation-delay: -2s;
 }
-#charCards img:nth-of-type(3) {
-	animation: swipeUp 4s linear -2.5s;
-}
-#charCards img:nth-of-type(4) {
-	animation: swipeUp 4s linear -2s;
-}
-#charCards img:nth-of-type(5) {
+#charCards .charCard:nth-of-type(3) img {
 	animation: swipeUp 4s linear -1.5s;
 }
-#charCards img:nth-of-type(6) {
+#charCards .charCard:nth-of-type(4) img {
 	animation: swipeUp 4s linear -1s;
 }
-#charCards img:nth-of-type(7) {
+#charCards .charCard:nth-of-type(5) img {
 	animation: swipeUp 4s linear -0.5s;
+}
+#charCards .charCard:nth-of-type(6) img {
+	animation: swipeUp 4s linear;
+}
+#charCards .charCard:nth-of-type(7) img{
+	animation: swipeUp 4s linear 0.5s;
 }
 
 #D {
@@ -192,13 +256,13 @@ textarea{
 .attrCard h3{
 	font-size: 20px;
 }
-@Keyframes swipeUp {
+@keyframes swipeUp {
 	0%{transform: translate(0, 500px)}
 	60%{transform:	translate(-50px, -100px)}
 	100%{transform:	translate(0,0)}
 }
 
-@Keyframes groundBreak {
+@keyframes groundBreak {
 	50%{transform:scale(1.5, 1.5) rotate(5deg);}
 	100%{transform:scale(1, 1) rotate(0deg);}
 	
@@ -211,8 +275,8 @@ textarea{
 }
 .Paladin {
 	background: #b84b49;
-	color: brown;
-	border: 2px solid brown;
+	color: darkred;
+	border: 2px solid darkred;
 }
 .Rogue {
 	background:black;
@@ -230,9 +294,9 @@ textarea{
 	border: 2px solid blue;
 }
 .Druid {
-	background:lawngreen;
-	color: greenyellow;
-	border: 2px solid greenyellow;
+	background:greenyellow;
+	color: green;
+	border: 2px solid green;
 }
 .Warlock {
 	background:plum;
@@ -273,9 +337,34 @@ tr:nth-of-type(even){
 	width: auto;
 }
 
-#Bio {
+.charDiv:not(:first-of-type){
+	display:none;
+}
+
+.attext .Display-5 {
+	font-size: 13px;
+}
+
+.RollOut {
+	position: absolute;
+	right: 0;
+	bottom: 0; 
+	z-index:200; 
+	width: 200px;
+	height: 100px;
+	display: none;
 }
 
 #WepCard {
-	display:none
+	position: relative;
+}
+
+.WeapPlay {
+	display:none;
+}
+.AttrPlay {
+	display:none;
+}
+.popover-title {
+	color: black;
 }

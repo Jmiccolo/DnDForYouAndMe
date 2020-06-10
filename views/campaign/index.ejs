@@ -22,6 +22,16 @@
 			  <a class="btn btn-sm btn-outline-success my-2 my-sm-0" href="/logout">Logout</a></button>
 			</div>
 		  </nav>
+		  <% if(error && error.length > 0){ %>
+			<div class="alert bg -danger" role="alert">
+				<%= error %>
+			</div>
+		<% } %>
+		<% if(success && success.length > 0){ %>
+			<div class="alert bg-success text-center" role="alert">
+				<%= success %>
+			</div>
+		<% } %>
 	<div class="campaign">
 		<h1 class="pb-3">
 			<a href="/<%=user._id%>/campaigns/new">Make New Campaign</a>

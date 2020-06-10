@@ -3,12 +3,35 @@
 <div class="container-fluid">
     <form action="/campaigns/<%=campaign._id%>/characters/<%=character._id%>?_method=PUT" method="POST">
         <div class="form-row">
-         <%Object.keys(CharItems.Attributes.schema.obj).forEach(function(attr){%>
-             <div id="<%=attr%>" class="col-2 attr text-center">
-                 <label class="display-5 mt-4" for="Attribute[<%=attr%>]"><%=attr%></label>
-                 <input class="w-100 bg-transparent display-2" type="number" name="Attributes[<%=attr%>]" step="1" min="0" length="2" value="<%=character.Attributes[attr]%>"require>
-             </div>
-     <%})%>
+            <div class="form-row">
+                <%for(let [key, value] of AttEntries){
+                    if(key !== "_id"){%>
+                    <div  class="col-sm-6 col-md-4 col-lg-2 attext text-center">
+                    <div class="row no-gutters">
+                        <div class="<%=key%> row no-gutters attr">
+                            <label class="display-5 mt-4 text-center w-100" for="Attributes[<%=key%>.Value]"><%=key%></label>
+                            <input class="w-100 mt-0 bg-transparent display-2" type="number" value="<%=character.Attributes[key]['Value']%>" name="Attributes[<%=key%>][Value]" step="1" min="0" length="2" require>
+                        </div>
+                        <div class="row no-gutters">
+                        </div>
+                    </div>
+                    <%Item = CharItems.Attributes.schema.paths[key]
+                    if(Item.schema){
+                        for(let [keytwo, valuetwo] of Object.entries(Item.schema.paths)){
+                                if(valuetwo.instance === "Boolean"){%>
+                                    <div class="row no-gutters">
+                                        <div class="form-check">
+                                            <input class="form-check-input" name="Attributes[<%=key%>.<%=keytwo%>]" type="checkbox" value="true" id="defaultCheck1"<%if(character.Attributes[key][keytwo]){%>checked<%}%>>
+                                            <label class="form-check-label Display-5" for="defaultCheck1">
+                                            <%=keytwo%>
+                                            </label>
+                                          </div>
+                                    </div>
+                                <%}
+                            }
+                        }%>
+                    </div>
+                    <%}}%>
         </div>
         <div class="form-row">
             <div class="form-group col-4">
@@ -16,55 +39,137 @@
             <input type="text" name="character[Image]" value="<%=character.Image%>" hidden>
              <img class="img-thumbnail " src="<%=character.Image%>" alt="Character Avatar" id="preview">
             </div>
-            <div class="form-group col-8">
+            <div class="form-group mt-4 col-8">
                 <div class="form-row">
                  <%var CharPathNames = Object.keys(CharItems)
                         CharPathNames.forEach(function(item){
                             if(typeof character[item] === "number" && item !== "__v"){%>
                              <div class="col-6">
-                             <label for="character[<%=item%>]"><%=item%></label>
-                             <input type="number" min="0" name="character[<%=item%>]" placeholder="<%=item%>"value="<%=character[item]%>" step="<%if(item === 'Money'){%>0.01<%}else{%>1<%}%>" require>
+                             <label for="character[<%=item%>]"><%=item%></label> <br>
+                             <input type="number" min="0" name="character[<%=item%>]" placeholder="<%=item%>"value="<%=character[item]%>" step="<%if(item === 'Money'){%>0.01<%}else{%>1<%}%>" required>
                          </div>
-                         <%}else if(typeof character[item] === "string" && item !== "Image"){%>
+                         <%}else if(typeof character[item] === "string" && item !== "Image"){
+                            if(item === "Class"){%>
+                                <div class="col-12 col-md-6">
+                                    <label for="character[Class]">Class</label>
+                                    <br>
+                                    <select name="character[Class]" id="class" class="form-control col-10" required>
+                                        <option value="<%=character.Class%>"selected><%=character.Class%></option>
+                                        <option value="Artificer">Artificer</option>
+                                        <option value="Barbarian">Barbarian</option>
+                                        <option value="Bard">Bard</option>
+                                        <option value="Cleric">Cleric</option>
+                                        <option value="Druid">Druid</option>
+                                        <option value="Fighter">Fighter</option>
+                                        <option value="Monk">Monk</option>
+                                        <option value="Paladin">Paladin</option>
+                                        <option value="Ranger">Ranger</option>
+                                        <option value="Rune-Scribe">Rune Scribe</option>
+                                        <option value="Rogue">Rogue</option>
+                                        <option value="Sorcerer">Sorcerer</option>
+                                        <option value="Warlock">Warlock</option>
+                                        <option value="Wizard">Wizard</option>
+                                    </select>
+                                </div>
+                                <%}else if(item === "Race"){%>
+                                    <div class="form-group col-12 col-md-6">
+                                        <label for="character[Race]">Race</label>
+                                        <br>
+                                        <select name="character[Race]" id="race" class="form-control col-10" required>                                       <option value="<%=character.Race%>" selected> <%=character.Race%></option>
+                                            <option value="Aarakocra">Aarakocra</option>
+                                            <option value="Aasimar">Aasimar</option>
+                                            <option value="Bugbear">Bugbear</option>
+                                            <option value="Centaur">Centaur</option>
+                                            <option value="Changeling">Changeling</option>
+                                            <option value="Dragonborn">Dragonborn</option>
+                                            <option value="Dwarf">Dwarf</option>
+                                            <option value="Elf">Elf</option>
+                                            <option value="Firbolg">Firbolg</option>
+                                            <option value="Genasi">Genasi</option>
+                                            <option value="Gith">Gith</option>
+                                            <option value="Goblin">Goblin</option>
+                                            <option value="Goliath">Goliath</option>
+                                            <option value="Gnome">Gnome</option>
+                                            <option value="Grung">Grung</option>
+                                            <option value="Half-Elf">Half-Elf</option>
+                                            <option value="Half-Orc">Half-Orc</option>
+                                            <option value="Hobgoblin">Hobgoblin</option>
+                                            <option value="Human">Human</option>
+                                            <option value="Kalashtar">Kalashtar</option>
+                                            <option value="Kenku">Kenku</option>
+                                            <option value="Kobold">Kobold</option>
+                                            <option value="Lizardfolk">Lizardfolk</option>
+                                            <option value="Loxodon">Loxodon</option>
+                                            <option value="Minotaur">Minotaur</option>
+                                            <option value="Orc">Orc</option>
+                                            <option value="Shifter">Shifter</option>
+                                            <option value="Simic-Hybrid">Simic-Hybrid</option>
+                                            <option value="Tabaxi">Tabaxi</option>
+                                            <option value="Tiefling">Tiefling</option>
+                                            <option value="Tortle">Tortle</option>
+                                            <option value="Triton">Triton</option>
+                                            <option value="Warforged">Warforged</option>
+                                            <option value="Yuan-Ti-Pureblood">Yuan-Ti Pureblood</option>
+                                        </select>
+                                    </div>
+                                <%}else{%>
                             <div class="col-6">
-                            <label for="character[<%=item%>]"><%=item%></label>
-                            <input type="text" name="character[<%=item%>]" placeholder="<%=item%>" value="<%=character[item]%>" require>
+                            <label for="character[<%=item%>]"><%=item%></label><br>
+                            <input type="text" name="character[<%=item%>]" placeholder="<%=item%>" value="<%=character[item]%>" required>
                         </div>
-                     <%}})%>
+                     <%}}})%>
                      <div class=" form-group col-md-6">
                         <label for="weapons">Weapons</label>
-                        <%if(!character.Weapons[0]){%>
                             <div id="weaponForm" class="form-group">
-                                <div class="form-row weaponRow">
-                                    <div class="col-10">
-                                        <select id="weapons" name="weapons" class="form-control">
-                                            <option id="first" placeholder="Choose..." selected></option>
-                                            <%campaign.weapons.forEach(function(weapon){%>
-                                              <option value="<%=weapon._id%>"><%=weapon.Name%>, <%=weapon.Damage.Die%> </option>
-                                            <%})%>
-                                          </select>
-                                    </div>
-                                    <div class="plus col-1"><i class="fas fa-plus"></i></div>
-                                    <div class="minus col-1" style="display:none;"><i class="fas fa-minus"></i></div>
-                                </div>
-                            </div><%}else{%>
-                            <div id="weaponForm" class="form-group">
-                                    <%character.Weapons.forEach(function(weapon){%>
+                                    <%character.Weapons.forEach(function(weapon, index){%>
                                 <div class="weaponRow form-row">
-                                    <div class="form-group col-10">
-                                        <select id="weapons" name="weapons" class="form-control" required>
+                                    <div class="col-10">
+                                        <%if(index === 0){%>
+                                        <select id="firstWeap" name="weapons" class="form-control" required>
+                                        <%}else{%>
+                                            <select name="weapons" class="form-control" required><%}%>
                                             <option value="<%=weapon._id%>"selected><%=weapon.Name%>, <%=weapon.Damage.Die%></option>
                                             <%campaign.weapons.forEach(function(Cweapon){%>
                                               <option value="<%=Cweapon._id%>"><%=Cweapon.Name%>, <%=Cweapon.Damage.Die%> </option>
                                             <%})%>
                                           </select>
                                         </div>
-                                        <%if(character.Weapons[0]._id === weapon._id){%>
-                                        <div class="plus col-1"><i class="fas fa-plus"></i></div>
-                                        <div class="col-1 minus" style="display:none;"><i class="fas fa-minus"></i></div><%}else{%>
-                                    <div class="col-1 minus"><i class="fas fa-minus"></i></div><%}%>
-                                </div> 
-                                    <%})}%>
+                                        <%if(index === 0){%>
+                                        <div class="plusWeap col-1"><i class="weapAdd fas fa-plus"></i></div>
+                                        <div class="minusWeap col-1" style="display:none;"><i class="weapSub fas fa-minus"></i></div>
+                                        <%}else{%>
+                                        <div class="plusWeap col-1" style="display:none;"><i class="weapAdd fas fa-plus"></i></div>
+                                        <div class="minusWeap col-1"><i class="weapSub fas fa-minus"></i></div>
+                                        <%}%>
+                                </div>
+                                    <%})%>
+                            </div>                            
+                    </div>
+                     <div class=" form-group col-md-6">
+                        <label for="items">Items</label>
+                            <div id="itemForm" class="form-group">
+                                <%character.Items.forEach(function(item, index){%>
+                                <div class="itemRow form-row">
+                                    <div class=" col-10">
+                                        <%if(character.Items[0]._id = item._id){%>
+                                            <select id="firstItem" name="items" class="form-control" required>
+                                            <%}else{%>
+                                            <select name="items" class="form-control" required><%}%>
+                                            <option value="<%=item._id%>"selected><%=item.Name%></option>
+                                            <%campaign.items.forEach(function(Citem){%>
+                                              <option value="<%=Citem._id%>"><%=Citem.Name%></option>
+                                            <%})%>
+                                          </select>
+                                        </div>
+                                        <%if(index === 0){%>
+                                        <div class="plusItem col-1"><i class="itemAdd fas fa-plus"></i></div>
+                                        <div class="minusItem col-1" style="display:none;"><i class="itemSub fas fa-minus"></i></div>
+                                        <%}else{%>
+                                        <div class="plusItem col-1" style="display: none;"><i id="itemAdd" class="fas fa-plus"></i></div>
+                                        <div class="minusItem col-1"><i  class="itemSub fas fa-minus"></i></div>
+                                        <%}%>
+                                </div>
+                                    <%})%>
                             </div>                            
                     </div>
                     </div>

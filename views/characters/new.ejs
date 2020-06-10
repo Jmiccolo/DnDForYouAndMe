@@ -3,47 +3,149 @@
 <div class="container-fluid">
 <form action="/campaigns/<%=campaign._id%>/characters" method="POST" enctype="multipart/form-data">
    <div class="form-row">
-    <%Object.keys(CharItems.Attributes.schema.obj).forEach(function(attr){%>
-        <div id="<%=attr%>" class="col-2 attr text-center">
-            <label class="display-5 mt-4" for="Attribute[<%=attr%>]"><%=attr%></label>
-            <input class="w-100 bg-transparent display-2" type="number" name="Attributes[<%=attr%>]" step="1" min="0" length="2" required>
+    <%for(let [key, value] of AttEntries){
+        if(key !== "_id"){%>
+        <div  class="col-sm-6 col-md-4 col-lg-2 attext text-center">
+        <div class="row no-gutters">
+            <div class="<%=key%> row no-gutters attr">
+                <label class="display-5 mt-4 text-center w-100" for="Attribute[<%=key%>.Value]"><%=key%></label>
+                <input class="w-100 mt-0 bg-transparent display-2" type="number" name="Attributes[<%=key%>][Value]" step="1" min="0" length="2" required>
+            </div>
+            <div class="row no-gutters">
+            </div>
         </div>
-<%})%>
-   </div>
+        <%Item = CharItems.Attributes.schema.paths[key]
+		if(Item.schema){
+			for(let [keytwo, valuetwo] of Object.entries(Item.schema.paths)){
+					if(valuetwo.instance === "Boolean"){%>
+                        <div class="row no-gutters">
+                            <div class="form-check">
+                                <input class="form-check-input" name="Attributes[<%=key%>.<%=keytwo%>]" type="checkbox" value="true" id="defaultCheck1">
+                                <input name="Attributes[<%=key%>.<%=keytwo%>]" type="hidden" value="false">
+                                <label class="form-check-label Display-5" for="defaultCheck1">
+                                <%=keytwo%>
+                                </label>
+                              </div>
+                        </div>
+                    <%}
+				}
+            }%>
+        </div>
+		<%}}%>
+
    <div class="form-row">
-       <div class="form-group col-4">
+       <div class="form-group col-12 col-lg-4">
         <input type="file" class="w-100" onchange="document.getElementById('preview').src = window.URL.createObjectURL(this.files[0])" id="file-input" name ="charAv" required>
         <img class="img-thumbnail " src="/images/default.png" alt="Character Avatar" id="preview">
        </div>
-       <div class="form-group col-8">
+       <div class="form-group col-12 col-lg-8">
         <div class="form-row">
          <%for(let [key, value] of Entries){
-                console.log(value)
-                    if(value.instance === "Number" && key !== "__v"){%>
-                     <div class="col-6">
-                     <label for="character[<%=key%>]"><%=key%></label>
-                     <input type="number" min="0" name="character[<%=key%>]" placeholder="<%=key%>" step="<%if(key === 'Money'){%>0.01<%}else{%>1<%}%>" required>
+                    if(value.instance === "Number" && key !== "__v" && key !== "Proficiency"){%>
+                     <div class="col-12 col-md-6">
+                     <label for="character[<%=key%>]"><%=key%></label> <br>
+                     <input type="number" min="0" name="character[<%=key%>]" placeholder="0" step="<%if(key === 'Money'){%>0.01<%}else{%>1<%}%>" required>
                  </div>
-                 <%}else if(value.instance === "String" && key !== "Image" & key !== "creator.username"){%>
-                    <div class="col-6">
-                    <label for="character[<%=key%>]"><%=key%></label>
+                 <%}else if(value.instance === "String" && key !== "Image" & key !== "creator.username"){
+                    if(key === "Class"){%>
+                    <div class="col-12 col-md-6">
+                        <label for="character[Class]">Class</label>
+                        <select name="character[Class]" id="class" class="form-control col-10">
+                            <option placeholder="Class"selected></option>
+                            <option value="Artificer">Artificer</option>
+                            <option value="Barbarian">Barbarian</option>
+                            <option value="Bard">Bard</option>
+                            <option value="Cleric">Cleric</option>
+                            <option value="Druid">Druid</option>
+                            <option value="Fighter">Fighter</option>
+                            <option value="Monk">Monk</option>
+                            <option value="Paladin">Paladin</option>
+                            <option value="Ranger">Ranger</option>
+                            <option value="Rune-Scribe">Rune Scribe</option>
+                            <option value="Rogue">Rogue</option>
+                            <option value="Sorcerer">Sorcerer</option>
+                            <option value="Warlock">Warlock</option>
+                            <option value="Wizard">Wizard</option>
+                        </select>
+                    </div>
+                    <%}else if(key === "Race"){%>
+                        <div class="col-12 col-md-6">
+                            <label for="character[Race]">Race</label>
+                            <select name="character[Race]" id="race" class="form-control col-10">
+                                <option placeholder="Race"selected></option>
+                                <option value="Aarakocra">Aarakocra</option>
+                                <option value="Aasimar">Aasimar</option>
+                                <option value="Bugbear">Bugbear</option>
+                                <option value="Centaur">Centaur</option>
+                                <option value="Changeling">Changeling</option>
+                                <option value="Dragonborn">Dragonborn</option>
+                                <option value="Dwarf">Dwarf</option>
+                                <option value="Elf">Elf</option>
+                                <option value="Firbolg">Firbolg</option>
+                                <option value="Genasi">Genasi</option>
+                                <option value="Gith">Gith</option>
+                                <option value="Goblin">Goblin</option>
+                                <option value="Goliath">Goliath</option>
+                                <option value="Gnome">Gnome</option>
+                                <option value="Grung">Grung</option>
+                                <option value="Half-Elf">Half-Elf</option>
+                                <option value="Half-Orc">Half-Orc</option>
+                                <option value="Hobgoblin">Hobgoblin</option>
+                                <option value="Human">Human</option>
+                                <option value="Kalashtar">Kalashtar</option>
+                                <option value="Kenku">Kenku</option>
+                                <option value="Kobold">Kobold</option>
+                                <option value="Lizardfolk">Lizardfolk</option>
+                                <option value="Loxodon">Loxodon</option>
+                                <option value="Minotaur">Minotaur</option>
+                                <option value="Orc">Orc</option>
+                                <option value="Shifter">Shifter</option>
+                                <option value="Simic-Hybrid">Simic-Hybrid</option>
+                                <option value="Tabaxi">Tabaxi</option>
+                                <option value="Tiefling">Tiefling</option>
+                                <option value="Tortle">Tortle</option>
+                                <option value="Triton">Triton</option>
+                                <option value="Warforged">Warforged</option>
+                                <option value="Yuan-Ti-Pureblood">Yuan-Ti Pureblood</option>
+                            </select>
+                        </div>
+                    <%}else{%>
+                    <div class="col-12 col-md-6">
+                    <label for="character[<%=key%>]"><%=key%></label> <br>
                     <input type="text" name="character[<%=key%>]" placeholder="<%=key%>"  required>
                 </div>
-             <%}}%>
+             <%}}}%>
              <div class=" form-group col-md-6">
                 <label for="weapons">Weapons</label>
                     <div id="weaponForm" class="form-group">
                         <div class="form-row weaponRow">
                             <div class="col-10">
                                 <select id="weapons" name="weapons" class="form-control"required>
-                                    <option id="first" placeholder="Choose..." selected></option>
+                                    <option id="firstWeap" placeholder="Weapon" selected></option>
                                     <%campaign.weapons.forEach(function(weapon){%>
                                       <option value="<%=weapon._id%>"><%=weapon.Name%>, <%=weapon.Damage.Die%> </option>
                                     <%})%>
                                   </select>
                             </div>
-                            <div class="plus col-1"><i class="fas fa-plus"></i></div>
-                            <div class="minus col-1" style="display:none;"><i class="fas fa-minus"></i></div>
+                            <div class="plusWeap col-1"><i class="weapAdd fas fa-plus"></i></div>
+                            <div class="minusWeap col-1" style="display:none;"><i class="weapSub fas fa-minus"></i></div>
+                        </div>
+                    </div>
+                </div>
+             <div class=" form-group col-md-6">
+                <label for="items">Items</label>
+                    <div id="itemForm" class="form-group">
+                        <div class="form-row itemRow">
+                            <div class="col-10">
+                                <select id="items" name="items" class="form-control"required>
+                                    <option id="firstItem" placeholder="Item" selected></option>
+                                    <%campaign.items.forEach(function(item){%>
+                                      <option value="<%=item._id%>"><%=item.Name%></option>
+                                    <%})%>
+                                  </select>
+                            </div>
+                            <div class="plusItem col-1"><i class="itemAdd fas fa-plus"></i></div>
+                            <div class="minusItem col-1" style="display:none;"><i class="itemSub fas fa-minus"></i></div>
                         </div>
                     </div>
                 </div>

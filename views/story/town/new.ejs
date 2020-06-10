@@ -1,0 +1,35 @@
+<%- include("../../partials/header")%>
+<div class="container-fluid text-center">
+    <h2>Create Town</h2>
+    <form action="/campaigns/<%=campaign._id%>/story/town" method="POST" enctype="multipart/form-data">
+        <div class="form-row">
+            <div class="form-group col-4">
+             <input type="file" class="w-100" onchange="document.getElementById('preview').src = window.URL.createObjectURL(this.files[0])" id="file-input" name ="townAv"required>
+             <img class="img-thumbnail " src="/images/defaulttown.jpg" alt="Town Avatar" id="preview">
+            </div>
+            <div class="form-group col-8">
+                <div class="form-row pb-2">
+                    <label for="town[Name]">Name</label>
+                    <input type="text" name="town[Name]" placeholder="Town Name" required>
+                </div>
+                <div class="form-row py-2">
+                    <label for="town[Description]">Description</label>
+                    <input type="text" name="town[Description]" placeholder="Small Description" maxlength="100" required>
+                </div>
+                <div class="form-row py-2">
+                    <label for="town[Hidden]">Hidden:</label>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="customRadioInline1" name="town[Hidden]" value="true" class="custom-control-input" required>
+                        <label class="custom-control-label" for="customRadioInline1">Yes</label>
+                      </div>
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="customRadioInline2" name="town[Hidden]" value="false" class="custom-control-input" required>
+                        <label class="custom-control-label" for="customRadioInline2">No</label>
+                      </div>
+                </div>
+                </div>
+                 </div>
+      <button class="btn btn-lg btn-success">Finish Town</button>
+     </form>
+</div>
+<%- include("../../partials/footer")%>

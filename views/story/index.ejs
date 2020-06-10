@@ -1,0 +1,33 @@
+<%- include("../partials/header")%>
+<div class="container-fluid">
+    <div class="row">
+        <h3 class="w-100 text-center">Towns</h3>
+    </div>
+    <%if(currentUser._id.equals(campaign.creator.id)){%>
+    <div class="row p-3">
+        <a class="btn btn-lg btn-success" href="/campaigns/<%=campaign._id%>/story/town/new">Create Town</a>
+    </div>
+    <%}%>
+    <div class="row justify-items-around">
+        <%if(campaign.towns){
+            campaign.towns.forEach(function(town){
+                if(!town.Hidden || currentUser._id.equals(campaign.creator.id)){%>
+                
+                <div class="col-md-6 col-lg-4 p-3 border bg-dark border-light rounded">
+                    <div class="col-7">
+                        <img class="img-thumbnail" src="<%=town.Image%>" alt="">
+                    </div>
+                    <div class="col- text-light">
+                        <h4><a href="#"><%=town.Name%></a></h4>
+                        <p class="display-5"><%=town.Description%></p>
+                    </div>
+                </div>
+                <%}})
+                    console.log(typeof campaign.creator.id);
+                    console.log(typeof currentUser._id)
+           
+        }%>
+    </div>
+</div>
+<%-include("../partials/footer")%>
+ 

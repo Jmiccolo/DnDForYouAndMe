@@ -59,19 +59,6 @@ function D2(){
 	document.getElementById("btnTwo").innerHTML = ("Roll Again")
 }
 
-
-function addRoll(x){
-// 	insert diceroll into new row div
-	var  savedRoll = document.getElementById(x).innerHTML
-	var	createDiv = document.createElement("DIV");
-	var createH = document.createElement("H3")
-	var createText = document.createTextNode(savedRoll);
-	createDiv.classList.add("col-lg-1");
-	createH.appendChild(createText);
-	createDiv.appendChild(createH);
-	document.getElementById("dicehis").appendChild(createDiv)
-}
-
 function clrHis() {
 	document.getElementById("dicehis").innerHTML = ("");
 	var	createDiv = document.createElement("DIV");
@@ -82,6 +69,30 @@ function clrHis() {
 	createDiv.appendChild(createH);
 	document.getElementById("dicehis").appendChild(createDiv);
 }
+function addRoll(x){
+	// 	insert diceroll into new row div
+		var  savedRoll = document.getElementById(x).innerHTML
+		var	createDiv = document.createElement("DIV");
+		var createH = document.createElement("H3")
+		var createText = document.createTextNode(savedRoll);
+		createDiv.classList.add("col-lg-1");
+		createH.appendChild(createText);
+		createDiv.appendChild(createH);
+		document.getElementById("dicehis").appendChild(createDiv)
+	}
+
+var rollval = 0
+
+function rollAttr(x){
+	rollval = diceRoll(20) + Math.floor((x-10)/2);
+	alert("YOU ROLLED: "+ rollval)
+}
+
+function rollWeap(x,y){
+	rollval = diceRoll(y)*x
+	alert("You did "+ rollval +" Damage!")
+}
+
 
 $(document).ready(function(){
 	$("#checkAll").click(function(event) {   
@@ -97,37 +108,75 @@ $(document).ready(function(){
 	}
 })
 
-		$(document).on("click", '.fa-plus', (function(e) {
+	$(document).on("click", ".weapAdd", function(e) {
 		  //we select the box clone it and insert it after the box
 		  var $e = $(e.currentTarget);
 		  var _elm = $e.closest(".weaponRow").clone();
-		  _elm.find("option[id='first']").val("Choose...");
-		  _elm.find('.minus').show();
-		  _elm.find('.plus').hide();
-		  _elm.appendTo('#weaponForm');
-		}))
-	$(document).on("click", ".fa-minus", function(e) {
+		  _elm.find("option[id='firstWeap']").val("Choose...");
+		  _elm.find(".minusWeap").show();
+		  _elm.find(".plusWeap").hide();
+		  _elm.appendTo("#weaponForm");
+		})
+	$(document).on("click", ".weapSub", function(e) {
 		var $e = $(e.currentTarget);
-		$e.closest('.weaponRow').remove();
+		$e.closest(".weaponRow").remove();
 	  });
+	  $(document).on("click", ".itemAdd", function(e) {
+		//we select the box clone it and insert it after the box
+		var $e = $(e.currentTarget);
+		var _elm = $e.closest(".itemRow").clone();
+		_elm.find("option[id='firstItem']").val("Choose...");
+		_elm.find(".minusItem").show();
+		_elm.find(".plusItem").hide();
+		_elm.appendTo("#itemForm");
+	  })
+	  $(document).on("click", ".itemSub", function(e) {
+		var $e = $(e.currentTarget);
+		$e.closest(".itemRow").remove();
+	  });
+
 	$("#imageBtn").click(function(event){
 		$("#imageForm").show();
 	});
 	$(".closeBtn").click(function(event){
 		$("#imageForm").hide();
 	})
-	$("#WeapBtn").click(function(event){
-		$("a .Charshow").removeClass(".active");
-		$("#WeapBtn").addClass(".active")
-		$("#Bio").hide();
-		$("#WepCard").show();
-	})
-	$("#BioBtn").click(function(event){
-		$("a .Charshow").removeClass(".active");
-		$("#BioBtn").addClass(".active")
-		$("#Bio").show();
-		$("#WepCard").hide();
-	})
-});
+	$("#charSheet li").click(function(event){
+		$("#charSheet a").removeClass("active");
+		$(this).find("a").addClass("active");
+		$(".charDiv").hide()
+		$(".charDiv").eq($(this).index()).show();
+		});
+
+
+		$(".rollHit").click(function(e){
+			$(e.currentTarget).next($(".hitRoll")).append("<h4>Hit!</h4>")
+		})
+
+		$(".rollDam").click(function(event){
+			$(".damRoll").html("<h4>Damage:" + rollval + "<h4>")
+		})
+
+		$(".weapPlaybtn").popover({
+			placement: "bottom",
+			container: "body",
+			html: true,
+			sanitize: false,
+			content: function(){
+				return $(this).next($(".WeapPlay")).html();
+			}
+		});
+		$(".AttrPlaybtn").popover({
+			placement: "right",
+			container: "body",
+			html: true,
+			sanitize: false,
+			content: function(){
+				return $(this).next($(".AttrPlay")).html();
+			}
+		});
+	});
+
+
 
 

@@ -7,6 +7,7 @@ var express = require("express"),
     multerS3 = require("multer-s3"),
     fs = require("fs"),
 	passport = require("passport"),
+	flash = require("connect-flash"),
 	LocalStrategy = require("passport-local"),
 	methodOverride = require("method-override"),
 	session = require("express-session"),
@@ -15,9 +16,11 @@ var express = require("express"),
 	User = require("./models/user"),
 	Character = require("./models/character"),
 	Weapon = require("./models/weapon"),
+	Armour = require("./models/armour"),
 	SeedDB = require("./seed"),
 	middleware = require("./middleware"),
-	seedWeapons = require("./models/WeaponsSeed")
+	seedWeapons = require("./models/WeaponsSeed"),
+	seedArmour = require("./models/ArmourSeed");
 
 // 	require routes
 	var indexRoutes = require("./routes/index");
@@ -40,6 +43,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
+app.use(flash());
 
 // session use
 app.use(session({
@@ -56,8 +60,9 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use(function(req, res, next){
    res.locals.currentUser = req.user;
-   res.locals.playName = req.session.playName;
-   res.locals.playId = req.session.playId;
+   res.locals.error = req.flash("error");
+   res.locals.success = req.flash("success");
+   res.locals.playCharacter = req.session.playCharacter;
 	next();
 });
 
@@ -86,71 +91,7 @@ app.use("/campaigns/:CampaignId/characters", characterRoutes);
 app.use("/:UserId", userRoutes);
 app.use("/campaigns/:CampaignId/story", storyRoutes);
 
-// Seed weapons
- seedWeapons();
-
-// Index Routes
-// landing page route
-app.get("/campaigns/:CampaignId/story/weapons", function(req, res){
-	Campaign.findById(req.params.CampaignId, function(err, campaign){
-		if(err){
-			console.log(err)
-		} else{
-			Weapon.find(function(err, weapons){
-				if(err){
-					console.log(err);
-					res.redirect("back");
-				}else{
-					res.render("story/weapons", {campaign:campaign, weapons:weapons});
-				}
-			})
-		}
-	})
-})
-app.put("/campaigns/:CampaignId/story/weapons", function(req, res){
-	if(req.body.weaponsInput === "save"){
-		req.body.weapons.forEach(function(weapon){
-			Weapon.findById(weapon, function(err, foundWeapon){
-				if(err){
-					console.log(err)
-				}else{
-					Campaign.findById(req.params.CampaignId, function(err, campaign){
-						if (err){
-							console.log(err)
-						}else{
-						campaign.weapons.push(foundWeapon);
-						campaign.save();
-						console.log(campaign);
-						}
-					})
-				}
-			});
-		})
-		res.redirect("back")		
-		} else {
-			Weapon.findById(req.body.weaponsInput, function(err, weapon){
-				if(err){
-					console.log(err);
-					res.redirect("back")
-				}else{
-					Character.findById(req.session.playId, function(err, character){
-						if(err){
-							console.log(err)
-							res.redirect("back")
-						}else{
-							character.Weapons.push(weapon);
-							character.Money -= weapon.Cost;
-							character.save();
-							res.redirect("/campaigns/"+req.params.CampaignId+"/characters/"+req.session.playId)
-						}
-					})
-				}
-			})
-		}
-	})
-
 
 		app.listen(process.env.PORT||3000, process.env.IP, function(){
 			console.log("Server Has Started!");
 		 });
-

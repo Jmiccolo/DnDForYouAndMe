@@ -5,7 +5,7 @@ var express = require("express"),
 	mongoose = require("mongoose"),
 	aws = require("aws-sdk"),
     multer = require("multer"),
-    multerS3 = require("multer-s3"),
+	multerS3 = require("multer-s3"),
     fs = require("fs"),
 	passport = require("passport"),
 	LocalStrategy = require("passport-local"),
@@ -37,7 +37,8 @@ router.get("/", function(req, res){
 	res.render("landing");
 });
 
-router.post("/login", passport.authenticate("local", {failureRedirect: "/"}), function(req, res){
+router.post("/login", passport.authenticate("local", {failureRedirect: "/", failureFlash:"YOU SHALL NOT PASS!(You done fucked up A A Ron!)"}), function(req, res){
+	req.flash("success", "Welcome, Player")
 	res.redirect("/" + req.user._id +"/campaigns");
 });
 
@@ -49,9 +50,11 @@ router.post("/register", function(req, res){
     var newUser = new User({username: req.body.username});
     User.register(newUser, req.body.password, function(err, user){
         if(err){
-            return res.render("register");
+			req.flash("error", err.message);
+            res.redirect("/register");
         }
         passport.authenticate("local")(req, res, function(){
+		req.flash("success", "Welcome to DnD For You And Me " + user.username);
            res.redirect("/"+req.user._id+"/campaigns"); 
         });
     });

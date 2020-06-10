@@ -3,11 +3,14 @@ var	express = require("express"),
 	User = require("../models/user"),
 	Campaign = require("../models/campaign"),
 	Character = require("../models/character"),
-	Weapon = require("../models/weapon"),
+    Weapon = require("../models/weapon"),
+    Item = require("../models/item"),
 	middleware = require("../middleware/index"),
 	multer = require("multer"),
 	multerS3 = require("multer-s3"),
-	aws = require("aws-sdk")
+    aws = require("aws-sdk"),
+    standardWeapons = require("../models/WeaponsSeed"),
+    standardItems = require("../models/seedItems")
 
     var s3 = new aws.S3({aws_access_key_id:process.env.AWS_ACCESS_KEY_ID, aws_secret_access_key:process.env.AWS_SECRET_ACCESS_KEY});
 
@@ -29,6 +32,7 @@ var upload = multer({
 router.get("/", function(req, res){
 	User.findById(req.params.UserId).populate("campaigns").populate("characters").exec(function(err, user){
 		if(err){
+            req.flash("error", "Please log in");
 			res.redirect("/")
 		}else{
 			res.render("user/index",{user:user})
@@ -40,10 +44,10 @@ router.get("/", function(req, res){
 router.get("/campaigns", middleware.isLoggedIn, function(req, res){
     User.findById(req.params.UserId).populate("campaigns").exec(function(err, user){
         if(err){
+            req.flash("error", "User not Found")
             res.redirect("/");
         } else {
-        req.session.playName = false;
-        req.session.playId = false;
+        req.session.playCharacter = false;
         res.render("campaign/index", {user:user});
         }
 });
@@ -61,19 +65,42 @@ router.get("/campaigns/new", middleware.isLoggedIn, function(req, res){
     });
 // Create Campaign Post Route
 router.post("/campaigns", middleware.isLoggedIn, function(req, res){
+    var allweapons = []
+    var allitems = []
     User.findById(req.params.UserId, function(err, user){
         if (err){
-            console.log(err);
+            req.flash("error", "User not found")
             res.redirect("back");
-        } else {	
+        } else {
+            standardWeapons.forEach(function(seed){
+            Weapon.create(seed, function(err, weapon){
+                if(err){
+                    console.log(err)
+                }else{
+                        allweapons.push(weapon);
+                        }
+                    })
+                })
+            standardItems.forEach(function(seed){
+            Item.create(seed, function(err, item){
+                if(err){
+                    console.log(err)
+                }else{
+                        allitems.push(item);
+                        }
+                    })
+                })
             Campaign.create(req.body.campaign, function (err, campaign){
             if(err){
                 console.log(err);
                 res.redirect("/" + user._id +"/campaigns/new")
-            } else {campaign.creator.id = req.user._id;
+            } else {
+                campaign.items = allitems;
+                campaign.weapons = allweapons;
+                campaign.creator.id = req.user._id;
                 campaign.creator.username = req.user.username;
-                //save comment
                 campaign.save();
+                console.log(campaign.items);
                 user.campaigns.push(campaign);
                 user.save();
                 res.redirect("/campaigns/" + campaign._id)

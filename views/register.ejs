@@ -10,11 +10,22 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </head>
 <body>
-<h1>Sign Up!</h1>
-
+<div class="container text-center">
+	<h1>Sign Up!</h1>
+<% if(error && error.length > 0){ %>
+	<div class="alert bg-danger w-50" role="alert">
+		<%= error %>
+	</div>
+<% } %>
+<% if(success && success.length > 0){ %>
+	<div class="alert bg-success w-50" role="alert">
+		<%= success %>
+	</div>
+<% } %>
 <form action="/register" method="post">
     <input type="text" name="username" placeholder="username">
     <input type="password" name="password" placeholder="password">
     <button class="btn btn-lg btn-success">Sign Up</button>
 </form>
+</div>
 <%- include("./partials/footer")%>

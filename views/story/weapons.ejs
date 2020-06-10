@@ -22,7 +22,7 @@
                 <th>
                     Properties
                 </th>
-                <%if(playName !== false){%>
+                <%if(playCharacter !== false){%>
                 <th>
                     Buy
                 </th>
@@ -36,7 +36,7 @@
                       </div></th>
                 <%}%>
             </tr>
-            <%weapons.forEach(function(weapon){
+            <%campaign.weapons.forEach(function(weapon){
                 if(weapon.Type === "Simple"){%>
                 <tr>
                     <td>
@@ -65,7 +65,7 @@
                                   <%=key%>
                               <%}})%>
                     </td>
-                    <%if(playName !== false){%>
+                    <%if(playCharacter !== false){%>
                         <td><button name="weaponsInput" value="<%=weapon._id%>">Buy Weapon</button></td>
                     <%}%>
                 <%if(currentUser.id === String(campaign.creator.id)){%>
@@ -98,7 +98,7 @@
                         Properties
                     </th>
                 </tr>
-                <%weapons.forEach(function(weapon){
+                <%campaign.weapons.forEach(function(weapon){
                     if(weapon.Type === "Simple-Ranged"){%>
                     <tr>
                         <td>
@@ -127,7 +127,7 @@
                                       <%=key%>
                                   <%}})%>
                         </td>
-                        <%if(playName !== false){%>
+                        <%if(playCharacter !== false){%>
                             <td><button name="weaponsInput" value="<%=weapon._id%>">Buy Weapon</button></td>
                         <%}%>
                     <%if(currentUser.id === String(campaign.creator.id)){%>
@@ -160,7 +160,7 @@
                         Properties
                     </th>
                 </tr>
-                <%weapons.forEach(function(weapon){
+                <%campaign.weapons.forEach(function(weapon){
                     if(weapon.Type === "Martial"){%>
                     <tr>
                         <td>
@@ -189,7 +189,7 @@
                                       <%=key%>
                                   <%}})%>
                         </td>
-                        <%if(playName !== false){%>
+                        <%if(playCharacter !== false){%>
                             <td><button name="weaponsInput" value="<%=weapon._id%>">Buy Weapon</button></td>
                         <%}%>
                     <%if(currentUser.id === String(campaign.creator.id)){%>
@@ -222,7 +222,7 @@
                         Properties
                     </th>
                 </tr>
-                <%weapons.forEach(function(weapon){
+                <%campaign.weapons.forEach(function(weapon){
                     if(weapon.Type === "Martial-Ranged"){%>
                     <tr>
                         <td>
@@ -249,7 +249,7 @@
                                       <%=key%>
                                   <%}})%>
                         </td>
-                        <%if(playName !== false){%>
+                        <%if(playCharacter !== false){%>
                             <td><button name="weaponsInput" value="<%=weapon._id%>">Buy Weapon</button></td>
                         <%}%>
                     <%if(currentUser.id === String(campaign.creator.id)){%>
@@ -263,14 +263,10 @@
                     </tr>
                     <%}})%>
         </table>
-        <%if(currentUser.id === String(campaign.creator.id)){%>
-            <button name="weaponsInput" value="save">Save to Campaign</button>
-        <%}%>
-        <%if(playName !== false){%>
-            <button name="weaponsInput" value="buy">Buy Weapons</button>
-        <%}%>
-        
         </form>
+        <%if(currentUser.id === String(campaign.creator.id)){%>
+            <a class="btn btn-lg btn-success" href="/campaigns/<%=campaign._id%>/story/weapons/new">Add Weapon</a>
+        <%}%>
     </div>
 
 <%-include("../partials/footer")%>

@@ -18,7 +18,9 @@ var CampaignSchema = new mongoose.Schema({
 	}],
 	password:String,
 	characters: [{type: mongoose.Schema.Types.ObjectId, ref:"Character"}],
-	weapons: [{type: mongoose.Schema.Types.ObjectId, ref:"Weapon"}]
+	weapons: [{type: mongoose.Schema.Types.ObjectId, ref:"Weapon"}],
+	items: [{type: mongoose.Schema.Types.ObjectId, ref:"Item"}],
+	towns: [{type: mongoose.Schema.Types.ObjectId, ref:"Town"}]
 });
 
 module.exports = mongoose.model("Campaign", CampaignSchema);

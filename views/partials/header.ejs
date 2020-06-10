@@ -7,17 +7,31 @@
 	<link rel="stylesheet" type="text/css" href="/stylesheets/main.css">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </head>
 <body>
 	<div class="container-fluid p-0 m-0">
 	<div id="header" class="jumbotron text-center background-warning rounded-0 m-0">
-		<div>
-			<h1>
-				<%=campaign.title%>
-			</h1>
-		</div>
+		<%if(playCharacter){%>
+			<div class="container">
+				<div class="row">
+					<div class="col-3 h-100">
+						<div class="row justify-content-center">
+							<h4>Proficiency</h4>
+							<div class="h-50 w-50 border text-center border-white rounded"><h2 class="my-3">+<%=playCharacter.Proficiency%></h2></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		<%}else{%>
+			<div>
+				<h1>
+					<%=campaign.title%>
+				</h1>
+			</div>
+		<%}%>
 	</div>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand" href="/campaigns/<%=campaign._id%>">Home</a>
@@ -28,7 +42,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto align-item-center">
      	<li class="nav-item">
-        	<a class="nav-link" href="#">Story</a>
+        	<a class="nav-link" href="/campaigns/<%=campaign._id%>/story">Story</a>
       	</li>
 		<li class="nav-item">
         	<a class="nav-link" href="/campaigns/<%=campaign._id%>/characters">Characters</a>
@@ -55,9 +69,20 @@
 	</ul>
 	<%if(currentUser){%>
 			<a class="nav-link" href="#">Profile</a>
-		<%if(playName !== false){%>
-			<form action="/campaigns/<%=campaign._id%>/characters/<%=playId%>/play" method="POST"><button class="btn btn-sm btn-outline-danger">Stop Playing as <%=playName%></button></form>
+		<%if(playCharacter !== false){%>
+			<form action="/campaigns/<%=campaign._id%>/characters/<%=playCharacter._id%>/play" method="POST"><button class="btn btn-sm btn-outline-danger">Stop Playing as <%=playCharacter.Name%></button></form>
 		<%}}%>	
 	<a class="btn btn-sm btn-outline-success my-2 my-sm-0 float-right" href="/logout">Logout</a></button>
   </div>
 </nav>
+<% if(error && error.length > 0){ %>
+	<div class="alert alert-danger" role="alert">
+		<%= error %>
+	</div>
+<% } %>
+<% if(success && success.length > 0){ %>
+	<div class="alert alert-success" role="alert">
+		<%= success %>
+	</div>
+<% } %>
+</div>
