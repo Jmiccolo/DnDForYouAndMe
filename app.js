@@ -29,7 +29,7 @@ var express = require("express"),
 	var gameRoutes = require("./routes/game");
 	var campaignRoutes = require("./routes/campaigns");
 	var characterRoutes = require("./routes/characters");
-	var userRoutes = require("./routes/user")
+	var userRoutes = require("./routes/user");
 	var storyRoutes = require("./routes/story");
 
 
@@ -88,7 +88,7 @@ var upload = multer({
 // define Routes
 app.use("/", indexRoutes);
 app.use("/", gameRoutes);
-app.use("/campaigns/:CampaignId", campaignRoutes)
+app.use("/campaigns/:CampaignId", campaignRoutes);
 app.use("/campaigns/:CampaignId/characters", characterRoutes);
 app.use("/:UserId", userRoutes);
 app.use("/campaigns/:CampaignId/story", storyRoutes);

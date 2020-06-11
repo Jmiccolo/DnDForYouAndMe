@@ -10,7 +10,7 @@ var	express = require("express"),
 	multerS3 = require("multer-s3"),
     aws = require("aws-sdk"),
     standardWeapons = require("../models/WeaponsSeed"),
-    standardItems = require("../models/seedItems")
+    standardItems = require("../models/seedItems");
 
     var s3 = new aws.S3({aws_access_key_id:process.env.AWS_ACCESS_KEY_ID, aws_secret_access_key:process.env.AWS_SECRET_ACCESS_KEY});
 
