@@ -17,7 +17,6 @@ var express = require("express"),
 	Character = require("./models/character"),
 	Weapon = require("./models/weapon"),
 	Armour = require("./models/armour"),
-	SeedDB = require("./seed"),
 	middleware = require("./middleware"),
 	seedWeapons = require("./models/WeaponsSeed"),
 	seedArmour = require("./models/ArmourSeed");
@@ -50,7 +49,7 @@ app.use(session({
     secret: "This is a Secret!",
     resave: false,
 	saveUninitialized: false,
-	store: new MongoStore({url:process.env.DATABASEURL})
+	store: new MongoStore({url:"mongodb://localhost/DnDForYouAndMe"})
 }));
 app.use(passport.initialize());
 app.use(passport.session());
