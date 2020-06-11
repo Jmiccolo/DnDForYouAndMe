@@ -49,7 +49,7 @@ app.use(session({
     secret: "This is a Secret!",
     resave: false,
 	saveUninitialized: false,
-	store: new MongoStore({url:"mongodb://localhost/DnDForYouAndMe"})
+	store: new MongoStore({url:process.env.DATABASEURL})
 }));
 app.use(passport.initialize());
 app.use(passport.session());
