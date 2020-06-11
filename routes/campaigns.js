@@ -4,6 +4,7 @@ var	express = require("express"),
 	Campaign = require("../models/campaign"),
 	Character = require("../models/character"),
 	Weapon = require("../models/weapon"),
+	Item = require("../models/item"),
 	middleware = require("../middleware/index"),
 	multer = require("multer"),
 	multerS3 = require("multer-s3"),
@@ -30,10 +31,33 @@ var upload = multer({
 router.get("/", middleware.checkCampaignUsers, function(req, res){
 Campaign.findById(req.params.CampaignId).populate("characters").exec (function(err, campaign){
     if (err){
-        console.log(err);
+		console.log(err);
+		res.redirect("back")
     }else{
         res.render("campaign/show", {campaign:campaign})}
     });
+});
+
+router.get("/notes", middleware.checkCampaignUsers, function(req, res){
+	Campaign.findById(req.params.CampaignId).populate("characters").exec (function(err, campaign){
+		if (err){
+			console.log(err);
+			res.redirect("back")
+		}else{
+			res.render("campaign/notes", {campaign:campaign})}
+		});
+	});
+
+router.put("/notes", middleware.checkCampaignUsers, function(req, res){
+	Campaign.findByIdAndUpdate(req.params.CampaignId, req.body.campaign, function(err, campaign){
+		if(err){
+			console.log(err);
+			res.redirect("back");
+		}else{
+			campaign.save();
+			res.redirect("back")
+		}
+		});
 });
 
 module.exports = router;

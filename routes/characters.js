@@ -104,6 +104,7 @@ router.post("/", middleware.checkCampaignUsers, upload.single("charAv"), functio
 							}else{
 								character.Proficiency = 6;
 							};
+							character.Money = (req.body.Money*100);
 							character.Items = allitems; 
 							character.Weapons = allweapons;
 							character.Image = Image;
@@ -205,7 +206,9 @@ router.put("/:CharacterId", middleware.checkCharacterOwnership, function(req, re
 				updatedCharacter.Proficiency = 6;
 			};
 			updatedCharacter.markModified("updatedCharacter.Proficiency")
-		 	updatedCharacter.Weapons = allweapons;
+			updatedCharacter.Money = (req.body.Money*100);
+			updatedCharacter.markModified("updatedCharacter.Money");
+			updatedCharacter.Weapons = allweapons;
 			updatedCharacter.markModified("updatedCharacter.Weapons");
 			updatedCharacter.Items = allitems;
 			updatedCharacter.markModified("updatedCharacter.Items");

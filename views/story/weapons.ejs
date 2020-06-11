@@ -43,16 +43,16 @@
                         <%=weapon.Name%>
                     </td>
                     <td>
-                       <%=weapon.Cost%> gp
+                       <%=(weapon.Cost/100)%> gp
                     </td>
                     <td>
                         <%=weapon.Damage.Die%> <%=weapon.Damage.Type%>
                     </td>
                     <td>
-                        <%if(weapon.Weight <= 1){%>
-                            <%=weapon.Weight%>lb
+                        <%if(weapon.Weight <= 100){%>
+                            <%=(weapon.Weight/100)%>lb
                         <%}else{%>
-                            <%=weapon.Weight%>lbs
+                            <%=(weapon.Weight/100)%>lbs
                         <%}%>
                     </td>
                     <td>
@@ -105,14 +105,14 @@
                             <%=weapon.Name%>
                         </td>
                         <td>
-                           <%=weapon.Cost%> gp
+                           <%=(weapon.Cost/100)%> gp
                         </td>
                         <td>
                             <%=weapon.Damage.Die%> <%=weapon.Damage.Type%>
                         </td>
                         <td>
-                            <%if(weapon.Weight <= 1){%>
-                                <%=weapon.Weight%>lb
+                            <%if(weapon.Weight <= 100){%>
+                                <%=(weapon.Weight/100)%>lb
                             <%}else{%>
                                 <%=weapon.Weight%>lbs
                             <%}%>
@@ -167,16 +167,16 @@
                             <%=weapon.Name%>
                         </td>
                         <td>
-                           <%=weapon.Cost%> gp
+                           <%=(weapon.Cost/100)%> gp
                         </td>
                         <td>
                             <%=weapon.Damage.Die%> <%=weapon.Damage.Type%>
                         </td>
                         <td>
-                            <%if(weapon.Weight <= 1){%>
-                                <%=weapon.Weight%>lb
+                            <%if(weapon.Weight <= 100){%>
+                                <%=(weapon.Weight/100)%>lb
                             <%}else{%>
-                                <%=weapon.Weight%>lbs
+                                <%=(weapon.Weight/100)%>lbs
                             <%}%>
                         </td>
                         <td>
@@ -229,16 +229,16 @@
                             <%=weapon.Name%>
                         </td>
                         <td>
-                           <%=weapon.Cost%> gp
+                           <%=(weapon.Cost/100)%> gp
                         </td>
                         <td>
                             <%=weapon.Damage.Die%> <%=weapon.Damage.Type%>
                         </td>
                         <td>
-                            <%if(weapon.Weight <= 1){%>
-                                <%=weapon.Weight%>lb
+                            <%if(weapon.Weight <= 100){%>
+                                <%=(weapon.Weight/100)%>lb
                             <%}else{%>
-                                <%=weapon.Weight%>lbs
+                                <%=(weapon.Weight/100)%>lbs
                             <%}%>
                         </td>
                         <td>

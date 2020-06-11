@@ -1,0 +1,32 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto align-item-center">
+           <li class="nav-item">
+              <a class="nav-link" href="/campaigns/<%=campaign._id%>/story/towns/<%=town._id%>/locations">Locations</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <%town.Locations.forEach(function(location){%>
+                        <a class="dropdown-item" href="/campaigns/<%=campaign.id%>/story/<%=town._id%>/<%=location._id%>"><%=location.Name%></a>
+                    <%})
+                    if(currentUser._id.equals(campaign.creator.id)){%>
+                        <a class="dropdown-item" href="/campaigns/<%=campaign._id%>/characters/new">New Location</a>
+                        <%}%>
+                </div>
+              </li>  
+          <li class="nav-item">
+              <a class="nav-link" href="/campaigns/<%=campaign._id%>/story/weapons">Weapons</a>
+            </li>
+          <li class="nav-item">
+              <a class="nav-link" href="/campaigns/<%=campaign._id%>/story/items">Items</a>
+            </li>
+          <li class="nav-item">
+              <a class="nav-link" href="/campaigns/<%=campaign._id%>/story/items">NPCs</a>
+            </li>
+      </ul>
+  </nav>

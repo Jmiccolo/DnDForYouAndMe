@@ -44,7 +44,7 @@
                     if(value.instance === "Number" && key !== "__v" && key !== "Proficiency"){%>
                      <div class="col-12 col-md-6">
                      <label for="character[<%=key%>]"><%=key%></label> <br>
-                     <input type="number" min="0" name="character[<%=key%>]" placeholder="0" step="<%if(key === 'Money'){%>0.01<%}else{%>1<%}%>" required>
+                     <input type="number" min="0" name="<%if(key==='Money'){%>Money<%}else{%>character[<%=key%>]<%}%>" placeholder="0" step="<%if(key === 'Money'){%>0.01<%}else{%>1<%}%>" required>
                  </div>
                  <%}else if(value.instance === "String" && key !== "Image" & key !== "creator.username"){
                     if(key === "Class"){%>

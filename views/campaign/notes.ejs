@@ -1,0 +1,13 @@
+<%-include ("../partials/header")%>
+<%if(campaign.Doc){%>
+    <iframe class="w-100 vh-100" src="<%=campaign.Doc%>" frameborder="0"></iframe>
+<%}else{%>
+    <h2>Add Your Google Doc!</h2>
+    <form action="/campaigns/<%=campaign._id%>/notes?_method=PUT" method="POST">
+    <label for="Doc">Link to Google Doc</label><br>
+    <input type="url" pattern="https://docs.google.com/document/d/.*" name="campaign[Doc]">
+    <button>Submit</button>
+    </form>
+<%}%>
+
+<%-include ("../partials/footer")%>

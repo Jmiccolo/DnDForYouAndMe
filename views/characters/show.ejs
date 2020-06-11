@@ -104,7 +104,7 @@
 								<tr>
 									<td><button class="btn btn-sm <%=character.Class%>"><%=item.Name%></button></td>
 									<td><%=item.Amount%></td>
-									<td><%=item.Weight%><%if(item.Weight <= 1){%> lb<%}else{%>lbs<%}%></td>
+									<td><%=(item.Weight/100)%><%if(item.Weight <= 100){%> lb<%}else{%>lbs<%}%></td>
 								</tr> <%})%>
 						</table>
 				</div>	

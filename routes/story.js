@@ -84,6 +84,7 @@ router.get("/weapons", function(req, res){
 		}
 	})
 })
+router.get("/weapons/new")
 router.put("/weapons", function(req, res){
 	if(req.body.weaponsInput === "save"){
 		req.body.weapons.forEach(function(weapon){
@@ -109,17 +110,25 @@ router.put("/weapons", function(req, res){
 					console.log(err);
 					res.redirect("back")
 				}else{
-					Character.findById(req.session.playId, function(err, character){
+					Character.findById(req.session.playCharacter._id, function(err, character){
 						if(err){
 							console.log(err)
 							res.redirect("back")
 						}else{
 							if(character.Money > weapon.Cost){
 							character.Weapons.push(weapon);
-							character.Money -= weapon.Cost;
+							console.log(weapon.Cost)
+							
+							var Money = character.Money - weapon.Cost;
+							console.log(Money)
+							character.Money = Money;
+							character.markModified("character.Money");
 							character.save();
-							res.redirect("/campaigns/"+req.params.CampaignId+"/characters/"+req.session.playId)
+							req.session.playCharacter = character;
+							req.flash("success", "You have aquired a "+weapon.Name);
+							res.redirect("back");
 						}else{
+							req.flash("error", "Come back when you have more money!")
 							res.redirect("back")
 						}}
 					})

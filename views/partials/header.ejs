@@ -23,6 +23,14 @@
 							<div class="h-50 w-50 border text-center border-white rounded"><h2 class="my-3">+<%=playCharacter.Proficiency%></h2></div>
 						</div>
 					</div>
+					<div class="col-3 h-100">
+						<div class="row justify-content-center">
+							<h4>Money</h4><br>
+						</div>
+						<div class="row justify-content-center">
+							<div class="h-50 w-75 border text-center border-white rounded"><h3 class="my-3"><%=(playCharacter.Money/100)%> gp</h3></div>
+						</div>
+					</div>
 				</div>
 			</div>
 		<%}else{%>
@@ -64,7 +72,7 @@
         	</div>
       	</li>	
 		<li class="nav-item">
-        	<a class="nav-link " href="#">Notes</a>
+        	<a class="nav-link " href="/campaigns/<%=campaign._id%>/notes">Notes</a>
 		</li>
 	</ul>
 	<%if(currentUser){%>

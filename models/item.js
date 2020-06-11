@@ -4,7 +4,7 @@ var ItemSchema = new mongoose.Schema ({
     Name: String,
     Type: String,
     Amount: Number,
-    Cost: Number,
+    Cost:Number,
     Weight: Number,
 })
 

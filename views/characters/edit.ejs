@@ -43,10 +43,10 @@
                 <div class="form-row">
                  <%var CharPathNames = Object.keys(CharItems)
                         CharPathNames.forEach(function(item){
-                            if(typeof character[item] === "number" && item !== "__v"){%>
+                            if(typeof character[item] === "number" && item !== "__v" && item !== "Proficiency"){%>
                              <div class="col-6">
                              <label for="character[<%=item%>]"><%=item%></label> <br>
-                             <input type="number" min="0" name="character[<%=item%>]" placeholder="<%=item%>"value="<%=character[item]%>" step="<%if(item === 'Money'){%>0.01<%}else{%>1<%}%>" required>
+                             <input type="number" min="0" name="<%if(item === 'Money'){%>Money<%}else{%>character[<%=item%>]<%}%>" placeholder="<%=item%>"value="<%if(item === 'Money'){%><%=(character.Money/100)%><%}else{%><%=character[item]%><%}%>" step="<%if(item === 'Money'){%>0.01<%}else{%>1<%}%>" required>
                          </div>
                          <%}else if(typeof character[item] === "string" && item !== "Image"){
                             if(item === "Class"){%>
