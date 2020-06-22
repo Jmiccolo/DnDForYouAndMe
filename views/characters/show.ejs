@@ -1,4 +1,5 @@
 <%- include("../partials/header")%>
+<% console.log(character.Armour)%>
 <div class="container-fluid">
 	<div class="row">
 		<h2 class="text-center w-100">
@@ -62,7 +63,7 @@
 						if(typeof value === "string" && key !== "Image" || key === "Age"){%>
 					<div class="col-6 py-3 attrCard"><h3><%=key%>:<%=value%></h3></div>
 					<%}}%> 
-					<div class="col-6 py-3 attrCard"><h3>Armour:<%=character.Armour.Name%>, +<%=character.Armour.Class%></h3></div></div>
+					<div class="col-6 py-3 attrCard"><h3>Armour:<%character.Armour.forEach(function(armour){%><%=armour.Name%>, +<%=armour.Class%>,<%})%></h3></div></div>
 				<div id="WepCard" class="charDiv pt-3 col-12">
 					<h3>Weapons:</h3>
 						<table class="table table-dark">

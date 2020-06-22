@@ -57,7 +57,7 @@ router.post("/", middleware.checkCampaignUsers, upload.single("charAv"), functio
 	var Image = ("https://dndforyouandme.s3.amazonaws.com/" + req.file.key)
 	var allweapons = [];
 	var allitems = [];
-	var newArm = ""
+	var newArm = [];
 	User.findById(req.user.id, function(err,user){
 		if (err){
 			console.log(err);
