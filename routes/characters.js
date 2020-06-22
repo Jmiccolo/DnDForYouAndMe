@@ -5,6 +5,7 @@ var	express = require("express"),
 	Character = require("../models/character"),
 	Weapon = require("../models/weapon"),
 	Item = require("../models/item"),
+	Armour = require("../models/armour"),
 	middleware = require("../middleware/index"),
 	multer = require("multer"),
 	multerS3 = require("multer-s3"),
@@ -43,7 +44,7 @@ router.get("/new", middleware.checkCampaignUsers, function (req, res){
 	var CharItems = Character.schema.paths;
 	var Entries = Object.entries(CharItems);
 	var AttEntries = Object.entries(CharItems.Attributes.schema.paths); 
-	Campaign.findById(req.params.CampaignId).populate("weapons").populate("items").exec (function(err, campaign){
+	Campaign.findById(req.params.CampaignId).populate("weapons").populate("items").populate("armour").exec (function(err, campaign){
 		if (err){
 			console.log(err);
 		}else{
@@ -55,7 +56,8 @@ router.get("/new", middleware.checkCampaignUsers, function (req, res){
 router.post("/", middleware.checkCampaignUsers, upload.single("charAv"), function(req, res, next){
 	var Image = ("https://dndforyouandme.s3.amazonaws.com/" + req.file.key)
 	var allweapons = [];
-	var allitems = []
+	var allitems = [];
+	var newArm = ""
 	User.findById(req.user.id, function(err,user){
 		if (err){
 			console.log(err);
@@ -129,7 +131,7 @@ router.get("/:CharacterId", middleware.checkCampaignUsers, function(req, res){
 			console.log(err);
 			res.redirect("back");
 		} else {
-			Character.findById(req.params.CharacterId).populate("Weapons").populate("Items").exec(function(err, character){
+			Character.findById(req.params.CharacterId).populate("Weapons").populate("Items").populate("Armour").exec(function(err, character){
 				if(err){
 					console.log(err);
 					res.redirect("back");
@@ -146,12 +148,12 @@ router.get("/:CharacterId/edit", middleware.checkCharacterOwnership, function(re
 	var CharItems = Character.schema.paths;
 	var Entries = Object.entries(CharItems);
 	var AttEntries = Object.entries(CharItems.Attributes.schema.paths); 
-	Campaign.findById(req.params.CampaignId).populate("weapons").populate("items").exec(function(err, campaign){
+	Campaign.findById(req.params.CampaignId).populate("weapons").populate("items").populate("armour").exec(function(err, campaign){
 		if(err){
 			console.log(err);
 			res.redirect("back");
 		} else {
-			Character.findById(req.params.CharacterId).populate("Weapons").populate("Items").exec(function(err, character){
+			Character.findById(req.params.CharacterId).populate("Weapons").populate("Items").populate("Armour").exec(function(err, character){
 				if(err){
 					console.log(err);
 					res.redirect("back");
@@ -205,7 +207,7 @@ router.put("/:CharacterId", middleware.checkCharacterOwnership, function(req, re
 			}else{
 				updatedCharacter.Proficiency = 6;
 			};
-			updatedCharacter.markModified("updatedCharacter.Proficiency")
+			updatedCharacter.markModified("updatedCharacter.Proficiency");
 			updatedCharacter.Money = (req.body.Money*100);
 			updatedCharacter.markModified("updatedCharacter.Money");
 			updatedCharacter.Weapons = allweapons;
@@ -215,6 +217,7 @@ router.put("/:CharacterId", middleware.checkCharacterOwnership, function(req, re
 			updatedCharacter.Attributes=req.body.Attributes;
 			updatedCharacter.markModified("updatedCharacter.Attributes");
 			updatedCharacter.save();
+			console.log(updatedCharacter.Armour)
 			res.redirect("/campaigns/"+req.params.CampaignId +"/characters/" +req.params.CharacterId)
 		}})});
 
@@ -269,7 +272,7 @@ router.post("/:CharacterId/play", middleware.checkCharacterOwnership, function(r
 			console.log(err);
 			res.redirect("back");
 		} else {
-			Character.findById(req.params.CharacterId, function (err, character){
+			Character.findById(req.params.CharacterId).populate("Weapons").populate("Items").populate("Armour").exec(function (err, character){
 				if(err){
 					console.log(err);
 					res.redirect("back")

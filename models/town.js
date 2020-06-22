@@ -4,7 +4,7 @@ var TownSchema = new mongoose.Schema ({
     Name: String,
     Image: String,
     Locations:[{type: mongoose.Schema.Types.ObjectId, ref:"Location"}],
-    NPC:[{type: mongoose.Schema.Types.ObjectId, ref:"Npc"}],
+    NPCs:[{type: mongoose.Schema.Types.ObjectId, ref:"NPC"}],
     Description: String,
     Hidden:Boolean
 })

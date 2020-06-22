@@ -5,12 +5,14 @@ var	express = require("express"),
 	Character = require("../models/character"),
     Weapon = require("../models/weapon"),
     Item = require("../models/item"),
+    Armour = require("../models/armour"),
 	middleware = require("../middleware/index"),
 	multer = require("multer"),
 	multerS3 = require("multer-s3"),
     aws = require("aws-sdk"),
     standardWeapons = require("../models/WeaponsSeed"),
     standardItems = require("../models/seedItems");
+    standardArmour = require("../models/SeedArmour");
 
     var s3 = new aws.S3({aws_access_key_id:process.env.AWS_ACCESS_KEY_ID, aws_secret_access_key:process.env.AWS_SECRET_ACCESS_KEY});
 
@@ -67,6 +69,7 @@ router.get("/campaigns/new", middleware.isLoggedIn, function(req, res){
 router.post("/campaigns", middleware.isLoggedIn, function(req, res){
     var allweapons = []
     var allitems = []
+    var allarmour = []
     User.findById(req.params.UserId, function(err, user){
         if (err){
             req.flash("error", "User not found")
@@ -77,6 +80,7 @@ router.post("/campaigns", middleware.isLoggedIn, function(req, res){
                 if(err){
                     console.log(err)
                 }else{
+                        weapon.Hidden = false;
                         allweapons.push(weapon);
                         }
                     })
@@ -86,7 +90,18 @@ router.post("/campaigns", middleware.isLoggedIn, function(req, res){
                 if(err){
                     console.log(err)
                 }else{
+                        item.Hidden = false;
                         allitems.push(item);
+                        }
+                    })
+                })
+            standardArmour.forEach(function(seed){
+            Armour.create(seed, function(err, armour){
+                if(err){
+                    console.log(err)
+                }else{
+                        armour.Hidden = false;  
+                        allarmour.push(armour);
                         }
                     })
                 })
@@ -97,6 +112,7 @@ router.post("/campaigns", middleware.isLoggedIn, function(req, res){
             } else {
                 campaign.items = allitems;
                 campaign.weapons = allweapons;
+                campaign.armour = allarmour;
                 campaign.creator.id = req.user._id;
                 campaign.creator.username = req.user.username;
                 campaign.save();

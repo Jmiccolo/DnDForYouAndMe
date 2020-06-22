@@ -6,6 +6,8 @@ var ItemSchema = new mongoose.Schema ({
     Amount: Number,
     Cost:Number,
     Weight: Number,
+    Hidden:Boolean,
+    Inventory: Number
 })
 
 module.exports = mongoose.model("Item", ItemSchema);

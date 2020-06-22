@@ -1,0 +1,56 @@
+<%-include ("../../partials/header")%>
+<%-include ("../../partials/townheader")%>
+<div class="container-fluid">
+    <div class="row">
+        <h3 class="w-100 text-center"><%=location.Name%></h3>
+        <p class="w-100 text-center"><%=location.Description%></p>
+    </div>
+    <div class="row justify-items-around">
+        <div class="col-6">
+            <%if(location.NPCs){
+                location.NPCs.forEach(function(NPC){
+                    if(NPC.Hidden === "false" || currentUser._id.equals(campaign.creator.id)){%>
+                    <div class="col-md-12 col-lg-6 p-3 border bg-dark border-light rounded">
+                        <div class="col-7">
+                            <img class="img-thumbnail" src="<%=NPC.Image%>" alt="">
+                        </div>
+                        <div class="col- text-light">
+                            <h4><a href="/campaigns/<%=campaign._id%>/story/<%=town._id%>/<%=NPC._id%>"><%=NPC.Name%></a></h4>
+                            <p class="display-5"><%=NPC.Description%></p>
+                        </div>
+                    </div>
+                    <%}})
+            }%>
+            <%if(currentUser._id.equals(campaign.creator.id)){%>
+                <div class="row p-3">
+                    <a class="btn btn-lg btn-success" href="/campaigns/<%=campaign._id%>/story/<%=town._id%>/NPC/new">Create NPC</a>
+                </div>
+                <%}%>
+        </div>
+        <div class="col-6">
+            <h3>Inventory</h3>
+            <ul id="locSheet" class="nav nav-tabs">
+                <li class="nav-item">
+                  <a id="WeapBtn" class="locShow nav-link"href="javascript:void(0)">Weapons</a>
+                </li>
+                <li class="nav-item">
+                  <a id="ItemBtn" class="locShow nav-link"href="javascript:void(0)">Items</a>
+                </li>
+                <li class="nav-item">
+                  <a id="ArmBtn" class="locShow nav-link"href="javascript:void(0)">Armour</a>
+                </li>
+              </ul>
+            <div id="weapTab" class="locTab no-gutters">
+                <%- include("../../partials/weaptable")%>
+            </div>
+            <div id="itemTab" class="row locTab no-gutters">
+                <%- include("../../partials/itemtable")%>
+            </div>
+            <div id="armTab" class="row locTab no-gutters">
+                <%- include("../../partials/armourtable")%>
+            </div>
+        </div>
+    </div>
+</div>
+<%-include ("../../partials/footer")%>
+

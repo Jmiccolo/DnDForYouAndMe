@@ -1,3 +1,4 @@
+
 function diceRoll(x) {
 	return 1+Math.floor(Math.random()*x);
 }
@@ -101,7 +102,7 @@ function rollWeap(x,y){
 
 
 $(document).ready(function(){
-	$("#checkAll").click(function(event) {   
+	$(".checkAll").click(function(event) {   
 	if(this.checked) {
 		// Iterate each checkbox
 		$(':checkbox').each(function() {
@@ -109,6 +110,42 @@ $(document).ready(function(){
 		});
 	} else {
 		$(':checkbox').each(function() {
+			this.checked = false;                       
+		});
+	}
+})
+	$("#checkAllWeapons").click(function(event) {   
+	if(this.checked) {
+		// Iterate each checkbox
+		$('.weaponCheck:checkbox').each(function() {
+			this.checked = true;                        
+		});
+	} else {
+		$('.weaponCheck:checkbox').each(function() {
+			this.checked = false;                       
+		});
+	}
+})
+	$("#checkAllItems").click(function(event) {   
+	if(this.checked) {
+		// Iterate each checkbox
+		$('.itemCheck:checkbox').each(function() {
+			this.checked = true;                        
+		});
+	} else {
+		$('.itemCheck:checkbox').each(function() {
+			this.checked = false;                       
+		});
+	}
+})
+	$("#checkAllArmour").click(function(event) {   
+	if(this.checked) {
+		// Iterate each checkbox
+		$('.armourCheck:checkbox').each(function() {
+			this.checked = true;                        
+		});
+	} else {
+		$('.armourCheck:checkbox').each(function() {
 			this.checked = false;                       
 		});
 	}
@@ -122,12 +159,13 @@ $(document).ready(function(){
 		  _elm.find(".minusWeap").show();
 		  _elm.find(".plusWeap").hide();
 		  _elm.appendTo("#weaponForm");
-		})
+		});
 	$(document).on("click", ".weapSub", function(e) {
 		var $e = $(e.currentTarget);
 		$e.closest(".weaponRow").remove();
 	  });
-	  $(document).on("click", ".itemAdd", function(e) {
+
+	$(document).on("click", ".itemAdd", function(e) {
 		//we select the box clone it and insert it after the box
 		var $e = $(e.currentTarget);
 		var _elm = $e.closest(".itemRow").clone();
@@ -135,7 +173,7 @@ $(document).ready(function(){
 		_elm.find(".minusItem").show();
 		_elm.find(".plusItem").hide();
 		_elm.appendTo("#itemForm");
-	  })
+	  });
 	  $(document).on("click", ".itemSub", function(e) {
 		var $e = $(e.currentTarget);
 		$e.closest(".itemRow").remove();
@@ -146,13 +184,20 @@ $(document).ready(function(){
 	});
 	$(".closeBtn").click(function(event){
 		$("#imageForm").hide();
-	})
+	});
 	$("#charSheet li").click(function(event){
 		$("#charSheet a").removeClass("active");
 		$(this).find("a").addClass("active");
 		$(".charDiv").hide()
 		$(".charDiv").eq($(this).index()).show();
-		});
+		}) ;
+		
+	$("#locSheet li").click(function(event){
+		$("#locSheet a").removeClass("active");
+		$(this).find("a").addClass("active");
+		$(".locTab").hide()
+		$(".locTab").eq($(this).index()).show();
+		}) ;
 
 
 		$(".rollHit").click(function(e){
@@ -182,6 +227,7 @@ $(document).ready(function(){
 			}
 		});
 	});
+
 
 
 

@@ -1,0 +1,38 @@
+<%- include("../../partials/header")%>
+<%- include("../../partials/townheader")%>
+<div class="container-fluid">
+    <div class="row">
+        <h3 class="w-100 text-center"><%=town.Name%></h3>
+    </div>
+    <div class="row justify-items-around">
+        <div class="col-8">
+            <%if(town.Locations){
+                town.Locations.forEach(function(location){
+                    if(location.Hidden === false || currentUser._id.equals(campaign.creator.id)){%>
+                    <div class="col-md-12 col-lg-6 p-3 border bg-dark border-light rounded">
+                        <div class="col-7">
+                            <img class="img-thumbnail" src="<%=town.Image%>" alt="">
+                        </div>
+                        <div class="col- text-light">
+                            <h4><a href="/campaigns/<%=campaign._id%>/story/<%=town._id%>/<%=location._id%>"><%=location.Name%></a></h4>
+                            <p class="display-5"><%=location.Description%></p>
+                        </div>
+                    </div>
+                    <%}})
+            }%>
+            <%if(currentUser._id.equals(campaign.creator.id)){%>
+                <div class="row p-3">
+                    <a class="btn btn-lg btn-success" href="/campaigns/<%=campaign._id%>/story/<%=town._id%>/location/new">Create Location</a>
+                </div>
+                <%}%>
+        </div>
+        <div class="col-4 bg-light border border-white rounded text-dark">
+            <h3>Characters</h3>
+            <%town.NPCs.forEach(function(NPC){
+                if(!location.Hidden || currentUser._id.equals(campaign.creator.id)){%>
+                <h4><%=NPC.Name%> - <%=NPC.Location%></h4>
+            <%}})%>
+        </div>
+    </div>
+</div>
+<%- include("../../partials/footer")%>

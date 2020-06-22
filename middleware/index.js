@@ -5,6 +5,7 @@ var User = require("../models/user")
 // all the middleare goes here
 var middlewareObj = {};
 
+// If Campaign User
 middlewareObj.checkCampaignUsers = function(req, res, next) {
  if(req.isAuthenticated()){
         Campaign.findById(req.params.CampaignId, function(err, campaign){
@@ -28,6 +29,7 @@ middlewareObj.checkCampaignUsers = function(req, res, next) {
     }
 }
 
+// If Character Owner
 middlewareObj.checkCharacterOwnership = function(req, res, next) {
  if(req.isAuthenticated()){
         Character.findById(req.params.CharacterId, function(err, foundCharacter){
@@ -47,6 +49,7 @@ middlewareObj.checkCharacterOwnership = function(req, res, next) {
     }
 }
 
+// If Campaign Creator
 middlewareObj.checkCampaignOwnership = function(req, res, next) {
  if(req.isAuthenticated()){
         Campaign.findById(req.params.CampaignId, function(err, foundCampaign){
@@ -68,7 +71,7 @@ middlewareObj.checkCampaignOwnership = function(req, res, next) {
     }
 }
 
-
+// Are you Logged In?
 middlewareObj.isLoggedIn = function(req, res, next){
     if(req.isAuthenticated()){
         return next();

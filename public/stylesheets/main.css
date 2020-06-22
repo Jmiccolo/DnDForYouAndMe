@@ -1,3 +1,4 @@
+/* Responsive Text */
 @media (max-width: 1200px) {
 	legend {
 	  font-size: calc(1.275rem + 0.3vw);
@@ -35,6 +36,7 @@
 	}
   }
 
+
 body {
 	background: black;
 	color: white;
@@ -44,6 +46,7 @@ body {
 *:focus {
 	outline:none;
 }
+
 div .attr {
 	height:200px;  
 	background-position: center;
@@ -141,7 +144,6 @@ div .attr h4 {
 	color: #de144a;
 	text-shadow: 3px 4px #991135;
 	font-family: 'Press Start 2P', cursive;
-	animation: groundBreak 1s ease-out 3s
 }
 
 #header{
@@ -262,12 +264,6 @@ textarea{
 	100%{transform:	translate(0,0)}
 }
 
-@keyframes groundBreak {
-	50%{transform:scale(1.5, 1.5) rotate(5deg);}
-	100%{transform:scale(1, 1) rotate(0deg);}
-	
-}
-
 .Ranger {
 	background:lightgreen;
 	color: forestgreen;
@@ -313,7 +309,11 @@ textarea{
 	color:white;
 }
 td {
+	font-size: 12px;
 	padding: 5px;
+}
+td .btn-sm{
+	font-size: 10px;
 }
 th {
 	padding: 15px;
@@ -338,6 +338,9 @@ tr:nth-of-type(even){
 }
 
 .charDiv:not(:first-of-type){
+	display:none;
+}
+.locTab:not(:first-of-type){
 	display:none;
 }
 
@@ -367,4 +370,22 @@ tr:nth-of-type(even){
 }
 .popover-title {
 	color: black;
+}
+#weaponScroll th{
+	font-size: 0.75rem;
+}
+#weaponScroll td{
+	font-size: 0.75rem;
+}
+
+.modal {
+	background-color: black;
+}
+.modal-content {
+	background-color: black;
+	width: 150%;
+	left:-100px;
+}
+.X {
+	color:white;
 }

@@ -1,0 +1,612 @@
+<%- include("../../partials/header")%>
+<%- include("../../partials/townheader")%>
+<div class="container-fluid">
+    <h2 class="text-center">Create Location</h2>
+    <form action="/campaigns/<%=campaign._id%>/story/<%=town._id%>/location" method="POST">
+        <div class="form-row">
+            <div class="form-group col-5">
+                <div class="form-row pb-2">
+                    <label class="col-12" for="location[Name]">Name</label>
+                    <input class="form-control w-75" type="text" name="location[Name]" placeholder="Location Name" required>
+                </div>
+                <div class="form-row py-2">
+                    <label class="col-12" for="Location[Description]">Description</label>
+                    <input class="form-control w-75" type="text" name="location[Description]" placeholder="Small Description" maxlength="100" required>
+                </div>
+                <div class="form-row py-2">
+                    <label for="location[Hidden]">Hidden:</label>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="customRadioInline1" name="location[Hidden]" value="true" class="custom-control-input" required>
+                        <label class="custom-control-label" for="customRadioInline1">Yes</label>
+                      </div>
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="customRadioInline2" name="location[Hidden]" value="false" class="custom-control-input" required>
+                        <label class="custom-control-label" for="customRadioInline2">No</label>
+                      </div> 
+                </div> 
+            </div>
+            <div class="col-7">
+                <h5><a href="#"  data-toggle="modal" data-target="#weaponScroll">Weapons</a></h5>
+                <div class="modal fade" id="weaponScroll" tabindex="-1" role="dialog" aria-labelledby="weaponScroll" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="weaponScroll">Weapons</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span class="X" aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <table class="w-100 table table-bordered">
+                                <tr>
+                                    <th class="display-5 mt-4" colspan="4">Simple Weapons</th>
+                                 </tr>
+                                <tr>
+                                    <th>
+                                        Weapon
+                                    </th>
+                                    <th>
+                                        Cost
+                                    </th>
+                                    <th>
+                                        Damage
+                                    </th>
+                                        <th><div class="form-check">
+                                            <input class="form-check-input" id="checkAllWeapons" type="checkbox" >
+                                            <label class="form-check-label" for="checkAllWeapons">
+                                              Select All
+                                            </label>
+                                          </div></th>
+                                </tr>
+                                <%campaign.weapons.forEach(function(weapon){
+                                    if(weapon.Type === "Simple"){%>
+                                    <tr>
+                                        <td>
+                                            <%=weapon.Name%>
+                                        </td>
+                                        <td>
+                                           <%=(weapon.Cost/100)%> gp
+                                        </td>
+                                        <td>
+                                            <%=weapon.Damage.Die%> <%=weapon.Damage.Type%>
+                                        </td>
+                                        <td><div class="form-check">
+                                            <input class="form-check-input weaponCheck" type="checkbox" name="weapons" value="<%=weapon._id%>">
+                                            <label class="form-check-label" for="defaultCheck1">
+                                             Select Weapon
+                                            </label>
+                                          </div></td>
+                                    </tr>
+                                    <%}})%>
+                                    <tr>
+                                       <th class="display-5"colspan="4">Simple Ranged Weapons</th>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Weapon
+                                        </th>
+                                        <th>
+                                            Cost
+                                        </th>
+                                        <th>
+                                            Damage
+                                        </th>
+                                        <th>
+
+                                        </th>
+                                    </tr>
+                                    <%campaign.weapons.forEach(function(weapon){
+                                        if(weapon.Type === "Simple-Ranged"){%>
+                                        <tr>
+                                            <td>
+                                                <%=weapon.Name%>
+                                            </td>
+                                            <td>
+                                               <%=(weapon.Cost/100)%> gp
+                                            </td>
+                                            <td>
+                                                <%=weapon.Damage.Die%> <%=weapon.Damage.Type%>
+                                            </td>
+                                            <td><div class="form-check">
+                                                <input class="form-check-input weaponCheck" type="checkbox" name="weapons" value="<%=weapon._id%>">
+                                                <label class="form-check-label" for="defaultCheck1">
+                                                 Select Weapon
+                                                </label>
+                                              </div></td>
+                                        </tr>
+                                        <%}})%>
+                                    <tr>
+                                       <th class="display-5"colspan="4">Martial Weapons</th>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Weapon
+                                        </th>
+                                        <th>
+                                            Cost
+                                        </th>
+                                        <th>
+                                            Damage
+                                        </th>
+                                        <th>
+
+                                        </th>
+                                    </tr>
+                                    <%campaign.weapons.forEach(function(weapon){
+                                        if(weapon.Type === "Martial"){%>
+                                        <tr>
+                                            <td>
+                                                <%=weapon.Name%>
+                                            </td>
+                                            <td>
+                                               <%=(weapon.Cost/100)%> gp
+                                            </td>
+                                            <td>
+                                                <%=weapon.Damage.Die%> <%=weapon.Damage.Type%>
+                                            </td>
+                                            <td><div class="form-check">
+                                                <input class="form-check-input weaponCheck" type="checkbox" name="weapons" value="<%=weapon._id%>" >
+                                                <label class="form-check-label" for="defaultCheck1">
+                                                 Select Weapon
+                                                </label>
+                                              </div></td>
+                                        </tr>
+                                        <%}})%>
+                                    <tr>
+                                       <th class="display-5"colspan="4">Martial Ranged Weapons</th>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Weapon
+                                        </th>
+                                        <th>
+                                            Cost
+                                        </th>
+                                        <th>
+                                            Damage
+                                        </th>
+                                        <th>
+
+                                        </th>
+                                    </tr>
+                                    <%campaign.weapons.forEach(function(weapon){
+                                        if(weapon.Type === "Martial-Ranged"){%>
+                                        <tr>
+                                            <td>
+                                                <%=weapon.Name%>
+                                            </td>
+                                            <td>
+                                               <%=(weapon.Cost/100)%> gp
+                                            </td>
+                                            <td>
+                                                <%=weapon.Damage.Die%> <%=weapon.Damage.Type%>
+                                            </td>
+                                        <%if(currentUser.id === String(campaign.creator.id)){%>
+                                            <td><div class="form-check">
+                                                <input class="form-check-input weaponCheck" type="checkbox" name="weapons" value="<%=weapon._id%>"> 
+                                                <label class="form-check-label" for="defaultCheck1">
+                                                 Select Weapon
+                                                </label>
+                                              </div></td>
+                                        <%}%>
+                                        </tr>
+                                        <%}})%>
+                            </table>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                <h5><a href="#"  data-toggle="modal" data-target="#itemScroll">Items</a></h5>
+                <div class="modal fade" id="itemScroll" tabindex="-1" role="dialog" aria-labelledby="itemScroll" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="itemScroll">Items</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span class="X" aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <table class="w-100 table table-bordered">
+                                <tr>
+                                    <th class="display-5 mt-4" colspan="4">Ammunition</th>
+                                 </tr>
+                                <tr>
+                                    <th>
+                                        Item
+                                    </th>
+                                    <th>
+                                        Ammount
+                                    </th>
+                                    <th>
+                                        Cost
+                                    </th>
+                                        <th><div class="form-check">
+                                             <input class="form-check-input" id="checkAllItems" type="checkbox">
+                                            <label class="form-check-label" for="checkAllItems">
+                                              Select All
+                                            </label>
+                                          </div></th>
+                                </tr>
+                                <%campaign.items.forEach(function(item){
+                                    if(item.Type === "Ammunition"){%>
+                                    <tr>
+                                        <td>
+                                            <%=item.Name%>
+                                        </td>
+                                        <td>
+                                            <%=item.Amount%>
+                                        </td>
+                                        <td>
+                                            <%=(item.Cost/100)%> gp
+                                        </td>
+                                        <td><div class="form-check">
+                                            <input class="form-check-input itemCheck" type="checkbox" name="items" value="<%=item._id%>">
+                                            <label class="form-check-label" for="defaultCheck1">
+                                             Select Item
+                                            </label>
+                                          </div></td>
+                                    </tr>
+                                    <%}})%>
+                                <tr>
+                                    <th class="display-5 mt-4" colspan="4">Arcane Focus</th>
+                                 </tr>
+                                <tr>
+                                    <th>
+                                        Item
+                                    </th>
+                                    <th>
+                                        Ammount
+                                    </th>
+                                    <th>
+                                        Cost
+                                    </th>
+                                        <th>
+
+                                        </th>
+                                </tr>
+                                <%campaign.items.forEach(function(item){
+                                    if(item.Type === "Arcane Focus"){%>
+                                    <tr>
+                                        <td>
+                                            <%=item.Name%>
+                                        </td>
+                                        <td>
+                                            <%=item.Amount%>
+                                        </td>
+                                        <td>
+                                            <%=(item.Cost/100)%> gp
+                                        </td>
+                                        <td><div class="form-check">
+                                            <input class="form-check-input itemCheck" type="checkbox" name="items" value="<%=item._id%>">
+                                            <label class="form-check-label" for="defaultCheck1">
+                                             Select Item
+                                            </label>
+                                          </div></td>
+                                    </tr>
+                                <%}})%>
+                                <tr>
+                                    <th class="display-5 mt-4" colspan="4">Druidic Focus</th>
+                                 </tr>
+                                <tr>
+                                    <th>
+                                        Item
+                                    </th>
+                                    <th>
+                                        Ammount
+                                    </th>
+                                    <th>
+                                        Cost
+                                    </th>
+                                        <th>
+
+                                        </th>
+                                </tr>
+                                <%campaign.items.forEach(function(item){
+                                    if(item.Type === "Druidic Focus"){%>
+                                    <tr>
+                                        <td>
+                                            <%=item.Name%>
+                                        </td>
+                                        <td>
+                                            <%=item.Amount%>
+                                        </td>
+                                        <td>
+                                            <%=(item.Cost/100)%> gp
+                                        </td>
+                                        <td><div class="form-check">
+                                            <input class="form-check-input itemCheck" type="checkbox" name="items" value="<%=item._id%>">
+                                            <label class="form-check-label" for="defaultCheck1">
+                                             Select Item
+                                            </label>
+                                          </div></td>
+                                    </tr>
+                                    <%}})%>   
+                                <tr>    
+                                    <th class="display-5 mt-4" colspan="4">Holy Symbols</th>
+                                 </tr>
+                                <tr>
+                                    <th>
+                                        Item
+                                    </th>
+                                    <th>
+                                        Ammount
+                                    </th>
+                                    <th>
+                                        Cost
+                                    </th>
+                                        <th></th>
+                                </tr>
+                                <%campaign.items.forEach(function(item){
+                                    if(item.Type === "Holy Symbols"){%>
+                                    <tr>
+                                        <td>
+                                            <%=item.Name%>
+                                        </td>
+                                        <td>
+                                            <%=item.Amount%>
+                                        </td>
+                                        <td>
+                                            <%=(item.Cost/100)%> gp
+                                        </td>
+                                        <td><div class="form-check">
+                                            <input class="form-check-input itemCheck" type="checkbox" name="items" value="<%=item._id%>">
+                                            <label class="form-check-label" for="defaultCheck1">
+                                             Select Item
+                                            </label>
+                                          </div></td>
+                                    </tr>
+                                    <%}})%>
+                                <tr>
+                                    <th class="display-5 mt-4" colspan="4">Containers</th>
+                                 </tr>
+                                <tr>
+                                    <th>
+                                        Item
+                                    </th>
+                                    <th>
+                                        Ammount
+                                    </th>
+                                    <th>
+                                        Cost
+                                    </th>
+                                        <th></th>
+                                </tr>
+                                <%campaign.items.forEach(function(item){
+                                    if(item.Type === "Containers"){%>
+                                    <tr>
+                                        <td>
+                                            <%=item.Name%>
+                                        </td>
+                                        <td>
+                                            <%=item.Amount%>
+                                        </td>
+                                        <td>
+                                            <%=(item.Cost/100)%> gp
+                                        </td>
+                                        <td><div class="form-check">
+                                            <input class="form-check-input itemCheck" type="checkbox" name="items" value="<%=item._id%>">
+                                            <label class="form-check-label" for="defaultCheck1">
+                                             Select Item
+                                            </label>
+                                          </div></td>
+                                    </tr>
+                                    <%}})%>
+                                <tr>
+                                    <th class="display-5 mt-4" colspan="4">Usable Items</th>
+                                 </tr>
+                                <tr>
+                                    <th>
+                                        Item
+                                    </th>
+                                    <th>
+                                        Ammount
+                                    </th>
+                                    <th>
+                                        Cost
+                                    </th>
+                                        <th></th>
+                                </tr>
+
+                                <%campaign.items.forEach(function(item){
+                                    if(item.Type === "Usable Items"){%>
+                                    <tr>
+                                        <td>
+                                            <%=item.Name%>
+                                        </td>
+                                        <td>
+                                            <%=item.Amount%>
+                                        </td>
+                                        <td>
+                                            <%=(item.Cost/100)%> gp
+                                        </td>
+                                        <td><div class="form-check">
+                                            <input class="form-check-input itemCheck" type="checkbox" name="items" value="<%=item._id%>">
+                                            <label class="form-check-label" for="defaultCheck1">
+                                             Select Item
+                                            </label>
+                                          </div></td>
+                                    </tr>
+                                    <%}})%>
+                                <tr>
+                                    <th class="display-5 mt-4" colspan="4">Kits</th>
+                                 </tr>
+                                <tr>
+                                    <th>
+                                        Item
+                                    </th>
+                                    <th>
+                                        Ammount
+                                    </th>
+                                    <th>
+                                        Cost
+                                    </th>
+                                        <th></th>
+                                </tr>
+                                <%campaign.items.forEach(function(item){
+                                    if(item.Type === "Kits"){%>
+                                    <tr>
+                                        <td>
+                                            <%=item.Name%>
+                                        </td>
+                                        <td>
+                                            <%=item.Amount%>
+                                        </td>
+                                        <td>
+                                            <%=(item.Cost/100)%> gp
+                                        </td>
+                                        <td><div class="form-check">
+                                            <input class="form-check-input itemCheck" type="checkbox" name="items" value="<%=item._id%>">
+                                            <label class="form-check-label" for="defaultCheck1">
+                                             Select Item
+                                            </label>
+                                          </div></td>
+                                    </tr>
+                                    <%}})%>
+                                <tr>
+                                    <th class="display-5 mt-4" colspan="4">Clothes</th>
+                                 </tr>
+                                <tr>
+                                    <th>
+                                        Item
+                                    </th>
+                                    <th>
+                                        Ammount
+                                    </th>
+                                    <th>
+                                        Cost
+                                    </th>
+                                        <th></th>
+                                </tr>
+                                <%campaign.items.forEach(function(item){
+                                    if(item.Type === "Clothes"){%>
+                                    <tr>
+                                        <td>
+                                            <%=item.Name%>
+                                        </td>
+                                        <td>
+                                            <%=item.Amount%>
+                                        </td>
+                                        <td>
+                                            <%=(item.Cost/100)%> gp
+                                        </td>
+                                        <td><div class="form-check">
+                                            <input class="form-check-input itemCheck" type="checkbox" name="items" value="<%=item._id%>">
+                                            <label class="form-check-label" for="defaultCheck1">
+                                             Select Item
+                                            </label>
+                                          </div></td>
+                                    </tr>
+                                    <%}})%>
+                                <tr>
+                                    <th class="display-5 mt-4" colspan="4">Common Item</th>
+                                 </tr>
+                                <tr>
+                                    <th>
+                                        Item
+                                    </th>
+                                    <th>
+                                        Ammount
+                                    </th>
+                                    <th>
+                                        Cost
+                                    </th>
+                                        <th></th>
+                                </tr>
+                                <%campaign.items.forEach(function(item){
+                                    if(item.Type === "Common Item"){%>
+                                    <tr>
+                                        <td>
+                                            <%=item.Name%>
+                                        </td>
+                                        <td>
+                                            <%=item.Amount%>
+                                        </td>
+                                        <td>
+                                            <%=(item.Cost/100)%> gp
+                                        </td>
+                                        <td><div class="form-check">
+                                            <input class="form-check-input itemCheck" type="checkbox" name="items" value="<%=item._id%>">
+                                            <label class="form-check-label" for="defaultCheck1">
+                                             Select Item
+                                            </label>
+                                          </div></td>
+                                    </tr>
+                                    <%}})%>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          </div>
+                            </div>
+                          </div>
+                        </div>
+                        <h5><a href="#"  data-toggle="modal" data-target="#armourScroll">Armour</a></h5>
+                <div class="modal fade" id="armourScroll" tabindex="-1" role="dialog" aria-labelledby="armourScroll" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="armourScroll">Armour</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span class="X" aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <table class="w-100 table table-bordered">
+                                <tr>
+                                    <th class="display-5 mt-4" colspan="4">Armour</th>
+                                 </tr>
+                                <tr>
+                                    <th>
+                                        Armour
+                                    </th>
+                                    <th>
+                                        Cost
+                                    </th>
+                                    <th>
+                                        AC
+                                    </th>
+                                        <th><div class="form-check">
+                                            <input class="form-check-input" id="checkAllArmour" type="checkbox" >
+                                            <label class="form-check-label" for="checkAllArmour">
+                                              Select All
+                                            </label>
+                                          </div></th>
+                                </tr>
+                                <%campaign.armour.forEach(function(armour){%>
+                                    <tr>
+                                        <td>
+                                            <%=armour.Name%>
+                                        </td>
+                                        <td>
+                                           <%=(armour.Cost/100)%> gp
+                                        </td>
+                                        <td>
+                                            +<%=armour.Class%>
+                                        </td>
+                                        <td><div class="form-check">
+                                            <input class="form-check-input armourCheck" type="checkbox" name="armour" value="<%=armour._id%>" >
+                                            <label class="form-check-label" for="defaultCheck1">
+                                             Select Armour
+                                            </label>
+                                          </div></td>
+                                    </tr>
+                                    <%})%>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          </div>
+                            </div>
+                          </div>
+                        </div>
+                </div>
+            </div>
+      <button type="submit" class="btn btn-lg btn-success">Finish Location</button>
+     </form>
+</div>
+<%- include("../../partials/footer")%>

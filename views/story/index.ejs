@@ -18,15 +18,11 @@
                         <img class="img-thumbnail" src="<%=town.Image%>" alt="">
                     </div>
                     <div class="col- text-light">
-                        <h4><a href="#"><%=town.Name%></a></h4>
+                        <h4><a href="/campaigns/<%=campaign._id%>/story/<%=town._id%>"><%=town.Name%></a></h4>
                         <p class="display-5"><%=town.Description%></p>
                     </div>
                 </div>
-                <%}})
-                    console.log(typeof campaign.creator.id);
-                    console.log(typeof currentUser._id)
-           
-        }%>
+                <%}})}%>
     </div>
 </div>
 <%-include("../partials/footer")%>

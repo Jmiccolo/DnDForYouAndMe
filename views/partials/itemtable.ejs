@@ -1,0 +1,57 @@
+<table class="w-100 table table-bordered">
+    <% var y = "";
+    location.Items.forEach(function(item){
+         if(y !== item.Type){
+             y = item.Type;%>
+             <tr>
+                 <th class="display-5 mt-4" colspan="4"><%=item.Type%></th>
+              </tr>
+             <tr>
+                 <th>
+                     Item
+                 </th>
+                 <th>
+                     Cost
+                 </th>
+                 <th>
+                     Ammount
+                 </th>
+                 <%if(currentUser.id === String(campaign.creator.id)){%>
+                 <th>
+                     Inventory
+                 </th>    
+                 <%}else if(playCharacter !== false){%>
+                 <th>
+                     Buy
+                 </th>
+                 <%}%>
+             </tr>
+         <%}
+         if(currentUser.id === String(campaign.creator.id) || item.Inventory !== 0){%>
+                 <tr>
+                     <td>
+                         <%=item.Name%>
+                     </td>
+                     <td>
+                        <%=(item.Cost/100)%> gp
+                     </td>
+                     <td>
+                         <%=item.Ammount%>
+                     </td>
+                         <%if(currentUser.id === String(campaign.creator.id)){%>
+                         <td>
+                             <form action="/campaigns/<%=campaign._id%>/story/<%=town._id%>/<%=location._id%>/items/<%=item._id%>?_method=PUT" method="POST">
+                                 <input class="d-inline w-25" type="number" name="Inventory" value="<%=item.Inventory%>" step="1" min="0">
+                                 <button class="w-75 d-inline btn btn-sm btn-success">Update Inventory</button>
+                         </form>
+                         </td>
+                         <%}else if(playCharacter !== false){%>
+                         <td>
+                             <form action="/campaigns/<%=campaign._id%>/story/<%=town._id%>/<%=location._id%>/items/<%=item._id%>?_method=PUT" method="POST">
+                                 <button name="itemsInput" value="<%=item._id%>">Buy Weapon</button>
+                             </form>
+                         </td>
+                                 <%}%>
+                 </tr>
+                 <%}})%>
+ </table>

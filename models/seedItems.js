@@ -2,9 +2,9 @@ var mongoose = require("mongoose");
 
 var standardItems = [
 {Name:"Arrows", Type:"Ammunition", Amount:20,	Cost:100,	Weight:100},
-{Name:"Blowgun Needles", Type:"Ammunition", Amount:5000,	Cost:1,	Weight:100},
-{Name:"Crossbow bolts",Type:"Ammunition", Amount:2000,	Cost:1,	Weight:150},
-{Name:"Sling Bullets", Type:"Ammunition", Amount:2000,	Cost:0.04, Weight:	150},	
+{Name:"Blowgun Needles", Type:"Ammunition", Amount:50,	Cost:100,	Weight:100},
+{Name:"Crossbow bolts",Type:"Ammunition", Amount:20,	Cost:100 ,	Weight:150},
+{Name:"Sling Bullets", Type:"Ammunition", Amount:20,	Cost:4, Weight:	150},	
 {Name:"Crystal", Type:"Arcane Focus",	Cost:1000, Weight:100},
 {Name:"Orb", Type:"Arcane Focus",	Cost:2000,	Weight:300},
 {Name:"Rod", Type:"Arcane Focus",	Cost:1000,	Weight:200},
@@ -96,7 +96,7 @@ var standardItems = [
 {Name:"Signet Ring", Type:"Common Item",	Cost:500,	Weight:000},
 {Name:"Sledgehammer", Type:"Common Item",	Cost:200,	Weight:1000},
 {Name:"Spellbook", Type:"Common Item",	Cost:5000,	Weight:300},
-{Name:"Spikes - Iron", Type:"Common Item", Amount:1000,	Cost:1,	Weight:500},
+{Name:"Spikes - Iron", Type:"Common Item", Amount:10,	Cost:100,	Weight:500},
 {Name:"Spyglass", Type:"Common Item",	Cost:100000,	Weight:100},
 {Name:"Tent - 2 person", Type:"Common Item",	Cost:200,	Weight:2000}, 
 {Name:"Tinderbox", Type:"Common Item",	Cost:50,	Weight:100},

@@ -25,6 +25,12 @@
 					</div>
 					<div class="col-3 h-100">
 						<div class="row justify-content-center">
+							<h4>Armour Class</h4>
+							<div class="h-50 w-50 border text-center border-white rounded"><h2 class="my-3"><%playCharacter.Armour.forEach(function(armour){if(armour.Donned === true){if(armour.Type === "Light"){%><%=armour.Class + ((playCharacter.Attributes.Dexterity.Value-10)/2)%><%}else if(armour.Type === "Medium"){if(playCharacter.Attributes.Dexterity.Value > 14){%><%=armour.Class + 2%><%}else{%><%=armour.Class + ((playCharacter.Attributes.Dexterity.Value-10)/2)%><%}}else{%><%=armour.Class%><%}}})else{%><%=10 + ((playCharacter.Attributes.Constitution.Value - 10)/2)%><%}%></h2></div>
+						</div>
+					</div>
+					<div class="col-3 h-100">
+						<div class="row justify-content-center">
 							<h4>Money</h4><br>
 						</div>
 						<div class="row justify-content-center">
@@ -40,6 +46,16 @@
 				</h1>
 			</div>
 		<%}%>
+		<% if(error && error.length > 0){ %>
+			<div class="alert alert-danger" role="alert">
+				<%= error %>
+			</div>
+		<% } %>
+		<% if(success && success.length > 0){ %>
+			<div class="alert alert-success" role="alert">
+				<%=success%>
+			</div>
+		<% } %>
 	</div>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand" href="/campaigns/<%=campaign._id%>">Home</a>
@@ -83,14 +99,4 @@
 	<a class="btn btn-sm btn-outline-success my-2 my-sm-0 float-right" href="/logout">Logout</a></button>
   </div>
 </nav>
-<% if(error && error.length > 0){ %>
-	<div class="alert alert-danger" role="alert">
-		<%= error %>
-	</div>
-<% } %>
-<% if(success && success.length > 0){ %>
-	<div class="alert alert-success" role="alert">
-		<%= success %>
-	</div>
-<% } %>
 </div>

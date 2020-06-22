@@ -74,6 +74,7 @@ var CharacterSchema = new mongoose.Schema({
 	Description:String,
 	Weapons: [{type: mongoose.Schema.Types.ObjectId, ref:"Weapon"}],
 	Items:[{type: mongoose.Schema.Types.ObjectId, ref:"Item"}],
+	Armour:[{type: mongoose.Schema.Types.ObjectId, ref:"Armour"}],
 	Money: Number,
 	Attributes: AttributeSchema,
 	Proficiency:Number

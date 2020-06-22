@@ -21,6 +21,8 @@ var WeaponSchema = new mongoose.Schema ({
         Silvered: Boolean,
         Lance: Boolean
     },
+    Hidden:Boolean,
+    Inventory:Number
 })
 
 module.exports = mongoose.model("Weapon", WeaponSchema);

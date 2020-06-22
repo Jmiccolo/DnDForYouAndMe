@@ -17,9 +17,12 @@ var express = require("express"),
 	Character = require("./models/character"),
 	Weapon = require("./models/weapon"),
 	Armour = require("./models/armour"),
+	Town = require("./models/town"),
+	Location = require("./models/location"),
+	NPC = require("./models/NPC"),
 	middleware = require("./middleware"),
 	seedWeapons = require("./models/WeaponsSeed"),
-	seedArmour = require("./models/ArmourSeed");
+	seedArmour = require("./models/SeedArmour");
 
 // 	require routes
 	var indexRoutes = require("./routes/index");
