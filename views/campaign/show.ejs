@@ -1,14 +1,17 @@
 <%- include("../partials/header")%>
+<%console.log(campaign.characters)%>
 <div class="container-fluid Char">	
 	<div id="charCards" class="row">
-		<%campaign.characters.forEach(function(character){%>
+		<%if(campaign.characters.length === 0){%>
+			<a class="btn btn-lg btn-success" href="/campaigns/<%=campaign._id%>/characters/new">Add Character</a>
+		<%}else{campaign.characters.forEach(function(character){%>
 			<div class="charCard m-0 p-0 col-4 col-md-2">
 				<div class="text-center bg-dark p-0 m-0">
 					<h4 class="m-0"><a href="/campaigns/<%=campaign._id%>/characters/<%=character._id%>"><%=character.Name%></a></h4>
 				</div> 
 				<img class="img-fluid charImg" src="<%=character.Image%>">
 			</div>
-		<%})%>
+		<%})}%>
 	</div>
 </div>
 

@@ -37,7 +37,7 @@ router.get("/", function(req, res){
 	res.render("landing");
 });
 
-router.post("/login", passport.authenticate("local", {failureRedirect: "/", failureFlash:"YOU SHALL NOT PASS!(You done fucked up A A Ron!)"}), function(req, res){
+router.post("/login", passport.authenticate("local", {failureRedirect: "/", failureFlash:"YOU SHALL NOT PASS!"}), function(req, res){
 	req.flash("success", "Welcome, Player")
 	res.redirect("/" + req.user._id +"/campaigns");
 });

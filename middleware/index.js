@@ -36,7 +36,7 @@ middlewareObj.checkCharacterOwnership = function(req, res, next) {
            if(err){
                res.redirect("back");
            }  else {
-               // does user own the comment?
+               // does user own the character?
             if(foundCharacter.creator.id.equals(req.user._id)) {
                 next();
             }  else {
@@ -56,7 +56,7 @@ middlewareObj.checkCampaignOwnership = function(req, res, next) {
            if(err){
                res.redirect("back");
            }  else {
-               // does user own the comment?
+               // does user own the campaign?
             if(foundCampaign.creator.id.equals(req.user._id)) {
                 next();
             }  else {

@@ -1,0 +1,156 @@
+<%- include("../partials/header")%>
+<h3 class="text-center">Create New Weapon</h3>
+<div class="container">
+            <form action="/campaigns/<%=campaign._id%>/weapons/new">
+            <div class="form-row pt-2">
+                <div class="col-6">
+                    <div class="form-row pt-2 w-75 w-75">
+                        <label for="weapon[name]">Name</label>
+                        <input class="form-control" type="text" name="weapon[Name]" required>
+                    </div>
+                    <div class="form-row pt-2 w-75">
+                        <label for="weapon[Type]">Type</label>
+                        <select class="form-control" name="weapon[Type]" placeholder="Pick Type..." id="Type" require>
+                            <option value="Simple">Simple</option>
+                            <option value="Simple-Ranged">Simple Ranged</option>
+                            <option value="Martial">Martial</option>
+                            <option value="Martial-Ranged">Martial Ranged</option>
+                        </select>
+                    </div>
+                    <div class="form-row pt-2 w-75 pt-2">
+                        <label class="pt-2 pr-4" for="Damage1">Damage Die</label> <br>
+                        <input class="form-control mr-2" type="number" name="Damage1"  step="1" style="width:5rem;" require><span class="pt-2 px-2">D</span><select style="width: 5rem;" class="form-control" name="Damage2" placeholder="Die Value..." id="Damage2" require>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="6">6</option>
+                            <option value="8">8</option>
+                            <option value="10">10</option>
+                            <option value="12">12</option>
+                            <option value="20">20</option>
+                        </select>                    
+                    </div>
+                    <div class="form-row pt-2 w-75">
+                        <label for="weapon[Damage][Type]">Damage Type</label>
+                        <select class="form-control" name="weapon[Damage][Type]" placeholder="Pick Type..." id="DamageType" require>
+                            <option value="Bludgeoning">Bludgeoning</option>
+                            <option value="Piercing">Piercing</option>
+                            <option value="Slashing">Slashing</option>
+                            <option value="Cold">Cold</option>
+                            <option value="Fire">Fire</option>
+                            <option value="Acid">Acid</option>
+                            <option value="Poison">Poison</option>
+                            <option value="Psychic">Psychic</option>
+                            <option value="Radiant">Radiant</option>
+                            <option value="Necrotic">Necrotic</option>
+                            <option value="Force">Force</option>
+                            <option value="Thunder">Thunder</option>
+                            <option value="Lightning">Lightning</option>
+                        </select>
+                    </div>
+                    <div class="form-row pt-2 w-75">
+                        <label for="Cost">Cost in GP</label>
+                        <input class="form-control" type="number" name="Cost" required>
+                    </div>
+                    <div class="form-row pt-2 w-75">
+                        <label for="Weight">Weight in lbs</label>
+                        <input class="form-control" type="number" name="Weight" required>
+                    </div>
+                    <div class="form-row pt-2 w-75">
+                        <label for="weapon[Hidden]">Hidden:</label>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="customRadioInline1" name="weapon[Hidden]" value="true" class="custom-control-input" required>
+                        <label class="custom-control-label" for="customRadioInline1">Yes</label>
+                      </div>
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="customRadioInline2" name="weapon[Hidden]" value="false" class="custom-control-input" required>
+                        <label class="custom-control-label" for="customRadioInline2">No</label>
+                      </div> 
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col-6 w-100">
+                            <div class="form-row pt-2">
+                                <input type="checkbox " name="weapon[Properties][Ammunition]" value=true>
+                                <input name="weapon[Properties][Ammunition]" type="hidden" value="false">
+                                <label class="pl-2" for="weapon[Properties][Ammunition]">Ammunition</label>
+                            </div>
+                            <div class="form-row pt-2">
+                                <input type="checkbox " name="weapon[Properties][Finesse]" value=true>
+                                <input name="weapon[Properties][Finesse]" type="hidden" value="false">
+                                <label class="pl-2" for="weapon[Properties][Finesse]">Finesse</label>
+                            </div>
+                            <div class="form-row pt-2">
+                                <input type="checkbox " name="weapon[Properties][Heavy]" value=true>
+                                <input name="weapon[Properties][Heavy]" type="hidden" value="false">
+                                <label class="pl-2" for="weapon[Properties][Heavy]">Heavy</label>
+                            </div>
+                            <div class="form-row pt-2">
+                                <input type="checkbox " name="weapon[Properties][Light]" value=true>
+                                <input name="weapon[Properties][Light]" type="hidden" value="false">
+                                <label class="pl-2" for="weapon[Properties][Light]">Light</label>
+                            </div>
+                            <div class="form-row pt-2">
+                                <input type="checkbox " name="weapon[Properties][Loading]" value=true>
+                                <input name="weapon[Properties][Loading]" type="hidden" value="false">
+                                <label class="pl-2" for="weapon[Properties][Loading]">Loading</label>
+                            </div>
+                            <div class="form-row pt-2">
+                                <input type="checkbox " name="weapon[Properties][Reach]" value=true>
+                                <input name="weapon[Properties][Reach]" type="hidden" value="false">
+                                <label class="pl-2" for="weapon[Properties][Reach]">Reach</label>
+                            </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-row pt-2">
+                                    <input type="checkbox " name="weapon[Properties][Special]" value=true>
+                                    <input name="weapon[Properties][Special]" type="hidden" value="false">
+                                    <label class="pl-2" for="weapon[Properties][Special]">Special</label>
+                                </div>
+                                <div class="form-row pt-2">
+                                    <input type="checkbox " name="weapon[Properties][Thrown]" value=true>
+                                    <input name="weapon[Properties][Thrown]" type="hidden" value="false">
+                                    <label class="pl-2" for="weapon[Properties][Thrown]">Thrown</label>
+                                </div>
+                                <div class="form-row pt-2">
+                                    <input type="checkbox " name="weapon[Properties][TwoHanded]" value=true>
+                                    <input name="weapon[Properties][TwoHanded]" type="hidden" value="false">
+                                    <label class="pl-2" for="weapon[Properties][TwoHanded]">Two Handed</label>
+                                </div>
+                                <div class="form-row pt-2">
+                                    <input type="checkbox " name="weapon[Properties][Silvered]" value=true>
+                                    <input name="weapon[Properties][Silvered]" type="hidden" value="false">
+                                    <label class="pl-2" for="weapon[Properties][Silvered]">Silvered</label>
+                                </div>
+                                <div class="form-row pt-2">
+                                    <input type="checkbox " name="weapon[Properties][Lance]" value=true>
+                                    <input name="weapon[Properties][Lance]" type="hidden" value="false">
+                                    <label class="pl-2" for="weapon[Properties][Lance]">Lance</label>
+                                </div>
+                                <div class="form-row pt-2">
+                                    <label for="Range">Range</label>
+                                    <input type="number" name="Range1" step="1" style="width: 3rem"><span>/</span><input type="number" name="Range1" step="1" style="width: 3rem">
+                                </div>
+                                <div class="form-row pt-2">
+                                    <label for="VDamage1">Versatile Damage Die</label>
+                                    <input type="number" name="VDamage1" placeholder="Die Number" step="1" style="width:2rem" ><span>D</span><select name="VDamage2" placeholder="Die Value..." id="VDamage2" require>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="6">6</option>
+                                        <option value="8">8</option>
+                                        <option value="10">10</option>
+                                        <option value="12">12</option>
+                                        <option value="20">20</option>
+                                    </select>  
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                <button class="btn btn-lg btn-success">Submit</button>
+            </form>
+</div>
+<%- include("../partials/footer")%>

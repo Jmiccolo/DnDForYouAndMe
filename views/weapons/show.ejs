@@ -1,0 +1,39 @@
+<%- include("../partials/header")%>
+<h3 class="text-center">Weapons</h3>
+<a href="/campaigns/<%=campaign._id%>/weapons/new" class="btn btn-lg btn-success">Create Weapon</a>
+<div class="container">
+    <table class="w-100 table table-bordered">
+        <% var x = "";
+        campaign.weapons.forEach(function(weapon){
+             if(x !== weapon.Type){
+                 x = weapon.Type;%>
+                 <tr>
+                     <th class="display-5 mt-4" colspan="4"><%=weapon.Type%></th>
+                  </tr>
+                 <tr>
+                     <th>
+                         Weapon
+                     </th>
+                     <th>
+                         Cost
+                     </th>
+                     <th>
+                         Damage
+                     </th>   
+                 </tr>
+                 <%}%>
+                     <tr>
+                         <td>
+                             <%=weapon.Name%>
+                         </td>
+                         <td>
+                            <%=(weapon.Cost/100)%> gp
+                         </td>
+                         <td>
+                             <%=weapon.Damage.Die%> <%=weapon.Damage.Type%>
+                         </td>
+                     </tr>
+                     <%})%>
+     </table>
+</div>
+<%- include("../partials/footer")%>

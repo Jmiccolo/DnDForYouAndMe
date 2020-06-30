@@ -31,7 +31,7 @@ var express = require("express"),
 	var characterRoutes = require("./routes/characters");
 	var userRoutes = require("./routes/user");
 	var storyRoutes = require("./routes/story");
-
+	var weaponRoutes = require("./routes/weapon");
 
 // connect app
 var url = process.env.DATABASEURL || "mongodb://localhost/DnDForYouAndMe";
@@ -92,8 +92,9 @@ app.use("/campaigns/:CampaignId", campaignRoutes);
 app.use("/campaigns/:CampaignId/characters", characterRoutes);
 app.use("/:UserId", userRoutes);
 app.use("/campaigns/:CampaignId/story", storyRoutes);
+app.use("/campaigns/:CampaignId/weapons", weaponRoutes);
 
 
-		app.listen(process.env.PORT||3000, process.env.IP, function(){
-			console.log("Server Has Started!");
-		 });
+app.listen(process.env.PORT||3000, process.env.IP, function(){
+	console.log("Server Has Started!");
+});

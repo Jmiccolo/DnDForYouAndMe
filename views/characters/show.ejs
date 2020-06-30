@@ -1,5 +1,5 @@
 <%- include("../partials/header")%>
-<% console.log(character.Armour)%>
+
 <div class="container-fluid">
 	<div class="row">
 		<h2 class="text-center w-100">
@@ -9,7 +9,7 @@
 			<%if(playCharacter === false){%>
 			<a href="/campaigns/<%=campaign._id%>/characters/<%=character._id%>/edit"><button class="btn btn-success btn-large rounded">Edit</button></a>
 			<form action="/campaigns/<%=campaign._id%>/characters/<%=character._id%>?_method=DELETE" method="POST"><button class="btn btn-danger btn-large rounded">Delete</button></form>
-			<form action="/campaigns/<%=campaign._id%>/characters/<%=character._id%>/play" method="POST"><button class="btn btn-primary btn-large rounded">Play as <%=character.Name%></button></form> 
+			<form id="CharPlay" action="/campaigns/<%=campaign._id%>/characters/<%=character._id%>/play" method="POST"><button class="btn btn-primary btn-large rounded">Play as <%=character.Name%></button></form> 
 			<%}%>
 			<%}%>
 	</div>
@@ -21,12 +21,12 @@
 						<h4><%=value["Value"]%></h4>
 						<%if(playCharacter){%>
 						<button class="mt-5 AttrPlaybtn btn btn-sm btn-danger" data-toggle="popover" data-title="<%=key%> Rolls" data-template='<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header <%=key%>btn"></h3><div class="popover-body <%=key%>btn"></div></div>'>Roll for <%=key%></button>
-						<div class="AttrPlay <%=key%>btn"><button id="<%=key%>-Value" class="<%=character.Class%>" onclick="rollAttr(<%=value['Value']%>)"><%=key%> Roll</button> <br>
+						<div class="AttrPlay <%=key%>btn"><button id="<%=key%>-Value" class="<%=character.Class%>" onclick="rollAttr(<%=value['Value']%>, 0)"><%=key%> Roll</button> <br>
 						<%for(let [keytwo, valuetwo] of Object.entries(value)){
 							if(keytwo !== "Value" && keytwo !== "_id"){%>
-								<button id="<%=key%>-<%=keytwo%>" class="<%=character.Class%>" onclick="rollAttr(<%=(value['Value']+character.Proficiency)%>)"><%=keytwo%> Roll</button> <br>
+								<button id="<%=key%>-<%=keytwo%>" class="<%=character.Class%>" onclick="rollAttr(<%=value['Value']%>, <%=character.Proficiency%>)"><%=keytwo%> Roll</button> <br>
 							<%}else if(keytwo !== "Value" && keytwo !== "_id" ){%>
-								<button id="<%=key%>-<%=keytwo%>" class="<%=character.Class%>" onclick="rollAttr(<%=(value['Value'])%>)"><%=keytwo%> Roll</button><br>
+								<button id="<%=key%>-<%=keytwo%>" class="<%=character.Class%>" onclick="rollAttr(<%=value['Value']%>, 0)"><%=keytwo%> Roll</button><br>
 							<%}
 						}%>
 						</div>
@@ -74,12 +74,14 @@
 							</tr>
 							<%character.Weapons.forEach(function(weapon){%>
 								<tr>
-									<td><button class="weapPlaybtn btn btn-sm <%=character.Class%>" data-toggle="popover" data-title="Attack with <%=weapon.Name%>" data-template='<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header <%=character.Class%>"></h3><div class="popover-body <%=character.Class%>"></div></div>'><%=weapon.Name%></button>
+									<%if(character._id.equals(playCharacter._id)){%>									<td><button class="weapPlaybtn btn btn-sm <%=character.Class%>" data-toggle="popover" data-title="Attack with <%=weapon.Name%>" data-template='<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header <%=character.Class%>"></h3><div class="popover-body <%=character.Class%>"></div></div>'><%=weapon.Name%></button>
 									<div class="WeapPlay <%=character.Class%>">
-										<button id="<%=weapon.Name%>Hit" type="button" class="<%=character.Class%> btn btn-sm rollHit" onclick="rollAttr(<%=character.Attributes.Strength.Value%>)">Roll to Hit</button>
+										<button id="<%=weapon.Name%>Hit" type="button" class="<%=character.Class%> btn btn-sm rollHit" onclick="rollAttr(<%=character.Attributes.Strength.Value%>, 0)">Roll to Hit</button>
 										<a class="<%=character.Class%> btn btn-sm rollDam" onclick="rollWeap(<%=weapon.Damage.Die.split('D')[0]%>, <%=weapon.Damage.Die.split('D')[1]%>)">Roll Damage</a>
+										<%if(weapon.Properties.Finesse){%><a class="<%=character.Class%> btn btn-sm rollFin" onclick="rollWeapFin(<%=weapon.Damage.Die.split('D')[0]%>, <%=weapon.Damage.Die.split('D')[1]%>)">Roll Finesse</a><%}%>
 									</div>
-									</td>
+									</td><%}else{%>
+									<td><%=weapon.Name%></td><%}%>
 									<td><%=weapon.Damage.Die%>: <%=weapon.Damage.Type%></td>
 									<td><%Object.keys(weapon.Properties.toObject()).forEach(function(key){
 										if(key === "Range"){%>
@@ -104,10 +106,16 @@
 							</tr>
 							<%character.Items.forEach(function(item){%>
 								<tr>
-									<td><button class="btn btn-sm <%=character.Class%>"><%=item.Name%></button></td>
-									<td><%=item.Amount%></td>
+									<%if(character._id.equals(playCharacter._id)){%>
+									<td><button class="btn btn-sm <%=character.Class%>" data-toggle="popover" data-title="Attack with <%=weapon.Name%>" data-template='<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header <%=character.Class%>"></h3><div class="popover-body <%=character.Class%>"></div></div>'><%=item.Name%></button></td>
+									<%}else{%>
+									<td><%=item.Name%></td><%}%>
+									<td><%=item.Amount/100%></td>
 									<td><%=(item.Weight/100)%><%if(item.Weight <= 100){%> lb<%}else{%>lbs<%}%></td>
-								</tr> <%})%>
+								</tr>
+								<div class="ItemPlay <%=character.Class%>">
+									<button id="<%=item.Name%>Hit" type="button" class="<%=character.Class%> btn btn-sm rollHit" onclick="rollAttr(<%=character.Attributes.Strength.Value%>, 0)">Use</button>
+								</div> <%})%>
 						</table>
 				</div>	
 			</div>

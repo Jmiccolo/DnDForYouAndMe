@@ -41,7 +41,7 @@
                         <%if(currentUser.id === String(campaign.creator.id)){%>
                         <td>
                             <form action="/campaigns/<%=campaign._id%>/story/<%=town._id%>/<%=location._id%>/weapons/<%=weapon._id%>?_method=PUT" method="POST">
-                                <input class="d-inline w-25" type="number" name="Inventory" value="<%=weapon.Inventory%>" step="1" min="0">
+                                <input class="d-inline w-25 weaponInventory" type="number" name="Inventory" value="<%=weapon.Inventory%>" step="1" min="0" data-weapon-Id="<%=weapon._id%>">
                                 <button class="w-75 d-inline btn btn-sm btn-success">Update Inventory</button>
                         </form>
                         </td>

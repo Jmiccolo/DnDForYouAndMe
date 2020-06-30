@@ -1,3 +1,5 @@
+const weapon = require("../models/weapon");
+
 var	express = require("express"),
 	router = express.Router({mergeParams:true}),
 	mongoose = require("mongoose"),
@@ -503,6 +505,17 @@ router.put("/weapons", function(req, res){
 				}
 			})
 		}
+	})
+
+	router.put("/:TownId/trial/:WeaponId", function(req, res){
+		Weapon.findByIdAndUpdate({_id:req.params.WeaponId},{Inventory:req.body.Inventory}, function(err, weapon){
+			if(err){
+				return err;
+			}else{
+				weapon.save();
+				console.log(weapon);
+			}
+		})
 	})
 
 module.exports = router;

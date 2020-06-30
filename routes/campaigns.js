@@ -45,6 +45,7 @@ router.get("/notes", middleware.checkCampaignUsers, function(req, res){
 			console.log(err);
 			res.redirect("back")
 		}else{
+			
 			res.render("campaign/notes", {campaign:campaign})}
 		});
 	});

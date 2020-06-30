@@ -25,7 +25,6 @@ input{
 	color: #de144a;
 	text-shadow: 3px 4px #991135;
 	font-family: 'Press Start 2P', cursive;
-	animation: groundBreak 3s ease-out;
 	padding-top: 40vh;
 }
 

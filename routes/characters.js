@@ -222,16 +222,15 @@ router.put("/:CharacterId", middleware.checkCharacterOwnership, function(req, re
 		}})});
 
 // Edit Character Image Route
-router.post("/:CharacterId", middleware.checkCharacterOwnership, upload.single("charAv"), function(req, res, next){
+router.post("/image/:CharacterId", middleware.checkCharacterOwnership, upload.single("charAv"), function(req, res, next){
 	var Image = ("https://dndforyouandme.s3.amazonaws.com/" + req.file.key)
 	Character.findById(req.params.CharacterId, function(err, character){
 		if(err){
 			console.log(err);
-			res.redirect("back")
 		}else{
 			character.Image = Image;
 			character.save();
-			res.redirect("back")
+			res.send({character:character})
 		}
 	})
 })

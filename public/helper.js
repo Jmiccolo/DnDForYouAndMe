@@ -84,10 +84,11 @@ function addRoll(x){
 
 var rollval = 0
 
-function rollAttr(x){
+function rollAttr(x, y){
+	console.log(x);
 	var roll = diceRoll(20);
-	var mod = "+" + Math.floor((x-10)/2);
-	rollval = roll + Math.floor((x-10)/2);
+	var mod = "+" + (Math.floor((x-10)/2) + y);
+	rollval = roll + Math.floor((x-10)/2) + y;
 	alert("YOU ROLLED: "+ roll + mod + "=" + rollval)
 }
 
@@ -191,7 +192,7 @@ $(document).ready(function(){
 		$(".charDiv").hide()
 		$(".charDiv").eq($(this).index()).show();
 		}) ;
-		
+
 	$("#locSheet li").click(function(event){
 		$("#locSheet a").removeClass("active");
 		$(this).find("a").addClass("active");
@@ -217,6 +218,15 @@ $(document).ready(function(){
 				return $(this).next($(".WeapPlay")).html();
 			}
 		});
+		$(".itemPlaybtn").popover({
+			placement: "bottom",
+			container: "body",
+			html: true,
+			sanitize: false,
+			content: function(){
+				return $(this).next($(".itemPlay")).html();
+			}
+		});
 		$(".AttrPlaybtn").popover({
 			placement: "right",
 			container: "body",
@@ -226,7 +236,30 @@ $(document).ready(function(){
 				return $(this).next($(".AttrPlay")).html();
 			}
 		});
+		$("input.weaponInventory").change(function(){
+			var weap = this.getAttribute("data-weapon-Id");
+			var Inv = {"Inventory": $(this).val()}
+			$.ajax({
+				url:"trial/"+weap,
+				method:"PUT",
+				data: Inv,
+			})
+		})
+		$("#imgUpload").submit(function(e){
+			e.preventDefault();
+			$("#imageForm").fadeOut(2000);
+			$(this).ajaxSubmit({
+				success: function(r){
+					$("#preview").fadeOut(3000, function(){
+						$("#preview").attr("src", r.character.Image);
+						$("#preview").fadeIn(3000);
+						$("#imgInput").attr("value", r.character.Image);
+					});
+				}
+			});
+		})
 	});
+
 
 
 

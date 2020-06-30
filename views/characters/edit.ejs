@@ -36,7 +36,7 @@
         <div class="form-row">
             <div class="form-group col-4">
             <a id="imageBtn" class="btn btn-lg btn-success">Edit Image</a>
-            <input type="text" name="character[Image]" value="<%=character.Image%>" hidden>
+            <input id="imgInput" type="text" name="character[Image]" value="<%=character.Image%>" hidden>
              <img class="img-thumbnail " src="<%=character.Image%>" alt="Character Avatar" id="preview">
             </div>
             <div class="form-group mt-4 col-8">
@@ -196,7 +196,7 @@
 </div>
 <div id="imageForm" class="<%=character.Class%>">
     <h3>Edit Image</h3>
-    <form class="p-3" action="/campaigns/<%=campaign._id%>/characters/<%=character._id%>" method="POST" enctype="multipart/form-data">
+    <form class="p-3" id="imgUpload" action="/campaigns/<%=campaign._id%>/characters/image/<%=character._id%>" method="POST" enctype="multipart/form-data">
        <div class="form-group">
            <input type="file" class="w-100" onchange="document.getElementById('editprev').src = window.URL.createObjectURL(this.files[0])" id="file-input" name ="charAv">
            <img class="img-thumbnail" src="<%=character.Image%>" alt="Character Avatar" id="editprev">
