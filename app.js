@@ -8,6 +8,7 @@ var express = require("express"),
 	fs = require("fs"),
 	passport = require("passport"),
 	flash = require("connect-flash"),
+	google = require("googleapis"),
 	LocalStrategy = require("passport-local"),
 	methodOverride = require("method-override"),
 	session = require("express-session"),
@@ -32,6 +33,28 @@ var express = require("express"),
 	var userRoutes = require("./routes/user");
 	var storyRoutes = require("./routes/story");
 	var weaponRoutes = require("./routes/weapon");
+
+	const {google} = require('googleapis');
+
+const oauth2Client = new google.auth.OAuth2(
+	783340406493-23f87hhmiau0oc6m2j7hvduhkl2sdp6l.apps.googleusercontent.com,
+	gobWuMgHvEXPQFqSfLze2N4X,
+	http://localhost:3000/oauth2callback
+);
+
+// generate a url that asks permissions for Blogger and Google Calendar scopes
+const scopes = [
+  'https://www.googleapis.com/auth/blogger',
+  'https://www.googleapis.com/auth/calendar'
+];
+
+const url = oauth2Client.generateAuthUrl({
+  // 'online' (default) or 'offline' (gets refresh_token)
+  access_type: 'offline',
+
+  // If you only need one scope you can pass it as a string
+  scope: scopes
+});
 
 // connect app
 var url = process.env.DATABASEURL || "mongodb://localhost/DnDForYouAndMe";
