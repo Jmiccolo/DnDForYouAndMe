@@ -1,5 +1,5 @@
 <%-include ("../partials/header")%>
-<%if(campaign.Doc){%>
+<!-- <%if(campaign.Doc){%>
     <iframe class="w-100 vh-100" src="<%=campaign.Doc%>" frameborder="0"></iframe>
 <%}else{%>
     <h2>Add Your Google Doc!</h2>
@@ -8,6 +8,21 @@
     <input type="url" pattern="https://docs.google.com/document/d/.*" name="campaign[Doc]">
     <button>Submit</button>
     </form>
-<%}%>
+<%}%> -->
+<%campaign.notes.forEach(function(note){%>
+<div class="notes" style="display:flex; flex-direction:row;flex-basis:33%">
+    <div class="note" style="flex-direction: column;">
+        <span><h2><%=note.Title%></h2>
+        <p><%=note.Paragraph%></p>
+        <p style="align-self: center;">-<%=note.User%></p></span>
+    </div>
+</div>
+<%})%>
+
+<form action="/campaigns/<%=campaign._id%>/notes" method="POST">
+<input type="text" name="Note[Title]" id="Title" class="form-control">
+<textarea name="Note[Paragraph]" id="Paragraph" cols="30" rows="10" placeholder="New Note" class="form-control">
+</textarea>
+<button class="btn btn-success btn-lg">Submit</button></form>
 
 <%-include ("../partials/footer")%>

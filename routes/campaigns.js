@@ -6,6 +6,7 @@ var	express = require("express"),
 	Weapon = require("../models/weapon"),
 	Item = require("../models/item"),
 	Armour = require("../models/armour"),
+	Note = require("../models/Note"),
 	middleware = require("../middleware/index"),
 	multer = require("multer"),
 	multerS3 = require("multer-s3"),
@@ -40,7 +41,7 @@ Campaign.findById(req.params.CampaignId).populate("characters").exec (function(e
 });
 
 router.get("/notes", middleware.checkCampaignUsers, function(req, res){
-	Campaign.findById(req.params.CampaignId).populate("characters").exec (function(err, campaign){
+	Campaign.findById(req.params.CampaignId).populate("characters").populate("notes").exec (function(err, campaign){
 		if (err){
 			console.log(err);
 			res.redirect("back")
@@ -49,6 +50,28 @@ router.get("/notes", middleware.checkCampaignUsers, function(req, res){
 			res.render("campaign/notes", {campaign:campaign})}
 		});
 	});
+router.post("/notes", middleware.checkCampaignUsers, function(req, res){
+	Campaign.findById(req.params.CampaignId, function(err, campaign){
+		if(err){
+			console.log(err);
+			req.flash("error", "The pigeon died on its way");
+			res.redirect()
+		}else{
+			Note.create(req.body.Note, function(err, note){
+				if(err){
+					console.log(err);
+					req.flash("error", "The pigeon died on its way");
+				}else{
+				note.User = req.user.username;
+				note.save();
+				campaign.notes.push(note);
+				campaign.save();
+				res.redirect("back");
+			}})
+		}
+	})
+}
+)
 
 router.put("/notes", middleware.checkCampaignUsers, function(req, res){
 	Campaign.findByIdAndUpdate(req.params.CampaignId, req.body.campaign, function(err, campaign){

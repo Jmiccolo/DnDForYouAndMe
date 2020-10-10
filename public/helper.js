@@ -257,9 +257,8 @@ $(document).ready(function(){
 					});
 				}
 			});
-		})
+		});
 	});
-
 
 
 

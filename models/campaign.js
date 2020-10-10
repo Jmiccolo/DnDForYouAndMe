@@ -22,7 +22,8 @@ var CampaignSchema = new mongoose.Schema({
 	items: [{type: mongoose.Schema.Types.ObjectId, ref:"Item"}],
 	armour: [{type: mongoose.Schema.Types.ObjectId, ref:"Armour"}],
 	towns: [{type: mongoose.Schema.Types.ObjectId, ref:"Town"}],
-	Doc: String
+	notes: [{type: mongoose.Schema.Types.ObjectId, ref:"Note"}],
+	messages:[{text:String, user:{type: mongoose.Schema.Types.ObjectId, ref: "User"}}]
 });
 
 module.exports = mongoose.model("Campaign", CampaignSchema);

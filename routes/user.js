@@ -115,10 +115,11 @@ router.post("/campaigns", middleware.isLoggedIn, function(req, res){
                 campaign.armour = allarmour;
                 campaign.creator.id = req.user._id;
                 campaign.creator.username = req.user.username;
+                campaign.messages.push({text:"Thank you " + user.username + " for creating this Adventure!", user:user});
                 campaign.save();
-                console.log(campaign.items);
                 user.campaigns.push(campaign);
                 user.save();
+                req.session.campaignSession = campaign;
                 res.redirect("/campaigns/" + campaign._id)
             }
         });

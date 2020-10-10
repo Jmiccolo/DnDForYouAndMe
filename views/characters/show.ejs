@@ -1,5 +1,5 @@
 <%- include("../partials/header")%>
-
+<%console.log(character.creator)%>
 <div class="container-fluid">
 	<div class="row">
 		<h2 class="text-center w-100">
@@ -107,7 +107,7 @@
 							<%character.Items.forEach(function(item){%>
 								<tr>
 									<%if(character._id.equals(playCharacter._id)){%>
-									<td><button class="btn btn-sm <%=character.Class%>" data-toggle="popover" data-title="Attack with <%=weapon.Name%>" data-template='<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header <%=character.Class%>"></h3><div class="popover-body <%=character.Class%>"></div></div>'><%=item.Name%></button></td>
+									<td><button class="btn btn-sm <%=character.Class%>" data-toggle="popover" data-title="Attack with <%=item.Name%>" data-template='<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header <%=character.Class%>"></h3><div class="popover-body <%=character.Class%>"></div></div>'><%=item.Name%></button></td>
 									<%}else{%>
 									<td><%=item.Name%></td><%}%>
 									<td><%=item.Amount/100%></td>

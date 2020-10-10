@@ -281,6 +281,8 @@ router.post("/:CharacterId/play", middleware.checkCharacterOwnership, function(r
 						res.redirect("back")
 					} else{
 						req.session.playCharacter = character;
+						campaign.messages.push(res.locals.currentUser.username +" is playing as " + character.Name);
+						campaign.save();
 						res.redirect("back")
 					}
 				}

@@ -389,3 +389,10 @@ tr:nth-of-type(even){
 .X {
 	color:white;
 }
+
+.note:first {
+	width: 0px;
+	height: 2rem;
+	overflow: hidden;
+	white-space: nowrap;
+}

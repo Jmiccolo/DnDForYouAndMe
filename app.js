@@ -3,12 +3,13 @@ var express = require("express"),
 	bodyParser = require("body-parser"),
 	mongoose = require("mongoose"),
 	aws = require("aws-sdk"),
+	dotenv = require("dotenv").config(),
     multer = require("multer"),
     multerS3 = require("multer-s3"),
 	fs = require("fs"),
 	passport = require("passport"),
 	flash = require("connect-flash"),
-	google = require("googleapis"),
+	{google} = require("googleapis"),
 	LocalStrategy = require("passport-local"),
 	methodOverride = require("method-override"),
 	session = require("express-session"),
@@ -19,6 +20,7 @@ var express = require("express"),
 	Weapon = require("./models/weapon"),
 	Armour = require("./models/armour"),
 	Town = require("./models/town"),
+	Note = require("./models/Note"),
 	Location = require("./models/location"),
 	NPC = require("./models/NPC"),
 	middleware = require("./middleware"),
@@ -34,21 +36,18 @@ var express = require("express"),
 	var storyRoutes = require("./routes/story");
 	var weaponRoutes = require("./routes/weapon");
 
-	const {google} = require('googleapis');
-
 const oauth2Client = new google.auth.OAuth2(
-	783340406493-23f87hhmiau0oc6m2j7hvduhkl2sdp6l.apps.googleusercontent.com,
-	gobWuMgHvEXPQFqSfLze2N4X,
-	http://localhost:3000/oauth2callback
+	process.env.client_id,
+	process.env.client_secret, 
+	process.env.redirect_uris
 );
 
 // generate a url that asks permissions for Blogger and Google Calendar scopes
 const scopes = [
-  'https://www.googleapis.com/auth/blogger',
-  'https://www.googleapis.com/auth/calendar'
+  'https://www.googleapis.com/auth/documents'
 ];
 
-const url = oauth2Client.generateAuthUrl({
+const Authurl = oauth2Client.generateAuthUrl({
   // 'online' (default) or 'offline' (gets refresh_token)
   access_type: 'offline',
 
@@ -88,6 +87,7 @@ app.use(function(req, res, next){
    res.locals.error = req.flash("error");
    res.locals.success = req.flash("success");
    res.locals.playCharacter = req.session.playCharacter;
+   res.locals.campaignSession = req.session.campaignSession;
 	next();
 });
 
@@ -119,6 +119,9 @@ app.use("/campaigns/:CampaignId/weapons", weaponRoutes);
 
 app.get("/DNDAPI/testpage", function(req, res){
 	res.render("DNDAPI/testpage")
+})
+app.get("/google/testpage", function(req, res){
+	res.redirect(Authurl);
 })
 
 
