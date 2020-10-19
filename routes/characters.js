@@ -54,10 +54,10 @@ router.get("/new", middleware.checkCampaignUsers, function (req, res){
 
 // Create character post
 router.post("/", middleware.checkCampaignUsers, upload.single("charAv"), function(req, res, next){
+	console.log(req.body);
 	var Image = ("https://dndforyouandme.s3.amazonaws.com/" + req.file.key)
 	var allweapons = [];
 	var allitems = [];
-	var newArm = [];
 	User.findById(req.user.id, function(err,user){
 		if (err){
 			console.log(err);
@@ -113,11 +113,15 @@ router.post("/", middleware.checkCampaignUsers, upload.single("charAv"), functio
 							character.Attributes = req.body.Attributes;
 							character.creator.id = req.user._id;
 							character.creator.username = req.user.username;
-							character.save();
+							character.save(function(character, err){
+								if(err){
+									console.log(err);
+									res.redirect("back");
+								}
+							});
 							campaign.characters.push(character);
 							campaign.save();
 							user.characters.push(character);
-							user.save();
 							res.redirect("/campaigns/"+ req.params.CampaignId)	
 							}})
 					}})

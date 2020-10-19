@@ -264,6 +264,16 @@ $(document).ready(function(){
 				val.innerHTML = stat();
 			})
 		})
+		$('#noteModal').on('show.bs.modal', function(e){
+			var modal = $(this);
+			var button = $(e.relatedTarget);
+			var title = button.data('title');
+			var text = button.data('text');
+			var user = button.data('user');
+			modal.find('.modal-title').text(title);
+			modal.find('.modal-body p.text').text(text);
+			modal.find('.modal-body p.user').text(`-${user}`);
+		})
 	});
 
 

@@ -1,28 +1,41 @@
 <%-include ("../partials/header")%>
-<!-- <%if(campaign.Doc){%>
-    <iframe class="w-100 vh-100" src="<%=campaign.Doc%>" frameborder="0"></iframe>
-<%}else{%>
-    <h2>Add Your Google Doc!</h2>
-    <form action="/campaigns/<%=campaign._id%>/notes?_method=PUT" method="POST">
-    <label for="Doc">Link to Google Doc</label><br>
-    <input type="url" pattern="https://docs.google.com/document/d/.*" name="campaign[Doc]">
-    <button>Submit</button>
-    </form>
-<%}%> -->
-<%campaign.notes.forEach(function(note){%>
-<div class="notes" style="display:flex; flex-direction:row;flex-basis:33%">
-    <div class="note" style="flex-direction: column;">
-        <span><h2><%=note.Title%></h2>
-        <p><%=note.Paragraph%></p>
-        <p style="align-self: center;">-<%=note.User%></p></span>
+<div class="d-flex p-3">
+    <div class="notes w-50 m">
+    <%campaign.notes.forEach(function(note){%>
+    <div class="notes">
+        <div class="note d-flex flex-column align-items-start" >
+            <button type="button" data-toggle="modal" data-target="#noteModal" data-title="<%=note.Title%>" data-text="<%=note.Paragraph%>" data-user="<%=note.User%>"><h2><%=note.Title%></h2></button>
+            <h4 class="align-self-end">-<%=note.User%></h4>
+            <div class="modal fade" id="noteModal" tabindex="-1" role="dialog" aria-labelledby="<%=note.id%>Label"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="<%=note.id%>Label"></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="text"></p>
+                            <p class="user"></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-<%})%>
+    <%})%>
+    </div>
+    <form class="w-50 d-flex flex-column align-items-end noteForm" action="/campaigns/<%=campaign._id%>/notes" method="POST">
+        <input type="text" name="Note[Title]" id="Title" class="form-control my-2" placeholder="Title"/>
+        <textarea name="Note[Paragraph]" id="Paragraph" value="" rows="10" placeholder="New Note" class="form-control my-2"></textarea>
+        <button class="btn btn-success btn-lg w-50 my-2">Submit</button>
+    </form>
 
-<form action="/campaigns/<%=campaign._id%>/notes" method="POST">
-<input type="text" name="Note[Title]" id="Title" class="form-control">
-<textarea name="Note[Paragraph]" id="Paragraph" cols="30" rows="10" placeholder="New Note" class="form-control">
-</textarea>
-<button class="btn btn-success btn-lg">Submit</button></form>
+</div>
 
 <%-include ("../partials/footer")%>

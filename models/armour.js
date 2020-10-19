@@ -6,13 +6,13 @@ var ArmourSchema = new mongoose.Schema({
     Weight: Number,
     Cost: Number,
     Class: Number,
-    Stealth:Boolean,
+    Stealth: Boolean,
     DexMod: Boolean,
-    ifStrength:Boolean,
-    Strength:Number,
-    Hidden:Boolean,
-    Inventory:Number,
-    Donned:Boolean
+    ifStrength: Boolean,
+    Strength: Number,
+    Hidden: Boolean,
+    Inventory: Number,
+    Donned: Boolean
 });
 
 module.exports = mongoose.model("Armour", ArmourSchema);

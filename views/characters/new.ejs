@@ -21,7 +21,7 @@
                         <div class="row no-gutters">
                             <div class="form-check">
                                 <input class="form-check-input" name="Attributes[<%=key%>.<%=keytwo%>]" type="checkbox" value="true" id="defaultCheck1">
-                                <input name="Attributes[<%=key%>.<%=keytwo%>]" type="hidden" value="false">
+                                <input name="Attributes[<%=key%>][<%=keytwo%>]" type="hidden" value="false">
                                 <label class="form-check-label Display-5" for="defaultCheck1">
                                 <%=keytwo%>
                                 </label>
@@ -35,7 +35,7 @@
 
    <div class="form-row">
        <div class="form-group col-12 col-lg-4">
-        <input type="file" class="w-100" onchange="document.getElementById('preview').src = window.URL.createObjectURL(this.files[0])" id="file-input" name ="charAv" required>
+        <input type="file" class="w-100 overflow-hidden" onchange="document.getElementById('preview').src = window.URL.createObjectURL(this.files[0])" id="file-input" name ="charAv" required>
         <img class="img-thumbnail " src="/images/default.png" alt="Character Avatar" id="preview">
        </div>
        <div class="form-group col-12 col-lg-8">
