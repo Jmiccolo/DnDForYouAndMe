@@ -73,7 +73,7 @@ router.post("/town", middleware.checkCampaignOwnership, upload.single("townAv"),
 	})
 })
 router.get("/:TownId", middleware.checkCampaignUsers, function(req, res){
-	Campaign.findById(req.params.CampaignId, function(err, campaign){
+	Campaign.findById(req.params.CampaignId).populate("towns").exec(function(err, campaign){
 		if(err){
 			console.log(err);
 			res.redirect("back")

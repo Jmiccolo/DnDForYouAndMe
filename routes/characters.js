@@ -122,7 +122,7 @@ router.post("/", middleware.checkCampaignUsers, upload.single("charAv"), functio
 							campaign.characters.push(character);
 							campaign.save();
 							user.characters.push(character);
-							res.redirect("/campaigns/"+ req.params.CampaignId)	
+							res.redirect("/campaigns/"+req.params.CampaignId)	
 							}})
 					}})
 				}})

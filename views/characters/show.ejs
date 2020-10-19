@@ -113,9 +113,7 @@
 									<td><%=item.Amount/100%></td>
 									<td><%=(item.Weight/100)%><%if(item.Weight <= 100){%> lb<%}else{%>lbs<%}%></td>
 								</tr>
-								<div class="ItemPlay <%=character.Class%>">
-									<button id="<%=item.Name%>Hit" type="button" class="<%=character.Class%> btn btn-sm rollHit" onclick="rollAttr(<%=character.Attributes.Strength.Value%>, 0)">Use</button>
-								</div> <%})%>
+								<%})%>
 						</table>
 				</div>	
 			</div>
