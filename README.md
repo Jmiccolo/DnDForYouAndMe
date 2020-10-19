@@ -6,7 +6,7 @@
 
 <ul>
 <li>Create a Campaign</li>
-<li><u>Manage Characters</u><li>
+<li><u>Manage Characters</u></li>
     <li>- upload image</li>
     <li>- create and edit attributes and skills</li>
     <li>- weapon and equipment maintenence</li>
