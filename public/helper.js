@@ -1,17 +1,17 @@
 
 function diceRoll(x) {
-	return 1+Math.floor(Math.random()*x);
+	return Math.ceil(Math.random()*x);
 }
 
 function stat() {
-	var roll = []	
-		for(var i=0; i<4; i++)	roll.push(diceRoll(6));
-	var stat = roll.reduce(function(a, b){
-return a + b;
-}, 0) - Math.min(...roll);
-	var modifier = 0
-	if(stat > 10){modifier = Math.floor((stat-10)/2)}
-	return stat + " +" + modifier
+	rolls = [];
+	for(var i=0; i < 4; i++){
+		rolls.push(diceRoll(6));
+	}
+	rolls = rolls.sort((a,b) => b-a);
+	rolls.splice(3,1);
+	var roll  = rolls.reduce((a,b) => {return a+b}, 0)
+	return roll;
 }
 
 function D100(){
@@ -258,6 +258,12 @@ $(document).ready(function(){
 				}
 			});
 		});
+		$("#attrRoll").click(function(e){
+			var attributes = document.querySelectorAll(".attrval")
+			Array.from(attributes).forEach(val => {
+				val.innerHTML = stat();
+			})
+		})
 	});
 
 

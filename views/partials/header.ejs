@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<link rel="icon" href="/public/images/Dexterity.png" type="image/x-icon">
 	<title>Dnd for You and Me</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 	<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -13,12 +14,13 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </head>
 <body>
-	<%if(campaignSession.messages){
-		console.log(campaignSession.messages)%>
+	<%if(campaignSession.messages.filter(val => Date.now() - val.createdAt > 300000)){
+		%>
 		<div class="alert  alert-success sticky-top">
-		<%campaignSession.messages.forEach(function(message){%>
+		<%campaignSession.messages.forEach(function(message){
+			if(Date.now() - message.createdAt > 300000){%>
 			<p><%=message.text%></p>
-		<%})%>	
+		<%}})%>	
 		</div>
 	<%}%>
 	<div class="container-fluid p-0 m-0">
@@ -90,9 +92,9 @@
         	</div>
       	</li>
 		<li class="nav-item dropdown">
-        	<a class="nav-link dropdown-toggle" href="/campaigns/<%=campaign.id%>/statistics" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Games</a>
+        	<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Games</a>
         	<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-      	  		<a class="dropdown-item" href="#">Statistics</a>
+      	  		<a class="dropdown-item" href="/campaigns/<%=campaign.id%>/statistics">Statistics</a>
       	  		<a class="dropdown-item" href="/campaigns/<%=campaign._id%>/dice">Dice</a>
         	</div>
       	</li>	
