@@ -1,4 +1,4 @@
-
+// THIS IS A NOTE FROM THE HELPER FILE!
 function diceRoll(x) {
 	return Math.ceil(Math.random()*x);
 }
